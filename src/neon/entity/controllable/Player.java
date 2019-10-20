@@ -65,8 +65,8 @@ public class Player extends ControllableEntity {
 	}
 
 	@Override
-	public void render(Graphics g) {
-		graphics.render(g, this.x, this.y);
+	public void render(Graphics g, float offsetX, float offsetY) {
+		graphics.render(g, this.x + offsetX, this.y + offsetY);
 	}
 	
 	private void initGraphics() {

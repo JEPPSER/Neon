@@ -12,5 +12,5 @@ public interface Entity {
 	public float getY();
 	public void setY(float y);
 	public EntityGraphics getGraphics();
-	public void render(Graphics g);
+	public void render(Graphics g, float offsetX, float offsetY);
 }

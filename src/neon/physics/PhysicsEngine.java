@@ -36,8 +36,6 @@ public class PhysicsEngine {
 						if (j != i && playField.get(j) instanceof PhysicalEntity) {
 							PhysicalEntity pe = (PhysicalEntity) playField.get(j);
 							CollisionDirection cd = e.isColliding(pe);
-							
-							// TODO: Add a reaction to movable objects when something hits them.
 							if (cd == CollisionDirection.DOWN) {
 								e.setY(pe.getY() - e.getCollision().getHitbox().getHeight());
 								e.getPhysics().setYVelocity(0f);
