@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.controllable.Player;
 import neon.entity.terrain.Ground;
+import neon.entity.terrain.Rock;
 import neon.physics.PhysicsEngine;
 import neon.entity.Entity;
 
@@ -26,10 +27,14 @@ public class BasicGame extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		physics = new PhysicsEngine();
 		playField = new ArrayList<Entity>();
-		p = new Player();
-		Ground ground = new Ground(100f, 300f, 300f, 100f);
+		p = new Player(300, 100);
+		Ground g1 = new Ground(100f, 450f, 400f, 100f);
+		Ground g2 = new Ground(300f, 260f, 100f, 300f);
+		Rock r1 = new Rock(370f, 100f, 50f, 50f);
 		playField.add(p);
-		playField.add(ground);
+		playField.add(g1);
+		playField.add(g2);
+		playField.add(r1);
 	}
 
 	@Override
@@ -42,8 +47,8 @@ public class BasicGame extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
-		p.control(input, delta);
-		physics.applyPhysics(playField);
+		p.control(input);
+		physics.applyPhysics(playField, delta);
 	}
 
 	@Override

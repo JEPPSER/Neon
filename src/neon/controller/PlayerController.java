@@ -3,6 +3,7 @@ package neon.controller;
 import org.newdawn.slick.Input;
 
 import neon.entity.controllable.Player;
+import neon.physics.Physics;
 
 public class PlayerController implements Controller {
 	
@@ -13,18 +14,19 @@ public class PlayerController implements Controller {
 	}
 
 	@Override
-	public void control(Input input, int delta) {
-		if (input.isKeyDown(Input.KEY_W)) {
-			this.player.setY(this.player.getY() - 0.4f);
-		}
+	public void control(Input input) {
+		Physics ph = this.player.getPhysics();
 		if (input.isKeyDown(Input.KEY_A)) {
-			this.player.setX(this.player.getX() - 0.4f);
-		}
-		if (input.isKeyDown(Input.KEY_S)) {
-			this.player.setY(this.player.getY() + 0.4f);
+			ph.setXVelocity(-0.4f);
 		}
 		if (input.isKeyDown(Input.KEY_D)) {
-			this.player.setX(this.player.getX() + 0.4f);
+			ph.setXVelocity(0.4f);
+		}
+		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)) {
+			ph.setXVelocity(0);
+		}
+		if (input.isKeyPressed(Input.KEY_SPACE)) {
+			ph.setYVelocity(-2f);
 		}
 	}
 }

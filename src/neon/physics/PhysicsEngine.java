@@ -2,23 +2,28 @@ package neon.physics;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.geom.Rectangle;
-
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 
 public class PhysicsEngine {
 
-	public void applyPhysics(ArrayList<Entity> playField) {
-		
-		// Placeholder physics and collision!!
-		
+	private float gravity = 0.01f;
+	private float maxYVelocity = 1f;
+
+	public void applyPhysics(ArrayList<Entity> playField, int delta) {
 		// Physics
 		for (int i = 0; i < playField.size(); i++) {
 			if (playField.get(i) instanceof PhysicalEntity) {
 				PhysicalEntity e = (PhysicalEntity) playField.get(i);
-				e.setX(e.getX() + e.getPhysics().getXVelocity());
-				e.setY(e.getY() + e.getPhysics().getYVelocity());
+				if (e.getCollision().isMovable()) {
+					float vel = e.getPhysics().getYVelocity() + gravity * delta;
+					if (vel > maxYVelocity) {
+						vel = maxYVelocity;
+					}
+					e.getPhysics().setYVelocity(vel);
+					e.setX(e.getX() + e.getPhysics().getXVelocity() * delta);
+					e.setY(e.getY() + e.getPhysics().getYVelocity() * delta);
+				}
 			}
 		}
 
@@ -30,14 +35,21 @@ public class PhysicsEngine {
 					for (int j = 0; j < playField.size(); j++) {
 						if (j != i && playField.get(j) instanceof PhysicalEntity) {
 							PhysicalEntity pe = (PhysicalEntity) playField.get(j);
-							Rectangle eR = e.getCollision().getHitbox();
-							eR = new Rectangle(eR.getX() + e.getX(), eR.getY() + e.getY(), eR.getWidth(),
-									eR.getHeight());
-							Rectangle peR = pe.getCollision().getHitbox();
-							peR = new Rectangle(peR.getX() + pe.getX(), peR.getY() + pe.getY(), peR.getWidth(),
-									peR.getHeight());
-							if (eR.intersects(peR)) {
-								e.setY(e.getY() - 1);
+							CollisionDirection cd = e.isColliding(pe);
+							
+							// TODO: Add a reaction to movable objects when something hits them.
+							if (cd == CollisionDirection.DOWN) {
+								e.setY(pe.getY() - e.getCollision().getHitbox().getHeight());
+								e.getPhysics().setYVelocity(0f);
+							} else if (cd == CollisionDirection.UP) {
+								e.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+								e.getPhysics().setYVelocity(0f);
+							} else if (cd == CollisionDirection.RIGHT) {
+								e.setX(pe.getX() - e.getCollision().getHitbox().getWidth());
+								e.getPhysics().setXVelocity(0f);
+							} else if (cd == CollisionDirection.LEFT) {
+								e.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+								e.getPhysics().setXVelocity(0f);
 							}
 						}
 					}
