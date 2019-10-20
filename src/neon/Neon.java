@@ -14,7 +14,7 @@ public class Neon extends StateBasedGame{
 	public static void main(String[] args) {
 		try {
 			AppGameContainer agc = new AppGameContainer(new Neon("Neon"));
-			agc.setDisplayMode(800, 600, false);
+			agc.setDisplayMode(1600, 900, false);
 			agc.setAlwaysRender(true);
 			agc.start();
 		} catch (SlickException e) {

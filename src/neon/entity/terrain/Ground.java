@@ -74,7 +74,7 @@ public class Ground extends TerrainEntity {
 	private void initGraphics() {
 		this.graphics = new EntityGraphics();
 		this.graphics.setColor(Color.green);
-		this.graphics.setLineWidth(5.0f);
+		this.graphics.setLineWidth(2.0f);
 		ArrayList<Point> points = new ArrayList<Point>();
 		points.add(new Point(0, 0));
 		points.add(new Point(this.width, 0));
