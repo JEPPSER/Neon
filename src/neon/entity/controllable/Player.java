@@ -24,11 +24,11 @@ public class Player extends ControllableEntity {
 	public Player(float x, float y) {
 		name = "Player";
 		initGraphics();
-		this.controller = new PlayerController(this);
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
+		this.controller = new PlayerController(this);
 	}
 
 	@Override
@@ -81,6 +81,11 @@ public class Player extends ControllableEntity {
 	
 	private void initGraphics() {
 		
+		// Dash animation
+		Sprite dash = SpriteLoader.getSprite("player_dash");
+		Animation dashing = new Animation(100, true);
+		dashing.getSprites().add(dash);
+		
 		// Jump animation
 		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
 		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
@@ -103,7 +108,7 @@ public class Player extends ControllableEntity {
 		running.getSprites().add(run4);
 		running.getSprites().add(run5);
 		
-		// Animation 2
+		// Idle animation
 		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
 		Animation idle = new Animation(100, true);
 		idle.getSprites().add(idleSprite);
@@ -113,6 +118,7 @@ public class Player extends ControllableEntity {
 		anim.setState("idle");
 		anim.addAnimation(running, "running");
 		anim.addAnimation(jumping, "jumping");
+		anim.addAnimation(dashing, "dashing");
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
