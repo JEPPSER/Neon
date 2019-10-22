@@ -68,7 +68,7 @@ public class Ground extends TerrainEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		this.graphics.render(g, x + offsetX, y + offsetY);
+		this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 	
 	private void initGraphics() {

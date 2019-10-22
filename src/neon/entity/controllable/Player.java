@@ -1,15 +1,14 @@
 package neon.entity.controllable;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.controller.PlayerController;
 import neon.graphics.EntityGraphics;
-import neon.graphics.Point;
 import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
 import neon.io.SpriteLoader;
 import neon.physics.Physics;
 import neon.physics.Collision;
@@ -68,15 +67,32 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		graphics.render(g, this.x + offsetX, this.y + offsetY);
+		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, false);
 	}
 	
 	private void initGraphics() {
-		Sprite s = SpriteLoader.getSprite("test2");
+		// Animation 1
+		Sprite s1 = SpriteLoader.getSprite("test2");
+		Sprite s2 = SpriteLoader.getSprite("scuffed");
+		Animation a1 = new Animation(100, true);
+		a1.getSprites().add(s1);
+		a1.getSprites().add(s2);
+		
+		// Animation 2
+		Sprite s3 = SpriteLoader.getSprite("test");
+		Sprite s4 = SpriteLoader.getSprite("player_idle");
+		Animation a2 = new Animation(100, true);
+		a2.getSprites().add(s3);
+		a2.getSprites().add(s4);
+		
+		Animator anim = new Animator();
+		anim.addAnimation(a1, "test1");
+		anim.setState("test1");
+		anim.addAnimation(a2, "test2");
+		
 		this.graphics = new EntityGraphics();
+		this.graphics.setAnimator(anim);
 		this.graphics.setColor(Color.red);
 		this.graphics.setLineWidth(2.0f);
-		ArrayList<Point> points = s.getPoints();
-		this.graphics.setPoints(points);
 	}
 }
