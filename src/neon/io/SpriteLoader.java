@@ -25,14 +25,16 @@ public class SpriteLoader {
 			str = str.replaceAll("\r", "");
 			ArrayList<Point> points = new ArrayList<Point>();
 			String[] lines = str.split("\n");
-			for (int i = 0; i < lines.length; i++) {
+			float width = Float.parseFloat(lines[0]);
+			float height = Float.parseFloat(lines[1]);
+			for (int i = 2; i < lines.length; i++) {
 				String[] parts = lines[i].split(",");
 				float x = Float.parseFloat(parts[0]);
 				float y = Float.parseFloat(parts[1]);
 				Point p = new Point(x, y);
 				points.add(p);
 			}
-			return new Sprite(points, file.getName().replace(".nspr", ""));
+			return new Sprite(points, width, height, file.getName().replace(".nspr", ""));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -31,7 +31,7 @@ public class PlayerController implements Controller {
 			ph.setXVelocity(vel);
 			if (direction == 0) {
 				direction = 1;
-				animator.setState("test2");
+				player.setMirrored(true);
 			}
 		}
 		if (input.isKeyDown(Input.KEY_D)) {
@@ -42,7 +42,7 @@ public class PlayerController implements Controller {
 			ph.setXVelocity(vel);
 			if (direction == 1) {
 				direction = 0;
-				animator.setState("test1");
+				player.setMirrored(false);
 			}
 		}
 		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)) {
@@ -50,6 +50,12 @@ public class PlayerController implements Controller {
 		}
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			ph.setYVelocity(-2f);
+		}
+		
+		if (Math.abs(ph.getXVelocity()) > 0 && !animator.getState().equals("running")) {
+			animator.setState("running");
+		} else if (ph.getXVelocity() == 0 && !animator.getState().equals("idle")) {
+			animator.setState("idle");
 		}
 	}
 }

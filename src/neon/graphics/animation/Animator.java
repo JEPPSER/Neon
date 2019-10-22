@@ -21,6 +21,10 @@ public class Animator {
 		this.currentAnimation.setCurrentSpriteIndex(0);
 	}
 	
+	public String getState() {
+		return this.state;
+	}
+	
 	public void addAnimation(Animation animation, String state) {
 		animations.put(state, animation);
 	}

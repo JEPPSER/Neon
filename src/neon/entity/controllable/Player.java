@@ -19,6 +19,7 @@ public class Player extends ControllableEntity {
 	private String name;
 	private float x = 300;
 	private float y = 100;
+	private boolean mirrored = false;
 	
 	public Player(float x, float y) {
 		name = "Player";
@@ -67,28 +68,33 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, false);
+		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
+	}
+	
+	public void setMirrored(boolean mirrored) {
+		this.mirrored = mirrored;
+	}
+	
+	public boolean isMirrored() {
+		return this.mirrored;
 	}
 	
 	private void initGraphics() {
 		// Animation 1
 		Sprite s1 = SpriteLoader.getSprite("test2");
 		Sprite s2 = SpriteLoader.getSprite("scuffed");
-		Animation a1 = new Animation(100, true);
-		a1.getSprites().add(s1);
-		a1.getSprites().add(s2);
+		Animation running = new Animation(100, true);
+		running.getSprites().add(s1);
+		running.getSprites().add(s2);
 		
 		// Animation 2
-		Sprite s3 = SpriteLoader.getSprite("test");
-		Sprite s4 = SpriteLoader.getSprite("player_idle");
-		Animation a2 = new Animation(100, true);
-		a2.getSprites().add(s3);
-		a2.getSprites().add(s4);
+		Animation idle = new Animation(100, true);
+		idle.getSprites().add(s1);
 		
 		Animator anim = new Animator();
-		anim.addAnimation(a1, "test1");
-		anim.setState("test1");
-		anim.addAnimation(a2, "test2");
+		anim.addAnimation(idle, "idle");
+		anim.setState("idle");
+		anim.addAnimation(running, "running");
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);

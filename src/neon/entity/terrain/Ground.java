@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
+import neon.graphics.Sprite;
 import neon.physics.Collision;
 import neon.physics.Physics;
 
@@ -81,6 +82,7 @@ public class Ground extends TerrainEntity {
 		points.add(new Point(this.width, this.height));
 		points.add(new Point(0, this.height));
 		points.add(new Point(0, 0));
-		this.graphics.setPoints(points);
+		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
+		this.graphics.setSprite(sprite);
 	}
 }
