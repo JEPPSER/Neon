@@ -26,7 +26,7 @@ public class Player extends ControllableEntity {
 		initGraphics();
 		this.controller = new PlayerController(this);
 		this.physics = new Physics(0f, 0f);
-		this.collision = new Collision(new Rectangle(0, 0, 30, 60), 1.0f, 10f, true);
+		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
 	}
@@ -80,25 +80,43 @@ public class Player extends ControllableEntity {
 	}
 	
 	private void initGraphics() {
-		// Animation 1
-		Sprite s1 = SpriteLoader.getSprite("test2");
-		Sprite s2 = SpriteLoader.getSprite("scuffed");
-		Animation running = new Animation(100, true);
-		running.getSprites().add(s1);
-		running.getSprites().add(s2);
+		
+		// Jump animation
+		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
+		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
+		Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
+		Animation jumping = new Animation(80, false);
+		jumping.getSprites().add(jump1);
+		jumping.getSprites().add(jump2);
+		jumping.getSprites().add(jump3);
+		
+		// Running animation
+		Sprite run1 = SpriteLoader.getSprite("player_run_1");
+		Sprite run2 = SpriteLoader.getSprite("player_run_2");
+		Sprite run3 = SpriteLoader.getSprite("player_run_3");
+		Sprite run4 = SpriteLoader.getSprite("player_run_4");
+		Sprite run5 = SpriteLoader.getSprite("player_run_5");
+		Animation running = new Animation(50, true);
+		running.getSprites().add(run1);
+		running.getSprites().add(run2);
+		running.getSprites().add(run3);
+		running.getSprites().add(run4);
+		running.getSprites().add(run5);
 		
 		// Animation 2
+		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
 		Animation idle = new Animation(100, true);
-		idle.getSprites().add(s1);
+		idle.getSprites().add(idleSprite);
 		
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
 		anim.setState("idle");
 		anim.addAnimation(running, "running");
+		anim.addAnimation(jumping, "jumping");
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
-		this.graphics.setColor(Color.red);
+		this.graphics.setColor(Color.cyan);
 		this.graphics.setLineWidth(2.0f);
 	}
 }

@@ -10,7 +10,7 @@ public class PlayerController implements Controller {
 	
 	private Player player;
 	private Animator animator;
-	private float runningSpeed = 0.4f;
+	private float runningSpeed = 0.7f;
 	private float xAcc = 0.008f;
 	private int direction = 0;
 	
@@ -46,16 +46,33 @@ public class PlayerController implements Controller {
 			}
 		}
 		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)) {
-			ph.setXVelocity(0);
+			if (ph.getXVelocity() < 0) {
+				float vel = ph.getXVelocity() + xAcc * delta;
+				if (vel > 0) {
+					vel = 0;
+				}
+				ph.setXVelocity(vel);
+			} else if (ph.getXVelocity() > 0) {
+				float vel = ph.getXVelocity() - xAcc * delta;
+				if (vel < 0) {
+					vel = 0;
+				}
+				ph.setXVelocity(vel);
+			}
 		}
+		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			ph.setYVelocity(-2f);
 		}
 		
-		if (Math.abs(ph.getXVelocity()) > 0 && !animator.getState().equals("running")) {
-			animator.setState("running");
-		} else if (ph.getXVelocity() == 0 && !animator.getState().equals("idle")) {
-			animator.setState("idle");
+		if (ph.getYVelocity() == 0) {
+			if (Math.abs(ph.getXVelocity()) > 0 && !animator.getState().equals("running")) {
+				animator.setState("running");
+			} else if (ph.getXVelocity() == 0 && !animator.getState().equals("idle")) {
+				animator.setState("idle");
+			}
+		} else if (!animator.getState().equals("jumping")){
+			animator.setState("jumping");
 		}
 	}
 }

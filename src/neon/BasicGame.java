@@ -31,13 +31,13 @@ public class BasicGame extends BasicGameState {
 		playField = new ArrayList<Entity>();
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);
-		Ground g1 = new Ground(100f, 450f, 400f, 100f);
-		Ground g2 = new Ground(300f, 260f, 100f, 300f);
-		Rock r1 = new Rock(360f, 100f, 50f, 50f);
+		Ground g1 = new Ground(100f, 450f, 800f, 100f);
+		Ground g2 = new Ground(300f, 260f, 100f, 100f);
+		Ground g3 = new Ground(500f, 100f, 100f, 100f);
 		playField.add(p);
 		playField.add(g1);
 		playField.add(g2);
-		playField.add(r1);
+		playField.add(g3);
 	}
 
 	@Override

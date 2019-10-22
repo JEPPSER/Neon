@@ -27,7 +27,7 @@ public class SpriteLoader {
 			String[] lines = str.split("\n");
 			float width = Float.parseFloat(lines[0]);
 			float height = Float.parseFloat(lines[1]);
-			for (int i = 2; i < lines.length; i++) {
+			for (int i = 3; i < lines.length; i++) {
 				String[] parts = lines[i].split(",");
 				float x = Float.parseFloat(parts[0]);
 				float y = Float.parseFloat(parts[1]);
