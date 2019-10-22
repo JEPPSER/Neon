@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import neon.controller.PlayerController;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
+import neon.graphics.Sprite;
 import neon.io.SpriteLoader;
 import neon.physics.Physics;
 import neon.physics.Collision;
@@ -71,11 +72,11 @@ public class Player extends ControllableEntity {
 	}
 	
 	private void initGraphics() {
-		SpriteLoader sl = new SpriteLoader();
+		Sprite s = SpriteLoader.getSprite("test2");
 		this.graphics = new EntityGraphics();
 		this.graphics.setColor(Color.red);
 		this.graphics.setLineWidth(2.0f);
-		ArrayList<Point> points = sl.readFile("res/sprites/test2.nspr");
+		ArrayList<Point> points = s.getPoints();
 		this.graphics.setPoints(points);
 	}
 }
