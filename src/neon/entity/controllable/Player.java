@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.controller.PlayerController;
+import neon.entity.PhysicalEntity;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;
@@ -12,6 +13,7 @@ import neon.graphics.animation.Animator;
 import neon.io.SpriteLoader;
 import neon.physics.Physics;
 import neon.physics.Collision;
+import neon.physics.CollisionDirection;
 
 public class Player extends ControllableEntity {
 	
@@ -71,6 +73,28 @@ public class Player extends ControllableEntity {
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
 	}
 	
+	@Override
+	public void handleCollision() {
+		CollisionDirection cd = this.collisionDirection;
+		PhysicalEntity pe = this.collidingEntity;
+		
+		if (cd == CollisionDirection.DOWN) {
+			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+			physics.setYVelocity(0f);
+		} else if (cd == CollisionDirection.UP) {
+			this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+			physics.setYVelocity(0f);
+		} else if (cd == CollisionDirection.RIGHT) {
+			this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+			physics.setXVelocity(0f);
+			((PlayerController) controller).glide(cd);
+		} else if (cd == CollisionDirection.LEFT) {
+			this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+			physics.setXVelocity(0f);
+			((PlayerController) controller).glide(cd);
+		}
+	}
+	
 	public void setMirrored(boolean mirrored) {
 		this.mirrored = mirrored;
 	}
@@ -80,6 +104,11 @@ public class Player extends ControllableEntity {
 	}
 	
 	private void initGraphics() {
+		
+		// Glide animation
+		Sprite glide = SpriteLoader.getSprite("player_glide");
+		Animation gliding = new Animation(100, true);
+		gliding.getSprites().add(glide);
 		
 		// Dash animation
 		Sprite dash = SpriteLoader.getSprite("player_dash");
@@ -119,6 +148,7 @@ public class Player extends ControllableEntity {
 		anim.addAnimation(running, "running");
 		anim.addAnimation(jumping, "jumping");
 		anim.addAnimation(dashing, "dashing");
+		anim.addAnimation(gliding, "gliding");
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);

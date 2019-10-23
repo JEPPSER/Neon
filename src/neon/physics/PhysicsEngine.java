@@ -35,20 +35,8 @@ public class PhysicsEngine {
 					for (int j = 0; j < playField.size(); j++) {
 						if (j != i && playField.get(j) instanceof PhysicalEntity) {
 							PhysicalEntity pe = (PhysicalEntity) playField.get(j);
-							CollisionDirection cd = e.isColliding(pe);
-							if (cd == CollisionDirection.DOWN) {
-								e.setY(pe.getY() - e.getCollision().getHitbox().getHeight());
-								e.getPhysics().setYVelocity(0f);
-							} else if (cd == CollisionDirection.UP) {
-								e.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-								e.getPhysics().setYVelocity(0f);
-							} else if (cd == CollisionDirection.RIGHT) {
-								e.setX(pe.getX() - e.getCollision().getHitbox().getWidth());
-								e.getPhysics().setXVelocity(0f);
-							} else if (cd == CollisionDirection.LEFT) {
-								e.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-								e.getPhysics().setXVelocity(0f);
-							}
+							e.checkCollision(pe);
+							e.handleCollision();
 						}
 					}
 				}

@@ -38,8 +38,8 @@ public class BasicGame extends BasicGameState {
 		playField.add(p);
 		playField.add(g1);
 		playField.add(g2);
-		playField.add(g3);
 		playField.add(g4);
+		playField.add(g3);
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class BasicGame extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
-		p.control(input, delta);
 		physics.applyPhysics(playField, delta);
+		p.control(input, delta);
 	}
 
 	@Override
