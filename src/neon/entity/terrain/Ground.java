@@ -21,15 +21,27 @@ public class Ground extends TerrainEntity {
 	private float width;
 	private float height;
 	
-	public Ground(float x, float y, float width, float height) {
+	public Ground() {
 		this.name = "Ground";
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		initGraphics();
 		this.physics = new Physics(0f, 0f);
-		this.collision = new Collision(new Rectangle(0, 0, this.width, this.height), 1.0f, 10f, false);
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	@Override
+	public float getHeight() {
+		return height;
+	}
+
+	@Override
+	public void setHeight(float height) {
+		this.height = height;
 	}
 
 	@Override
@@ -84,5 +96,20 @@ public class Ground extends TerrainEntity {
 		points.add(new Point(0, 0));
 		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
 		this.graphics.setSprite(sprite);
+	}
+
+	@Override
+	public int getID() {
+		return 0;
+	}
+
+	@Override
+	public void setSize(float width, float height) {
+		this.width = width;
+		this.height = height;
+		this.collision = new Collision(new Rectangle(0, 0, this.width, this.height), 1.0f, 10f, false);
+		this.collision.getHitbox().setHeight(height);
+		this.collision.getHitbox().setWidth(width);
+		initGraphics();
 	}
 }

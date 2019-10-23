@@ -85,4 +85,33 @@ public class Rock extends TerrainEntity {
 		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
 		this.graphics.setSprite(sprite);
 	}
+
+	@Override
+	public int getID() {
+		return 0;
+	}
+
+	@Override
+	public float getWidth() {
+		return 0;
+	}
+
+	@Override
+	public void setWidth(float width) {
+	}
+
+	@Override
+	public float getHeight() {
+		return 0;
+	}
+
+	@Override
+	public void setHeight(float height) {
+	}
+
+	@Override
+	public void setSize(float width, float height) {
+		// TODO Auto-generated method stub
+		
+	}
 }

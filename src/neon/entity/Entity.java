@@ -11,6 +11,12 @@ public interface Entity {
 	public void setX(float x);
 	public float getY();
 	public void setY(float y);
+	public float getWidth();
+	public void setWidth(float width);
+	public float getHeight();
+	public void setHeight(float height);
+	public void setSize(float width, float height);
 	public EntityGraphics getGraphics();
 	public void render(Graphics g, float offsetX, float offsetY);
+	public int getID();
 }

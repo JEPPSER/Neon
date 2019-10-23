@@ -152,7 +152,36 @@ public class Player extends ControllableEntity {
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
-		this.graphics.setColor(Color.cyan);
+		this.graphics.setColor(new Color(0, 0, 255, 255));
 		this.graphics.setLineWidth(2.0f);
+	}
+
+	@Override
+	public int getID() {
+		return 0;
+	}
+
+	@Override
+	public float getWidth() {
+		return 0;
+	}
+
+	@Override
+	public void setWidth(float width) {
+	}
+
+	@Override
+	public float getHeight() {
+		return 0;
+	}
+
+	@Override
+	public void setHeight(float height) {
+	}
+
+	@Override
+	public void setSize(float width, float height) {
+		// TODO Auto-generated method stub
+		
 	}
 }
