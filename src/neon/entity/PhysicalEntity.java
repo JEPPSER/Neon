@@ -102,6 +102,12 @@ public abstract class PhysicalEntity implements Entity {
 				} else if (deltaX < 0) {
 					this.collisionDirection = CollisionDirection.LEFT;
 				}
+			} else {
+				if (thisRect.getX() < otherRect.getX()) {
+					this.collisionDirection = CollisionDirection.RIGHT;
+				} else if (thisRect.getX() + thisRect.getWidth() > otherRect.getX() + otherRect.getWidth()) {
+					this.collisionDirection = CollisionDirection.LEFT;
+				}
 			}
 			this.collidingEntity = other;
 		}

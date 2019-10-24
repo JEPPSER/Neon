@@ -29,7 +29,7 @@ public class Camera {
 		float offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
 		float offsetY = focusedEntity.getY() * -1 + gc.getHeight() / 2;
 		g.setColor(Color.green);
-		g.drawRect(offsetX, offsetY, level.getWidth(), level.getHeight());
+		//g.drawRect(offsetX, offsetY, level.getWidth(), level.getHeight());
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			level.getObjects().get(i).render(g, offsetX, offsetY);
 		}

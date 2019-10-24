@@ -11,9 +11,11 @@ import org.newdawn.slick.Color;
 import neon.entity.Entity;
 import neon.entity.area.TextTrigger;
 import neon.entity.area.Trigger;
+import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.graphics.Point;
 import neon.level.Level;
+import neon.physics.CollisionDirection;
 
 public class LevelLoader {
 	
@@ -63,12 +65,37 @@ public class LevelLoader {
 				
 				objects.add(e);
 			}
+			
+			setBounds(level, objects);
 			level.setObjects(objects);
 			return level;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private void setBounds(Level level, ArrayList<Entity> objects) {
+		Bounds ceil = new Bounds(CollisionDirection.DOWN);
+		ceil.setX(0);
+		ceil.setY(-100);
+		ceil.setSize(level.getWidth(), 100f);
+		objects.add(ceil);
+		Bounds floor = new Bounds(CollisionDirection.UP);
+		floor.setX(0);
+		floor.setY(level.getHeight());
+		floor.setSize(level.getWidth(), 100f);
+		objects.add(floor);
+		Bounds left = new Bounds(CollisionDirection.RIGHT);
+		left.setX(-100);
+		left.setY(0);
+		left.setSize(100, level.getHeight());
+		objects.add(left);
+		Bounds right = new Bounds(CollisionDirection.LEFT);
+		right.setX(level.getWidth());
+		right.setY(0);
+		right.setSize(100, level.getHeight());
+		objects.add(right);
 	}
 	
 	private Entity getEntityFromID(int id) {
