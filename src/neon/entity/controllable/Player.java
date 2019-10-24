@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.controller.PlayerController;
 import neon.entity.PhysicalEntity;
+import neon.entity.area.Trigger;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;
@@ -74,24 +75,32 @@ public class Player extends ControllableEntity {
 	}
 	
 	@Override
-	public void handleCollision() {
+	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
 		
-		if (cd == CollisionDirection.DOWN) {
-			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
-			physics.setYVelocity(0f);
-		} else if (cd == CollisionDirection.UP) {
-			this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-			physics.setYVelocity(0f);
-		} else if (cd == CollisionDirection.RIGHT) {
-			this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
-			physics.setXVelocity(0f);
-			((PlayerController) controller).glide(cd);
-		} else if (cd == CollisionDirection.LEFT) {
-			this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-			physics.setXVelocity(0f);
-			((PlayerController) controller).glide(cd);
+		if (other instanceof Trigger) {
+			if (pe == other) {
+				((Trigger) other).triggered();
+			} else {
+				((Trigger) other).unTriggered();
+			}
+		} else {
+			if (cd == CollisionDirection.DOWN) {
+				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+				physics.setYVelocity(0f);
+			} else if (cd == CollisionDirection.UP) {
+				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+				physics.setYVelocity(0f);
+			} else if (cd == CollisionDirection.RIGHT) {
+				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+				physics.setXVelocity(0f);
+				((PlayerController) controller).glide(cd);
+			} else if (cd == CollisionDirection.LEFT) {
+				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+				physics.setXVelocity(0f);
+				((PlayerController) controller).glide(cd);
+			}
 		}
 	}
 	
@@ -181,7 +190,5 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public void setSize(float width, float height) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -2,6 +2,8 @@ package neon.entity;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import neon.entity.area.Trigger;
+import neon.graphics.EntityGraphics;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -12,6 +14,13 @@ public abstract class PhysicalEntity implements Entity {
 	protected Physics physics;
 	protected CollisionDirection collisionDirection;
 	protected PhysicalEntity collidingEntity;
+	
+	protected EntityGraphics graphics;
+	protected String name;
+	protected float x;
+	protected float y;
+	protected float width;
+	protected float height;
 
 	public Collision getCollision() {
 		return collision;
@@ -29,21 +38,24 @@ public abstract class PhysicalEntity implements Entity {
 		return this.collidingEntity;
 	}
 	
-	public void handleCollision() {
+	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = collisionDirection;
 		PhysicalEntity pe = collidingEntity;
-		if (cd == CollisionDirection.DOWN) {
-			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
-			this.getPhysics().setYVelocity(0f);
-		} else if (cd == CollisionDirection.UP) {
-			this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-			this.getPhysics().setYVelocity(0f);
-		} else if (cd == CollisionDirection.RIGHT) {
-			this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
-			this.getPhysics().setXVelocity(0f);
-		} else if (cd == CollisionDirection.LEFT) {
-			this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-			this.getPhysics().setXVelocity(0f);
+		
+		if (!(pe instanceof Trigger)) {
+			if (cd == CollisionDirection.DOWN) {
+				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+				this.getPhysics().setYVelocity(0f);
+			} else if (cd == CollisionDirection.UP) {
+				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+				this.getPhysics().setYVelocity(0f);
+			} else if (cd == CollisionDirection.RIGHT) {
+				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+				this.getPhysics().setXVelocity(0f);
+			} else if (cd == CollisionDirection.LEFT) {
+				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+				this.getPhysics().setXVelocity(0f);
+			}
 		}
 	}
 

@@ -36,7 +36,7 @@ public class PhysicsEngine {
 						if (j != i && playField.get(j) instanceof PhysicalEntity) {
 							PhysicalEntity pe = (PhysicalEntity) playField.get(j);
 							e.checkCollision(pe);
-							e.handleCollision();
+							e.handleCollision(pe);
 						}
 					}
 				}

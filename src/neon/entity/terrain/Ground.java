@@ -14,13 +14,6 @@ import neon.physics.Physics;
 
 public class Ground extends TerrainEntity {
 	
-	private EntityGraphics graphics;
-	private String name;
-	private float x;
-	private float y;
-	private float width;
-	private float height;
-	
 	public Ground() {
 		this.name = "Ground";
 		this.physics = new Physics(0f, 0f);

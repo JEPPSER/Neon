@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import neon.entity.Entity;
+import neon.entity.area.TextTrigger;
+import neon.entity.area.Trigger;
 import neon.entity.terrain.Ground;
 import neon.graphics.Point;
 import neon.level.Level;
@@ -49,11 +51,16 @@ public class LevelLoader {
 				
 				float height = 0;
 				float width = 0;
-				if (parts.length == 5) {
+				if (parts.length >= 5) {
 					width = Float.parseFloat(parts[3]);
 					height = Float.parseFloat(parts[4]);
 					e.setSize(width, height);
 				}
+				
+				if (e instanceof Trigger) {
+					((Trigger) e).setTrigger(parts[5], Float.parseFloat(parts[6]), Float.parseFloat(parts[7]));
+				}
+				
 				objects.add(e);
 			}
 			level.setObjects(objects);
@@ -67,6 +74,8 @@ public class LevelLoader {
 	private Entity getEntityFromID(int id) {
 		if (id == 0) {
 			return new Ground();
+		} else if (id == 1) {
+			return new TextTrigger();
 		}
 		return null;
 	}
