@@ -9,7 +9,6 @@ import org.newdawn.slick.TrueTypeFont;
 import neon.graphics.animation.AnimationType;
 import neon.graphics.animation.TextAnimation;
 import neon.physics.Physics;
-import neon.time.TimeInfo;
 
 public class TextTrigger extends Trigger {
 	

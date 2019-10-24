@@ -161,7 +161,8 @@ public class Player extends ControllableEntity {
 		
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
-		this.graphics.setColor(new Color(0, 0, 255, 255));
+		//this.graphics.setColor(new Color(0, 0, 255, 255));
+		this.graphics.setColor(Color.pink);
 		this.graphics.setLineWidth(2.0f);
 	}
 
