@@ -8,6 +8,7 @@ import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.state.State;
 import neon.state.StateManager;
+import neon.time.TimeInfo;
 
 public class PlayerController implements Controller {
 
@@ -40,17 +41,17 @@ public class PlayerController implements Controller {
 	}
 
 	@Override
-	public void control(Input input, int delta) {
-		animator.updateAnimations(delta);
+	public void control(Input input) {
+		animator.updateAnimations();
 
 		if (input.isKeyDown(Input.KEY_A)) {
-			left(delta);
+			left();
 		}
 		if (input.isKeyDown(Input.KEY_D)) {
-			right(delta);
+			right();
 		}
 		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)) {
-			stop(delta);
+			stop();
 		}
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			jump();
@@ -60,10 +61,10 @@ public class PlayerController implements Controller {
 		}
 
 		updateAnimationState();
-		updateActions(delta);
+		updateActions();
 	}
 
-	private void updateActions(int delta) {
+	private void updateActions() {
 		if (ph.getYVelocity() == 0) { // Detect idle or running
 			if (ph.getXVelocity() == 0) {
 				sm.activateState("idle");
@@ -85,7 +86,7 @@ public class PlayerController implements Controller {
 					ph.setXVelocity(-runningSpeed);
 				}
 			} else {
-				dashTime += delta;
+				dashTime += TimeInfo.getDelta();
 			}
 		}
 	}
@@ -123,16 +124,16 @@ public class PlayerController implements Controller {
 		}
 	}
 
-	private void stop(int delta) {
+	private void stop() {
 		if (!sm.getCurrentState().equals("dashing")) {
 			if (ph.getXVelocity() < 0) {
-				float vel = ph.getXVelocity() + xAcc * delta;
+				float vel = ph.getXVelocity() + xAcc * TimeInfo.getDelta();
 				if (vel > 0) {
 					vel = 0;
 				}
 				ph.setXVelocity(vel);
 			} else if (ph.getXVelocity() > 0) {
-				float vel = ph.getXVelocity() - xAcc * delta;
+				float vel = ph.getXVelocity() - xAcc * TimeInfo.getDelta();
 				if (vel < 0) {
 					vel = 0;
 				}
@@ -141,12 +142,12 @@ public class PlayerController implements Controller {
 		}
 	}
 
-	private void right(int delta) {
+	private void right() {
 		if (sm.canActivateState("running")) {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
-			float vel = ph.getXVelocity() + xAcc * delta;
+			float vel = ph.getXVelocity() + xAcc * TimeInfo.getDelta();
 			if (vel > runningSpeed) {
 				vel = runningSpeed;
 			}
@@ -158,12 +159,12 @@ public class PlayerController implements Controller {
 		}
 	}
 
-	private void left(int delta) {
+	private void left() {
 		if (sm.canActivateState("running")) {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
-			float vel = ph.getXVelocity() - xAcc * delta;
+			float vel = ph.getXVelocity() - xAcc * TimeInfo.getDelta();
 			if (vel * -1 > runningSpeed) {
 				vel = runningSpeed * -1;
 			}

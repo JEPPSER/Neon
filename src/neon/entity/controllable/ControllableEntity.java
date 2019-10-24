@@ -9,7 +9,7 @@ public abstract class ControllableEntity extends PhysicalEntity {
 	
 	protected Controller controller;
 	
-	public void control(Input input, int delta) {
-		controller.control(input, delta);
+	public void control(Input input) {
+		controller.control(input);
 	}
 }

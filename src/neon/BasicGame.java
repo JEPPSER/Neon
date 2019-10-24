@@ -11,6 +11,7 @@ import neon.entity.controllable.Player;
 import neon.io.LevelLoader;
 import neon.level.Level;
 import neon.physics.PhysicsEngine;
+import neon.time.TimeInfo;
 import neon.camera.Camera;
 
 public class BasicGame extends BasicGameState {
@@ -22,9 +23,11 @@ public class BasicGame extends BasicGameState {
 	private Level level;
 	private PhysicsEngine physics;
 	private Camera camera;
+	private TimeInfo timeInfo;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		timeInfo = new TimeInfo();
 		physics = new PhysicsEngine();
 		levelLoader = new LevelLoader();
 		level = levelLoader.readFile("res/levels/level_1.nlvl");
@@ -43,9 +46,16 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		timeInfo.setDelta(delta);
 		Input input = gc.getInput();
-		physics.applyPhysics(level.getObjects(), delta);
-		p.control(input, delta);
+		physics.applyPhysics(level.getObjects());
+		p.control(input);
+		/*try {
+			Thread.sleep(4);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 	@Override

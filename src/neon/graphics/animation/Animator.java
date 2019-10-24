@@ -3,6 +3,7 @@ package neon.graphics.animation;
 import java.util.HashMap;
 
 import neon.graphics.Sprite;
+import neon.time.TimeInfo;
 
 public class Animator {
 	
@@ -29,8 +30,8 @@ public class Animator {
 		animations.put(state, animation);
 	}
 	
-	public void updateAnimations(int delta) {
-		timeEllapsed += delta;
+	public void updateAnimations() {
+		timeEllapsed += TimeInfo.getDelta();
 		if (timeEllapsed >= currentAnimation.getFrequency()) {
 			currentAnimation.nextSprite();
 			timeEllapsed = 0;

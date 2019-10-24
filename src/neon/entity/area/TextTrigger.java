@@ -6,15 +6,16 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 
+import neon.graphics.animation.AnimationType;
+import neon.graphics.animation.TextAnimation;
 import neon.physics.Physics;
+import neon.time.TimeInfo;
 
 public class TextTrigger extends Trigger {
 	
 	private String text = "";
-	private boolean showText = false;
-	private float textX;
-	private float textY;
 	private TrueTypeFont font;
+	private TextAnimation anim;
 	
 	public TextTrigger() {
 		this.name = "TextTrigger";
@@ -24,28 +25,28 @@ public class TextTrigger extends Trigger {
 	
 	@Override
 	public void unTriggered() {
-		showText = false;
+		anim.stop();
 	}
 
 	@Override
 	public void triggered() {
-		showText = true;
+		anim.start();
 	}
 
 	@Override
 	public void setTrigger(String text, float textX, float textY) {
 		this.text = text;
-		this.textX = textX;
-		this.textY = textY;
+		anim = new TextAnimation();
+		anim.setFont(font);
+		anim.setType(AnimationType.DROP);
+		anim.setX(textX);
+		anim.setY(textY);
 	}
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
+		g.setColor(Color.white);
+		anim.render(g, text, offsetX, offsetY);
 		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
-		if (showText) {
-			g.setColor(Color.white);
-			g.setFont(font);
-			g.drawString(text, textX, textY);
-		}
 	}
 }
