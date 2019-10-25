@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.controller.PlayerController;
 import neon.entity.PhysicalEntity;
+import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
@@ -17,13 +18,13 @@ import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 
 public class Player extends ControllableEntity {
-	
+
 	private EntityGraphics graphics;
 	private String name;
-	private float x = 300;
-	private float y = 100;
+	private float x;
+	private float y;
 	private boolean mirrored = false;
-	
+
 	public Player(float x, float y) {
 		name = "Player";
 		initGraphics();
@@ -73,57 +74,57 @@ public class Player extends ControllableEntity {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
 	}
-	
+
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
-		
+
 		if (other instanceof Trigger) {
 			if (pe == other) {
 				((Trigger) other).triggered();
 			} else {
 				((Trigger) other).unTriggered();
 			}
-		} else {
-			if (cd == CollisionDirection.DOWN) {
-				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
-				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.UP) {
-				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.RIGHT) {
-				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
-				physics.setXVelocity(0f);
-				((PlayerController) controller).glide(cd);
-			} else if (cd == CollisionDirection.LEFT) {
-				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-				physics.setXVelocity(0f);
-				((PlayerController) controller).glide(cd);
-			}
+		} else if (other instanceof AIEntity) {
+
+		} else if (cd == CollisionDirection.DOWN) {
+			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+			physics.setYVelocity(0f);
+		} else if (cd == CollisionDirection.UP) {
+			this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+			physics.setYVelocity(0f);
+		} else if (cd == CollisionDirection.RIGHT) {
+			this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+			physics.setXVelocity(0f);
+			((PlayerController) controller).glide(cd);
+		} else if (cd == CollisionDirection.LEFT) {
+			this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+			physics.setXVelocity(0f);
+			((PlayerController) controller).glide(cd);
 		}
 	}
-	
+
 	public void setMirrored(boolean mirrored) {
 		this.mirrored = mirrored;
 	}
-	
+
 	public boolean isMirrored() {
 		return this.mirrored;
 	}
-	
+
 	private void initGraphics() {
-		
+
 		// Glide animation
 		Sprite glide = SpriteLoader.getSprite("player_glide");
 		Animation gliding = new Animation(100, true);
 		gliding.getSprites().add(glide);
-		
+
 		// Dash animation
 		Sprite dash = SpriteLoader.getSprite("player_dash");
 		Animation dashing = new Animation(100, true);
 		dashing.getSprites().add(dash);
-		
+
 		// Jump animation
 		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
 		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
@@ -132,7 +133,7 @@ public class Player extends ControllableEntity {
 		jumping.getSprites().add(jump1);
 		jumping.getSprites().add(jump2);
 		jumping.getSprites().add(jump3);
-		
+
 		// Running animation
 		Sprite run1 = SpriteLoader.getSprite("player_run_1");
 		Sprite run2 = SpriteLoader.getSprite("player_run_2");
@@ -145,12 +146,12 @@ public class Player extends ControllableEntity {
 		running.getSprites().add(run3);
 		running.getSprites().add(run4);
 		running.getSprites().add(run5);
-		
+
 		// Idle animation
 		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
 		Animation idle = new Animation(100, true);
 		idle.getSprites().add(idleSprite);
-		
+
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
 		anim.setState("idle");
@@ -158,10 +159,10 @@ public class Player extends ControllableEntity {
 		anim.addAnimation(jumping, "jumping");
 		anim.addAnimation(dashing, "dashing");
 		anim.addAnimation(gliding, "gliding");
-		
+
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
-		//this.graphics.setColor(new Color(0, 0, 255, 255));
+		// this.graphics.setColor(new Color(0, 0, 255, 255));
 		this.graphics.setColor(Color.pink);
 		this.graphics.setLineWidth(2.0f);
 	}
@@ -173,7 +174,7 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public float getWidth() {
-		return 0;
+		return this.collision.getHitbox().getWidth();
 	}
 
 	@Override
@@ -182,7 +183,7 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public float getHeight() {
-		return 0;
+		return this.collision.getHitbox().getHeight();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class Camera {
 	public void renderPlayField(Level level, Graphics g) {
 		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
 		float y = focusedEntity.getY() + offsetY;
-		float height = focusedEntity.getCollision().getHitbox().getHeight();
+		float height = focusedEntity.getHeight();
 		
 		// Scroll screen vertically
 		if (y > gc.getHeight() - height - gc.getHeight() * yScrollValue) {

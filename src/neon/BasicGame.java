@@ -7,6 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import neon.entity.ai.AIEntity;
+import neon.entity.ai.Spider;
 import neon.entity.controllable.Player;
 import neon.io.LevelLoader;
 import neon.level.Level;
@@ -36,6 +38,9 @@ public class BasicGame extends BasicGameState {
 		p.setX(level.getSpawnPoint().getX());
 		p.setY(level.getSpawnPoint().getY());
 		level.getObjects().add(p);
+		
+		Spider spider = new Spider(500, 500);
+		level.getObjects().add(spider);
 	}
 
 	@Override
@@ -50,6 +55,14 @@ public class BasicGame extends BasicGameState {
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
 		p.control(input);
+		
+		// Control all AI entities
+		for (int i = 0; i < level.getObjects().size(); i++) {
+			if (level.getObjects().get(i) instanceof AIEntity) {
+				((AIEntity) level.getObjects().get(i)).control(p);
+			}
+		}
+		
 		/*try {
 			Thread.sleep(4);
 		} catch (InterruptedException e) {
