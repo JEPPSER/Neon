@@ -23,6 +23,7 @@ public class PlayerController implements Controller {
 
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;
+	private boolean canDash = true;
 
 	public PlayerController(Player player) {
 		this.player = player;
@@ -71,8 +72,11 @@ public class PlayerController implements Controller {
 			} else if (!sm.getCurrentState().equals("dashing")) {
 				sm.activateState("running");
 			}
+			canDash = true;
 		} else if (!sm.getCurrentState().equals("dashing")) {
 			sm.activateState("jumping");
+		} else {
+			canDash = false;
 		}
 
 		// Detect dashing stopped
@@ -98,7 +102,7 @@ public class PlayerController implements Controller {
 	}
 
 	private void dash() {
-		if (sm.canActivateState("dashing")) {
+		if (sm.canActivateState("dashing") && canDash) {
 			sm.activateState("dashing");
 			dashTime = 0;
 			if (direction == 0) {
