@@ -37,7 +37,7 @@ public class TextTrigger extends Trigger {
 		this.text = text;
 		anim = new TextAnimation();
 		anim.setFont(font);
-		anim.setType(AnimationType.DROP);
+		anim.setType(AnimationType.FADE);
 		anim.setX(textX);
 		anim.setY(textY);
 	}
@@ -46,6 +46,6 @@ public class TextTrigger extends Trigger {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
 		anim.render(g, text, offsetX, offsetY);
-		graphics.render(g, x + offsetX, y + offsetY, 0, false);
+		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 }

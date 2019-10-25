@@ -30,7 +30,7 @@ public class BasicGame extends BasicGameState {
 		timeInfo = new TimeInfo();
 		physics = new PhysicsEngine();
 		levelLoader = new LevelLoader();
-		level = levelLoader.readFile("res/levels/level_2.nlvl");
+		level = levelLoader.readFile("res/levels/level_3.nlvl");
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);
 		p.setX(level.getSpawnPoint().getX());
