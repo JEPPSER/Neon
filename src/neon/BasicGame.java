@@ -7,9 +7,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.Spider;
 import neon.entity.controllable.Player;
+import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.level.Level;
 import neon.physics.PhysicsEngine;
@@ -55,6 +57,16 @@ public class BasicGame extends BasicGameState {
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
 		p.control(input);
+		
+		// Updates timing for all animations
+		for (int i = 0; i < level.getObjects().size(); i++) {
+			if (level.getObjects().get(i) instanceof PhysicalEntity) {
+				Animator anim = ((PhysicalEntity) level.getObjects().get(i)).getGraphics().getAnimator();
+				if (anim != null) {
+					anim.updateAnimations();
+				}
+			}
+		}
 		
 		// Control all AI entities
 		for (int i = 0; i < level.getObjects().size(); i++) {

@@ -43,8 +43,6 @@ public class PlayerController implements Controller {
 
 	@Override
 	public void control(Input input) {
-		animator.updateAnimations();
-
 		if (input.isKeyDown(Input.KEY_A)) {
 			left();
 		}

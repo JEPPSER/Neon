@@ -13,6 +13,8 @@ public class EntityGraphics {
 	private Sprite currentSprite;
 	private Color color;
 	private float lineWidth;
+	private float offsetX = 0f;
+	private float offsetY = 0f;
 	
 	public Animator getAnimator() {
 		return this.animator;
@@ -34,6 +36,11 @@ public class EntityGraphics {
 		this.lineWidth = lineWidth;
 	}
 	
+	public void setOffset(float x, float y) {
+		this.offsetX = x;
+		this.offsetY = y;
+	}
+	
 	public void render(Graphics g, float x, float y, float angle, boolean mirrored) {
 		g.setLineWidth(this.lineWidth);
 		g.setColor(this.color);
@@ -47,7 +54,7 @@ public class EntityGraphics {
 		for (int i = 0; i < points.size() - 1; i++) {
 			Point p1 = points.get(i);
 			Point p2 = points.get(i + 1);
-			g.drawLine(p1.getX() + x, p1.getY() + y, p2.getX() + x, p2.getY() + y);
+			g.drawLine(p1.getX() + x + offsetX, p1.getY() + y + offsetY, p2.getX() + x + offsetX, p2.getY() + y + offsetY);
 		}
 	}
 	
@@ -55,7 +62,7 @@ public class EntityGraphics {
 		ArrayList<Point> result = new ArrayList<Point>();
 		float width = animator.getCurrentSprite().getWidth();
 		for (int i = 0; i < points.size(); i++) {
-			Point p = new Point(width - points.get(i).getX(), points.get(i).getY());
+			Point p = new Point(width - points.get(i).getX() + offsetX, points.get(i).getY());
 			result.add(p);
 		}
 		return result;

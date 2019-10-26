@@ -8,28 +8,32 @@ import neon.controller.ai.SpiderController;
 import neon.entity.PhysicalEntity;
 import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 
 public class Spider extends AIEntity {
-	
+
 	private EntityGraphics graphics;
 	private String name;
 	private float x;
 	private float y;
 	private boolean mirrored = false;
-	
+
 	public Spider(float x, float y) {
 		name = "Spider";
 		initGraphics();
 		this.physics = new Physics(0f, 0f);
-		this.collision = new Collision(new Rectangle(0, 0, 50, 50), 1.0f, 10f, true);
+		this.collision = new Collision(new Rectangle(0, 0, 50, 35), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
 		this.ai = new SpiderController(this);
 	}
-	
+
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof Player && collisionDirection != CollisionDirection.NONE) {
@@ -99,12 +103,36 @@ public class Spider extends AIEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.red);
-		// Draw hitbox
-		g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, 50, 50);
+		g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
+		this.graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 	}
 	
+	public void setMirrored(boolean mirrored) {
+		this.mirrored = mirrored;
+	}
+
 	private void initGraphics() {
+		// Idle animation
+		Sprite one = SpriteLoader.getSprite("spider_1");
+		Animation idle = new Animation(150, true);
+		idle.getSprites().add(one);
 		
+		// Moving animation
+		Sprite two = SpriteLoader.getSprite("spider_2");
+		Animation moving = new Animation(150, true);
+		moving.getSprites().add(one);
+		moving.getSprites().add(two);
+
+		Animator anim = new Animator();
+		anim.addAnimation(moving, "moving");
+		anim.addAnimation(idle, "idle");
+		anim.setState("idle");
+
+		this.graphics = new EntityGraphics();
+		this.graphics.setAnimator(anim);
+		this.graphics.setColor(Color.gray);
+		this.graphics.setLineWidth(2.0f);
+		this.graphics.setOffset(-10, 0);
 	}
 
 	@Override
