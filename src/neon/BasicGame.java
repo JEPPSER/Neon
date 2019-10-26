@@ -4,11 +4,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
+import neon.entity.ai.Enemy;
 import neon.entity.ai.Spider;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
@@ -17,15 +19,18 @@ import neon.level.Level;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
+import neon.combat.Attack;
+import neon.combat.CombatEngine;
 
 public class BasicGame extends BasicGameState {
-	
+
 	public static int id = 1;
-	
+
 	private Player p;
 	private LevelLoader levelLoader;
 	private Level level;
 	private PhysicsEngine physics;
+	private CombatEngine combat;
 	private Camera camera;
 	private TimeInfo timeInfo;
 
@@ -33,6 +38,7 @@ public class BasicGame extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		timeInfo = new TimeInfo();
 		physics = new PhysicsEngine();
+		combat = new CombatEngine();
 		levelLoader = new LevelLoader();
 		level = levelLoader.readFile("res/levels/level_3.nlvl");
 		p = new Player(300, 100);
@@ -40,7 +46,7 @@ public class BasicGame extends BasicGameState {
 		p.setX(level.getSpawnPoint().getX());
 		p.setY(level.getSpawnPoint().getY());
 		level.getObjects().add(p);
-		
+
 		Spider spider = new Spider(500, 500);
 		level.getObjects().add(spider);
 	}
@@ -58,7 +64,8 @@ public class BasicGame extends BasicGameState {
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
 		p.control(input);
-		
+		combat.updateCombat(level.getObjects(), p);
+
 		// Updates timing for all animations
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			if (level.getObjects().get(i) instanceof PhysicalEntity) {
@@ -68,20 +75,18 @@ public class BasicGame extends BasicGameState {
 				}
 			}
 		}
-		
+
 		// Control all AI entities
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			if (level.getObjects().get(i) instanceof AIEntity) {
 				((AIEntity) level.getObjects().get(i)).control(p);
 			}
 		}
-		
-		/*try {
-			Thread.sleep(4);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
+		/*
+		 * try { Thread.sleep(4); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 	}
 
 	@Override

@@ -1,12 +1,9 @@
 package neon.controller;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 
-import neon.combat.Attack;
 import neon.combat.Combat;
 import neon.entity.controllable.Player;
-import neon.graphics.Point;
 import neon.graphics.animation.Animator;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -57,7 +54,6 @@ public class PlayerController implements Controller {
 			player.setHealth(player.getHealth() - damage);
 			dmgTimer = 0;
 			isInvulnerable = true;
-			player.getGraphics().setColor(Color.red);
 		}
 	}
 
@@ -90,7 +86,6 @@ public class PlayerController implements Controller {
 	
 	private void updateCombat() {
 		combat.updateAttacks();
-		
 	}
 	
 	private void updateInvulnerability() {
@@ -99,7 +94,6 @@ public class PlayerController implements Controller {
 			if (dmgTimer > INVULNERABLE_TIME) {
 				isInvulnerable = false;
 				dmgTimer = 0;
-				player.getGraphics().setColor(player.getColor());
 			}
 		}
 	}
@@ -262,5 +256,9 @@ public class PlayerController implements Controller {
 		sm.addState(dashing);
 		sm.addState(gliding);
 		sm.setCurrentState("idle");
+	}
+	
+	public boolean isInvulnerable() {
+		return isInvulnerable;
 	}
 }

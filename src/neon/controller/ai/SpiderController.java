@@ -16,6 +16,10 @@ public class SpiderController implements AIController {
 	private float dmg = 1.0f;
 	private int timer = 0;
 	private boolean mirrored = false;
+	
+	private final int INVULNERABLE_TIME = 1000;
+	private int dmgTimer = 0;
+	private boolean isInvulnerable = false;
 
 	public SpiderController(Spider spider) {
 		this.spider = spider;
@@ -28,6 +32,25 @@ public class SpiderController implements AIController {
 	@Override
 	public void control(Player player) {
 		backAndForth(player);
+		updateInvulnerability();
+	}
+	
+	public void takeDamage(float damage) {
+		if (!isInvulnerable) {
+			spider.setHealth(spider.getHealth() - damage);
+			dmgTimer = 0;
+			isInvulnerable = true;
+		}
+	}
+	
+	private void updateInvulnerability() {
+		if (isInvulnerable) {
+			dmgTimer += TimeInfo.getDelta();
+			if (dmgTimer > INVULNERABLE_TIME) {
+				isInvulnerable = false;
+				dmgTimer = 0;
+			}
+		}
 	}
 	
 	private void backAndForth(Player player) {
@@ -66,6 +89,10 @@ public class SpiderController implements AIController {
 			}
 			ph.setXVelocity(0);
 		}
+	}
+	
+	public boolean isInvulnerable() {
+		return isInvulnerable;
 	}
 
 	public void hurtPlayer(Player player) {

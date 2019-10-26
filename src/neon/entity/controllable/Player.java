@@ -24,11 +24,6 @@ import neon.physics.CollisionDirection;
 public class Player extends ControllableEntity {
 
 	private Combat combat;
-	private EntityGraphics graphics;
-	private Color color;
-	private String name;
-	private float x;
-	private float y;
 	private float health;
 	private float maxHealth;
 	
@@ -48,10 +43,6 @@ public class Player extends ControllableEntity {
 	
 	public void takeDamage(float damage) {
 		((PlayerController) controller).takeDamage(damage);
-	}
-	
-	public Color getColor() {
-		return this.color;
 	}
 	
 	public void setHealth(float health) {
@@ -77,44 +68,13 @@ public class Player extends ControllableEntity {
 	}
 
 	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public float getX() {
-		return this.x;
-	}
-
-	@Override
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	@Override
-	public float getY() {
-		return this.y;
-	}
-
-	@Override
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	@Override
-	public EntityGraphics getGraphics() {
-		return graphics;
-	}
-
-	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
+		if (((PlayerController) controller).isInvulnerable()) {
+			this.graphics.setColor(Color.red);
+		} else {
+			this.graphics.setColor(this.color);
+		}
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
-		
 		drawAttackHitBox(g, offsetX, offsetY);
 	}
 	

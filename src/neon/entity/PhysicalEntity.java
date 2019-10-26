@@ -1,5 +1,6 @@
 package neon.entity;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.area.Trigger;
@@ -16,12 +17,70 @@ public abstract class PhysicalEntity implements Entity {
 	protected PhysicalEntity collidingEntity;
 	
 	protected EntityGraphics graphics;
+	protected Color color;
 	protected String name;
 	protected float x;
 	protected float y;
 	protected float width;
 	protected float height;
 	protected boolean mirrored;
+	
+	
+	public EntityGraphics getGraphics() {
+		return graphics;
+	}
+
+	public void setGraphics(EntityGraphics graphics) {
+		this.graphics = graphics;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public void setCollision(Collision collision) {
+		this.collision = collision;
+	}
+
+	public void setPhysics(Physics physics) {
+		this.physics = physics;
+	}
+
+	public void setCollisionDirection(CollisionDirection collisionDirection) {
+		this.collisionDirection = collisionDirection;
+	}
+
+	public void setCollidingEntity(PhysicalEntity collidingEntity) {
+		this.collidingEntity = collidingEntity;
+	}
 	
 	public boolean isMirrored() {
 		return mirrored;

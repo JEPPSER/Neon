@@ -37,4 +37,11 @@ public class Combat {
 			}
 		}
 	}
+	
+	public boolean isAttacking() {
+		if (currentAttack.equals("") || !attacks.get(currentAttack).isAttacking()) {
+			return false;
+		}
+		return true;
+	}
 }

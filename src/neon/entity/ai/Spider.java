@@ -16,16 +16,12 @@ import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 
-public class Spider extends AIEntity {
-
-	private EntityGraphics graphics;
-	private String name;
-	private float x;
-	private float y;
-	private boolean mirrored = false;
+public class Spider extends Enemy {
 
 	public Spider(float x, float y) {
 		name = "Spider";
+		health = 2f;
+		maxHealth = 2f;
 		initGraphics();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 35), 1.0f, 10f, true);
@@ -41,36 +37,6 @@ public class Spider extends AIEntity {
 		} else {
 			super.handleCollision(other);
 		}
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public float getX() {
-		return this.x;
-	}
-
-	@Override
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	@Override
-	public float getY() {
-		return this.y;
-	}
-
-	@Override
-	public void setY(float y) {
-		this.y = y;
 	}
 
 	@Override
@@ -96,19 +62,15 @@ public class Spider extends AIEntity {
 	}
 
 	@Override
-	public EntityGraphics getGraphics() {
-		return this.graphics;
-	}
-
-	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		//g.setColor(Color.red);
 		//g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
+		if (((SpiderController) ai).isInvulnerable()) {
+			this.graphics.setColor(Color.red);
+		} else {
+			this.graphics.setColor(this.color);
+		}
 		this.graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
-	}
-	
-	public void setMirrored(boolean mirrored) {
-		this.mirrored = mirrored;
 	}
 
 	private void initGraphics() {
@@ -130,7 +92,7 @@ public class Spider extends AIEntity {
 
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
-		this.graphics.setColor(Color.gray);
+		this.color = Color.gray;
 		this.graphics.setLineWidth(2.0f);
 		this.graphics.setOffset(-10, 0);
 	}
@@ -138,5 +100,11 @@ public class Spider extends AIEntity {
 	@Override
 	public int getID() {
 		return 0;
+	}
+
+	@Override
+	public void takeDamage(float damage) {
+		((SpiderController) ai).takeDamage(damage);
+		System.out.println(this.health);
 	}
 }
