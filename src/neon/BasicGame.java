@@ -49,6 +49,7 @@ public class BasicGame extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setAntiAlias(true);
 		camera.renderPlayField(level, g);
+		p.drawHealthBar(g, gc.getWidth() / 2 - 50, 10);
 	}
 
 	@Override

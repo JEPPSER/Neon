@@ -20,19 +20,55 @@ import neon.physics.CollisionDirection;
 public class Player extends ControllableEntity {
 
 	private EntityGraphics graphics;
+	private Color color;
 	private String name;
 	private float x;
 	private float y;
 	private boolean mirrored = false;
-
+	private float health;
+	private float maxHealth;
+	
 	public Player(float x, float y) {
 		name = "Player";
+		color = Color.magenta;
 		initGraphics();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
 		this.controller = new PlayerController(this);
+		this.health = 10f;
+		this.maxHealth = 10f;
+	}
+	
+	public void takeDamage(float damage) {
+		((PlayerController) controller).takeDamage(damage);
+	}
+	
+	public Color getColor() {
+		return this.color;
+	}
+	
+	public void setHealth(float health) {
+		this.health = health;
+	}
+	
+	public float getHealth() {
+		return health;
+	}
+	
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+	
+	public void setMaxHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+	
+	public void drawHealthBar(Graphics g, float x, float y) {
+		g.setColor(Color.white);
+		g.drawRect(x, y, 100, 20);
+		g.fillRect(x, y, (health / maxHealth) * 100, 20);
 	}
 
 	@Override
@@ -163,7 +199,7 @@ public class Player extends ControllableEntity {
 		this.graphics = new EntityGraphics();
 		this.graphics.setAnimator(anim);
 		// this.graphics.setColor(new Color(0, 0, 255, 255));
-		this.graphics.setColor(Color.pink);
+		this.graphics.setColor(color);
 		this.graphics.setLineWidth(2.0f);
 	}
 

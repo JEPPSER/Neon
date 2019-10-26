@@ -1,5 +1,6 @@
 package neon.controller;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 
 import neon.entity.controllable.Player;
@@ -16,10 +17,15 @@ public class PlayerController implements Controller {
 	private Player player;
 	private Physics ph;
 	private Animator animator;
+	
 	private float runningSpeed = 0.7f;
 	private float xAcc = 0.008f;
 	private int direction = 0; // 0 = right, 1 = left
 	private CollisionDirection glideDirection;
+	
+	private final int INVULNERABLE_TIME = 1000;
+	private int dmgTimer = 0;
+	private boolean isInvulnerable = false;
 
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;
@@ -38,6 +44,15 @@ public class PlayerController implements Controller {
 			sm.activateState("gliding");
 			ph.setYVelocity(0.4f);
 			glideDirection = cd;
+		}
+	}
+	
+	public void takeDamage(float damage) {
+		if (!isInvulnerable) {
+			player.setHealth(player.getHealth() - damage);
+			dmgTimer = 0;
+			isInvulnerable = true;
+			player.getGraphics().setColor(Color.red);
 		}
 	}
 
@@ -61,6 +76,18 @@ public class PlayerController implements Controller {
 
 		updateAnimationState();
 		updateActions();
+		updateInvulnerability();
+	}
+	
+	private void updateInvulnerability() {
+		if (isInvulnerable) {
+			dmgTimer += TimeInfo.getDelta();
+			if (dmgTimer > INVULNERABLE_TIME) {
+				isInvulnerable = false;
+				dmgTimer = 0;
+				player.getGraphics().setColor(player.getColor());
+			}
+		}
 	}
 
 	private void updateActions() {

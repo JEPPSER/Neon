@@ -37,7 +37,7 @@ public class Spider extends AIEntity {
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof Player && collisionDirection != CollisionDirection.NONE) {
-			((SpiderController) ai).hurtPlayer();
+			((SpiderController) ai).hurtPlayer((Player) other);
 		} else {
 			super.handleCollision(other);
 		}
@@ -102,8 +102,8 @@ public class Spider extends AIEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.red);
-		g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
+		//g.setColor(Color.red);
+		//g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
 		this.graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 	}
 	

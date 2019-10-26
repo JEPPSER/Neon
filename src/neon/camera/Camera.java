@@ -30,7 +30,7 @@ public class Camera {
 	}
 	
 	public void renderPlayField(Level level, Graphics g) {
-		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
+		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2 - focusedEntity.getWidth() / 2;
 		float y = focusedEntity.getY() + offsetY;
 		float height = focusedEntity.getHeight();
 		
