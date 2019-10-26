@@ -3,7 +3,10 @@ package neon.controller;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 
+import neon.combat.Attack;
+import neon.combat.Combat;
 import neon.entity.controllable.Player;
+import neon.graphics.Point;
 import neon.graphics.animation.Animator;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -17,6 +20,7 @@ public class PlayerController implements Controller {
 	private Player player;
 	private Physics ph;
 	private Animator animator;
+	private Combat combat;
 	
 	private float runningSpeed = 0.7f;
 	private float xAcc = 0.008f;
@@ -35,6 +39,7 @@ public class PlayerController implements Controller {
 		this.player = player;
 		this.animator = player.getGraphics().getAnimator();
 		this.ph = player.getPhysics();
+		this.combat = player.getCombat();
 		this.glideDirection = CollisionDirection.NONE;
 		initStateManager();
 	}
@@ -73,10 +78,19 @@ public class PlayerController implements Controller {
 		if (input.isKeyPressed(Input.KEY_LSHIFT)) {
 			dash();
 		}
+		if (input.isKeyPressed(Input.KEY_J)) {
+			combat.startAttack("punch");
+		}
 
 		updateAnimationState();
 		updateActions();
 		updateInvulnerability();
+		updateCombat();
+	}
+	
+	private void updateCombat() {
+		combat.updateAttacks();
+		
 	}
 	
 	private void updateInvulnerability() {

@@ -21,6 +21,15 @@ public abstract class PhysicalEntity implements Entity {
 	protected float y;
 	protected float width;
 	protected float height;
+	protected boolean mirrored;
+	
+	public boolean isMirrored() {
+		return mirrored;
+	}
+	
+	public void setMirrored(boolean mirrored) {
+		this.mirrored = mirrored;
+	}
 
 	public Collision getCollision() {
 		return collision;

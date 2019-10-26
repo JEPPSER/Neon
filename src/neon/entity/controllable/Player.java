@@ -4,11 +4,15 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import neon.combat.Attack;
+import neon.combat.AttackAnimation;
+import neon.combat.Combat;
 import neon.controller.PlayerController;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Point;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;
 import neon.graphics.animation.Animator;
@@ -19,12 +23,12 @@ import neon.physics.CollisionDirection;
 
 public class Player extends ControllableEntity {
 
+	private Combat combat;
 	private EntityGraphics graphics;
 	private Color color;
 	private String name;
 	private float x;
 	private float y;
-	private boolean mirrored = false;
 	private float health;
 	private float maxHealth;
 	
@@ -32,6 +36,7 @@ public class Player extends ControllableEntity {
 		name = "Player";
 		color = Color.magenta;
 		initGraphics();
+		initCombat();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
@@ -109,6 +114,19 @@ public class Player extends ControllableEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
+		
+		drawAttackHitBox(g, offsetX, offsetY);
+	}
+	
+	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
+		Attack attack = combat.getCurrentAttack();
+		if (attack != null) {
+			Rectangle r = attack.getHitBox(this);
+			if (r != null) {
+				g.setColor(Color.red);
+				g.drawRect(r.getX() + offsetX, r.getY() + offsetY, r.getWidth(), r.getHeight());
+			}
+		}
 	}
 
 	@Override
@@ -140,13 +158,27 @@ public class Player extends ControllableEntity {
 			((PlayerController) controller).glide(cd);
 		}
 	}
-
-	public void setMirrored(boolean mirrored) {
-		this.mirrored = mirrored;
+	
+	public Combat getCombat() {
+		return combat;
 	}
-
-	public boolean isMirrored() {
-		return this.mirrored;
+	
+	private void initCombat() {
+		combat = new Combat();
+		
+		// Punch attack
+		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 40, 80), 100);
+		pAnim.getPath().add(new Point(35, 10));
+		pAnim.getPath().add(new Point(40, 10));
+		pAnim.getPath().add(new Point(45, 10));
+		pAnim.getPath().add(new Point(50, 10));
+		pAnim.getPath().add(new Point(55, 10));
+		pAnim.getPath().add(new Point(60, 10));
+		pAnim.getPath().add(new Point(60, 10));
+		pAnim.getPath().add(new Point(60, 10));
+		pAnim.getPath().add(new Point(60, 10));
+		Attack punch = new Attack("punch", 2f, pAnim);
+		combat.addAttack(punch);
 	}
 
 	private void initGraphics() {
