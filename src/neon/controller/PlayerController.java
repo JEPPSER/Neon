@@ -75,7 +75,7 @@ public class PlayerController implements Controller {
 			dash();
 		}
 		if (input.isKeyPressed(Input.KEY_J)) {
-			combat.startAttack("punch");
+			punch();
 		}
 
 		updateAnimationState();
@@ -99,6 +99,10 @@ public class PlayerController implements Controller {
 	}
 
 	private void updateActions() {
+		if (combat.isAttacking()) {
+			return;
+		}
+		
 		if (ph.getYVelocity() == 0) { // Detect idle or running
 			if (ph.getXVelocity() == 0) {
 				sm.activateState("idle");
@@ -131,6 +135,13 @@ public class PlayerController implements Controller {
 	private void updateAnimationState() {
 		if (!animator.getState().equals(sm.getCurrentState())) {
 			animator.setState(sm.getCurrentState());
+		}
+	}
+	
+	private void punch() {
+		if (sm.canActivateState("punching")) {
+			combat.startAttack("punch");
+			sm.activateState("punching");
 		}
 	}
 
@@ -217,45 +228,51 @@ public class PlayerController implements Controller {
 		this.sm = new StateManager();
 
 		// Idle
-		State idle = new State("idle");
+		State idle = new State("idle", true);
 		idle.getToStates().add("running");
 		idle.getToStates().add("dashing");
 		idle.getToStates().add("jumping");
-		//idle.getToStates().add("idle");
+		idle.getToStates().add("punching");
 
 		// Running
-		State running = new State("running");
+		State running = new State("running", true);
 		running.getToStates().add("jumping");
 		running.getToStates().add("dashing");
 		running.getToStates().add("idle");
-		//running.getToStates().add("running");
+		running.getToStates().add("punching");
 
 		// Jumping
-		State jumping = new State("jumping");
+		State jumping = new State("jumping", true);
 		jumping.getToStates().add("idle");
-		//jumping.getToStates().add("running");
 		jumping.getToStates().add("gliding");
 		jumping.getToStates().add("dashing");
+		jumping.getToStates().add("punching");
 
 		// Dashing
-		State dashing = new State("dashing");
+		State dashing = new State("dashing", false);
 		dashing.getToStates().add("idle");
-		//dashing.getToStates().add("running");
 		dashing.getToStates().add("gliding");
+		dashing.getToStates().add("punching");
 
 		// Gliding
-		State gliding = new State("gliding");
+		State gliding = new State("gliding", true);
 		gliding.getToStates().add("jumping");
-		//gliding.getToStates().add("running");
 		gliding.getToStates().add("idle");
 		gliding.getToStates().add("gliding");
+		
+		// Punching
+		State punching = new State("punching", false);
+		punching.getToStates().add("idle");
+		punching.getToStates().add("jumping");
+		punching.getToStates().add("running");
 
 		sm.addState(idle);
 		sm.addState(running);
 		sm.addState(jumping);
 		sm.addState(dashing);
 		sm.addState(gliding);
-		sm.setCurrentState("idle");
+		sm.addState(punching);
+		sm.activateState("idle");
 	}
 	
 	public boolean isInvulnerable() {

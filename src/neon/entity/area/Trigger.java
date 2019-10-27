@@ -27,36 +27,6 @@ public abstract class Trigger extends PhysicalEntity {
 	public abstract void unTriggered();
 
 	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public float getX() {
-		return x;
-	}
-
-	@Override
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	@Override
-	public float getY() {
-		return y;
-	}
-
-	@Override
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	@Override
 	public float getWidth() {
 		return width;
 	}
@@ -102,7 +72,7 @@ public abstract class Trigger extends PhysicalEntity {
 	}
 
 	private void initGraphics() {
-		this.graphics = new EntityGraphics();
+		this.graphics = new EntityGraphics(this.width);
 		this.graphics.setColor(Color.red);
 		this.graphics.setLineWidth(2.0f);
 		ArrayList<Point> points = new ArrayList<Point>();

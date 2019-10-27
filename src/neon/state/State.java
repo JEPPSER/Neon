@@ -6,10 +6,12 @@ public class State {
 	
 	private String name;
 	private ArrayList<String> toStates;
+	private boolean interuptable;
 	
-	public State(String name) {
+	public State(String name, boolean interuptable) {
 		this.name = name;
 		toStates = new ArrayList<String>();
+		this.interuptable = interuptable;
 	}
 	
 	public ArrayList<String> getToStates() {
@@ -18,5 +20,9 @@ public class State {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public boolean isInteruptable() {
+		return interuptable;
 	}
 }

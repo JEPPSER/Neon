@@ -30,15 +30,15 @@ public class Player extends ControllableEntity {
 	public Player(float x, float y) {
 		name = "Player";
 		color = Color.magenta;
-		initGraphics();
-		initCombat();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
-		this.controller = new PlayerController(this);
 		this.health = 10f;
 		this.maxHealth = 10f;
+		initGraphics();
+		initCombat();
+		this.controller = new PlayerController(this);
 	}
 	
 	public void takeDamage(float damage) {
@@ -179,6 +179,11 @@ public class Player extends ControllableEntity {
 		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
 		Animation idle = new Animation(100, true);
 		idle.getSprites().add(idleSprite);
+		
+		// Punch animation
+		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
+		Animation punch = new Animation(100, true);
+		punch.getSprites().add(punch1);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
@@ -187,8 +192,9 @@ public class Player extends ControllableEntity {
 		anim.addAnimation(jumping, "jumping");
 		anim.addAnimation(dashing, "dashing");
 		anim.addAnimation(gliding, "gliding");
+		anim.addAnimation(punch, "punching");
 
-		this.graphics = new EntityGraphics();
+		this.graphics = new EntityGraphics(this.getWidth());
 		this.graphics.setAnimator(anim);
 		// this.graphics.setColor(new Color(0, 0, 255, 255));
 		this.graphics.setColor(color);

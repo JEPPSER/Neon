@@ -15,6 +15,11 @@ public class EntityGraphics {
 	private float lineWidth;
 	private float offsetX = 0f;
 	private float offsetY = 0f;
+	private float entityWidth;
+	
+	public EntityGraphics(float width) {
+		this.entityWidth = width;
+	}
 	
 	public Animator getAnimator() {
 		return this.animator;
@@ -48,13 +53,15 @@ public class EntityGraphics {
 			currentSprite = animator.getCurrentSprite();
 		}
 		ArrayList<Point> points = currentSprite.getPoints();
+		float difX = 0;
 		if (mirrored) {
 			points = mirrorPoints(points);
+			difX = currentSprite.getWidth() - entityWidth;
 		}
 		for (int i = 0; i < points.size() - 1; i++) {
 			Point p1 = points.get(i);
 			Point p2 = points.get(i + 1);
-			g.drawLine(p1.getX() + x + offsetX, p1.getY() + y + offsetY, p2.getX() + x + offsetX, p2.getY() + y + offsetY);
+			g.drawLine(p1.getX() - difX + x + offsetX, p1.getY() + y + offsetY, p2.getX() - difX + x + offsetX, p2.getY() + y + offsetY);
 		}
 	}
 	

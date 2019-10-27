@@ -17,7 +17,7 @@ public class SpiderController implements AIController {
 	private int timer = 0;
 	private boolean mirrored = false;
 	
-	private final int INVULNERABLE_TIME = 1000;
+	private final int INVULNERABLE_TIME = 500;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 

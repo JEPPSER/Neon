@@ -90,7 +90,7 @@ public class Spider extends Enemy {
 		anim.addAnimation(idle, "idle");
 		anim.setState("idle");
 
-		this.graphics = new EntityGraphics();
+		this.graphics = new EntityGraphics(one.getWidth());
 		this.graphics.setAnimator(anim);
 		this.color = Color.gray;
 		this.graphics.setLineWidth(2.0f);
@@ -105,6 +105,5 @@ public class Spider extends Enemy {
 	@Override
 	public void takeDamage(float damage) {
 		((SpiderController) ai).takeDamage(damage);
-		System.out.println(this.health);
 	}
 }

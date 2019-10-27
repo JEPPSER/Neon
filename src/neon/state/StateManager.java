@@ -17,6 +17,9 @@ public class StateManager {
 	}
 	
 	public boolean canActivateState(String state) {
+		if (!currentState.isInteruptable()) {
+			return false;
+		}
 		State toState = states.get(state);
 		ArrayList<String> to = currentState.getToStates();
 		for (int i = 0; i < to.size(); i++) {
@@ -33,9 +36,5 @@ public class StateManager {
 	
 	public String getCurrentState() {
 		return currentState.getName();
-	}
-	
-	public void setCurrentState(String state) {
-		this.currentState = states.get(state);
 	}
 }

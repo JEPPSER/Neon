@@ -33,47 +33,12 @@ public class Rock extends TerrainEntity {
 	}
 
 	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public float getX() {
-		return this.x;
-	}
-
-	@Override
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	@Override
-	public float getY() {
-		return this.y;
-	}
-
-	@Override
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	@Override
-	public EntityGraphics getGraphics() {
-		return this.graphics;
-	}
-
-	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 	
 	private void initGraphics() {
-		this.graphics = new EntityGraphics();
+		this.graphics = new EntityGraphics(this.width);
 		this.graphics.setColor(Color.yellow);
 		this.graphics.setLineWidth(2.0f);
 		ArrayList<Point> points = new ArrayList<Point>();
@@ -111,7 +76,6 @@ public class Rock extends TerrainEntity {
 
 	@Override
 	public void setSize(float width, float height) {
-		// TODO Auto-generated method stub
-		
+
 	}
 }
