@@ -26,6 +26,13 @@ public class Animator {
 		return this.state;
 	}
 	
+	public boolean hasState(String state) {
+		if (animations.get(state) == null) {
+			return false;
+		}
+		return true;
+	}
+	
 	public void addAnimation(Animation animation, String state) {
 		animations.put(state, animation);
 	}

@@ -4,4 +4,5 @@ import neon.entity.controllable.Player;
 
 public interface AIController {
 	public void control(Player player);
+	public void death();
 }

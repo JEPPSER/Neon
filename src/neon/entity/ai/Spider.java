@@ -65,11 +65,7 @@ public class Spider extends Enemy {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		//g.setColor(Color.red);
 		//g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
-		if (((SpiderController) ai).isInvulnerable()) {
-			this.graphics.setColor(Color.red);
-		} else {
-			this.graphics.setColor(this.color);
-		}
+		this.graphics.setColor(this.color);
 		this.graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 	}
 
@@ -84,10 +80,26 @@ public class Spider extends Enemy {
 		Animation moving = new Animation(150, true);
 		moving.getSprites().add(one);
 		moving.getSprites().add(two);
+		
+		// Death animation
+		Sprite death1 = SpriteLoader.getSprite("spider_death_1");
+		Sprite death2 = SpriteLoader.getSprite("spider_death_2");
+		Sprite death3 = SpriteLoader.getSprite("spider_death_3");
+		Sprite death4 = SpriteLoader.getSprite("spider_death_4");
+		Sprite death5 = SpriteLoader.getSprite("spider_death_5");
+		Sprite death6 = SpriteLoader.getSprite("spider_death_6");
+		Animation death = new Animation(100, false);
+		death.getSprites().add(death1);
+		death.getSprites().add(death2);
+		death.getSprites().add(death3);
+		death.getSprites().add(death4);
+		death.getSprites().add(death5);
+		death.getSprites().add(death6);
 
 		Animator anim = new Animator();
 		anim.addAnimation(moving, "moving");
 		anim.addAnimation(idle, "idle");
+		anim.addAnimation(death, "death");
 		anim.setState("idle");
 
 		this.graphics = new EntityGraphics(one.getWidth());

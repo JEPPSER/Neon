@@ -16,6 +16,7 @@ public class SpiderController implements AIController {
 	private float dmg = 1.0f;
 	private int timer = 0;
 	private boolean mirrored = false;
+	private boolean isDead = false;
 	
 	private final int INVULNERABLE_TIME = 500;
 	private int dmgTimer = 0;
@@ -31,8 +32,10 @@ public class SpiderController implements AIController {
 
 	@Override
 	public void control(Player player) {
-		backAndForth(player);
-		updateInvulnerability();
+		if (!isDead) {
+			backAndForth(player);
+			updateInvulnerability();
+		}
 	}
 	
 	public void takeDamage(float damage) {
@@ -97,5 +100,11 @@ public class SpiderController implements AIController {
 
 	public void hurtPlayer(Player player) {
 		player.takeDamage(dmg);
+	}
+
+	@Override
+	public void death() {
+		isDead = true;
+		ph.setXVelocity(0);
 	}
 }
