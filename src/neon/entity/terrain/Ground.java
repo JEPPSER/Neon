@@ -1,14 +1,10 @@
 package neon.entity.terrain;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
-import neon.graphics.Point;
-import neon.graphics.Sprite;
 import neon.physics.Collision;
 import neon.physics.Physics;
 
@@ -39,21 +35,12 @@ public class Ground extends TerrainEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
+		g.setColor(Color.green);
+		g.drawRect(x + offsetX, y + offsetY, width, height);
 	}
 	
 	private void initGraphics() {
 		this.graphics = new EntityGraphics(this.width);
-		this.graphics.setColor(Color.green);
-		this.graphics.setLineWidth(2.0f);
-		ArrayList<Point> points = new ArrayList<Point>();
-		points.add(new Point(0, 0));
-		points.add(new Point(this.width, 0));
-		points.add(new Point(this.width, this.height));
-		points.add(new Point(0, this.height));
-		points.add(new Point(0, 0));
-		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
-		this.graphics.setSprite(sprite);
 	}
 
 	@Override

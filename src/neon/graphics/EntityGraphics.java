@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import neon.graphics.animation.Animator;
 
@@ -47,22 +48,14 @@ public class EntityGraphics {
 	}
 	
 	public void render(Graphics g, float x, float y, float angle, boolean mirrored) {
-		g.setLineWidth(this.lineWidth);
-		g.setColor(this.color);
-		if (animator != null) {
-			currentSprite = animator.getCurrentSprite();
-		}
-		ArrayList<Point> points = currentSprite.getPoints();
+		currentSprite = animator.getCurrentSprite();
 		float difX = 0;
+		Image image = currentSprite.getImage();
 		if (mirrored) {
-			points = mirrorPoints(points);
 			difX = currentSprite.getWidth() - entityWidth;
+			image = currentSprite.getImage().getFlippedCopy(true, false);
 		}
-		for (int i = 0; i < points.size() - 1; i++) {
-			Point p1 = points.get(i);
-			Point p2 = points.get(i + 1);
-			g.drawLine(p1.getX() - difX + x + offsetX, p1.getY() + y + offsetY, p2.getX() - difX + x + offsetX, p2.getY() + y + offsetY);
-		}
+		g.drawImage(image, x + offsetX - difX, y + offsetY, this.color);
 	}
 	
 	public ArrayList<Point> mirrorPoints(ArrayList<Point> points) {

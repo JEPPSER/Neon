@@ -1,14 +1,10 @@
 package neon.entity.terrain;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
-import neon.graphics.Point;
-import neon.graphics.Sprite;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -43,29 +39,22 @@ public class Bounds extends TerrainEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
+		//this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
+		g.setColor(Color.green);
+		g.setLineWidth(2.0f);
+		if (cd == CollisionDirection.DOWN) {
+			g.drawLine(x + offsetX, y + height + offsetY, x + width + offsetX, y + height + offsetY);
+		} else if (cd == CollisionDirection.UP) {
+			g.drawLine(x + offsetX, y + offsetY, x + width + offsetX, y + offsetY);
+		} else if (cd == CollisionDirection.LEFT) {
+			g.drawLine(x + offsetX, y + offsetY, x + offsetX, y + height + offsetY);
+		} else if (cd == CollisionDirection.RIGHT) {
+			g.drawLine(x + width + offsetX, y + offsetY, x + width + offsetX, y + height + offsetY);
+		}
 	}
 
 	private void initGraphics() {
 		this.graphics = new EntityGraphics(this.width);
-		this.graphics.setColor(Color.green);
-		this.graphics.setLineWidth(2.0f);
-		ArrayList<Point> points = new ArrayList<Point>();
-		if (cd == CollisionDirection.DOWN) {
-			points.add(new Point(0, this.height));
-			points.add(new Point(this.width, this.height));
-		} else if (cd == CollisionDirection.UP) {
-			points.add(new Point(0, 0));
-			points.add(new Point(this.width, 0));
-		} else if (cd == CollisionDirection.LEFT) {
-			points.add(new Point(0, 0));
-			points.add(new Point(0, this.height));
-		} else if (cd == CollisionDirection.RIGHT) {
-			points.add(new Point(this.width, 0));
-			points.add(new Point(this.width, this.height));
-		}
-		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
-		this.graphics.setSprite(sprite);
 	}
 
 	@Override

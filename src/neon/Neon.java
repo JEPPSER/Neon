@@ -5,8 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import neon.io.SpriteLoader;
-
 public class Neon extends StateBasedGame{
 
 	public Neon(String name) {
@@ -14,7 +12,6 @@ public class Neon extends StateBasedGame{
 	}
 	
 	public static void main(String[] args) {
-		SpriteLoader sl = new SpriteLoader("res");
 		try {
 			AppGameContainer agc = new AppGameContainer(new Neon("Neon"));
 			agc.setDisplayMode(1600, 900, false);

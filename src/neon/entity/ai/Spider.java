@@ -20,8 +20,8 @@ public class Spider extends Enemy {
 
 	public Spider(float x, float y) {
 		name = "Spider";
-		health = 2f;
-		maxHealth = 2f;
+		health = 4f;
+		maxHealth = 4f;
 		initGraphics();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 35), 1.0f, 10f, true);
@@ -34,7 +34,7 @@ public class Spider extends Enemy {
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof Player && collisionDirection != CollisionDirection.NONE) {
 			((SpiderController) ai).hurtPlayer((Player) other);
-		} else {
+		} else if (!(other instanceof Enemy)){
 			super.handleCollision(other);
 		}
 	}
@@ -63,9 +63,13 @@ public class Spider extends Enemy {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		//g.setColor(Color.red);
+		//g.setColor(this.color);
 		//g.drawRect(x + collision.getHitbox().getX() + offsetX, y + collision.getHitbox().getY() + offsetY, this.getWidth(), this.getHeight());
-		this.graphics.setColor(this.color);
+		if (((SpiderController) ai).isInvulnerable()) {
+			this.graphics.setColor(Color.red);
+		} else {
+			this.graphics.setColor(this.color);
+		}
 		this.graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 	}
 

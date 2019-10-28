@@ -4,22 +4,21 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.Log;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
-import neon.entity.ai.Enemy;
 import neon.entity.ai.Spider;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
+import neon.io.SpriteLoader;
 import neon.level.Level;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
-import neon.combat.Attack;
 import neon.combat.CombatEngine;
 
 public class BasicGame extends BasicGameState {
@@ -36,6 +35,8 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		Log.setVerbose(false);
+		SpriteLoader sl = new SpriteLoader("res");
 		timeInfo = new TimeInfo();
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
@@ -53,7 +54,6 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.setAntiAlias(true);
 		camera.renderPlayField(level, g);
 		p.drawHealthBar(g, gc.getWidth() / 2 - 50, 10);
 	}
@@ -81,6 +81,11 @@ public class BasicGame extends BasicGameState {
 			if (level.getObjects().get(i) instanceof AIEntity) {
 				((AIEntity) level.getObjects().get(i)).control(p);
 			}
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+			Spider spider = new Spider(500, 500);
+			level.getObjects().add(spider);
 		}
 
 		/*
