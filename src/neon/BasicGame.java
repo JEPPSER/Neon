@@ -83,6 +83,13 @@ public class BasicGame extends BasicGameState {
 			}
 		}
 		
+		// Respawns player after death
+		if (p.getHealth() <= 0) {
+			p.setHealth(p.getMaxHealth());
+			p.setX(level.getSpawnPoint().getX());
+			p.setY(level.getSpawnPoint().getY());
+		}
+		
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			Spider spider = new Spider(500, 500);
 			level.getObjects().add(spider);
