@@ -11,13 +11,13 @@ import org.newdawn.slick.util.Log;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.Spider;
-import neon.entity.collectable.CollectableEntity;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
 import neon.level.Level;
+import neon.level.LevelManager;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
@@ -33,17 +33,17 @@ public class BasicGame extends BasicGameState {
 	private PhysicsEngine physics;
 	private CombatEngine combat;
 	private Camera camera;
-	private TimeInfo timeInfo;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		Log.setVerbose(false);
-		SpriteLoader sl = new SpriteLoader("res");
-		timeInfo = new TimeInfo();
+		SpriteLoader sl = new SpriteLoader();
+		sl.searchFolder("res");
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		levelLoader = new LevelLoader();
 		level = levelLoader.readFile("res/levels/level_3.nlvl");
+		LevelManager.setLevel(level);
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);
 		p.setX(level.getSpawnPoint().getX());
@@ -64,7 +64,7 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		timeInfo.setDelta(delta);
+		TimeInfo.setDelta(delta);
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
 		p.control(input);
@@ -83,19 +83,7 @@ public class BasicGame extends BasicGameState {
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			if (level.getObjects().get(i) instanceof AIEntity) { // control ai
 				((AIEntity) level.getObjects().get(i)).control(p);
-			} else if (level.getObjects().get(i) instanceof CollectableEntity) { // remove collected entities
-				CollectableEntity ce = (CollectableEntity) level.getObjects().get(i);
-				if (ce.isCollected()) {
-					level.getObjects().remove(ce);
-				}
 			}
-		}
-		
-		// Respawns player after death
-		if (p.getHealth() <= 0) {
-			p.setHealth(p.getMaxHealth());
-			p.setX(level.getSpawnPoint().getX());
-			p.setY(level.getSpawnPoint().getY());
 		}
 		
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {

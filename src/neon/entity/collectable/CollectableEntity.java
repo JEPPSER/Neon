@@ -10,10 +10,6 @@ public abstract class CollectableEntity extends PhysicalEntity {
 	
 	public abstract void collect(Player player);
 	
-	public boolean isCollected() {
-		return isCollected;
-	}
-	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof TerrainEntity){

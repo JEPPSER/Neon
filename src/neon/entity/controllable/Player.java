@@ -76,7 +76,7 @@ public class Player extends ControllableEntity {
 			this.graphics.setColor(this.color);
 		}
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
-		drawAttackHitBox(g, offsetX, offsetY);
+		//drawAttackHitBox(g, offsetX, offsetY);
 	}
 	
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
@@ -130,16 +130,21 @@ public class Player extends ControllableEntity {
 		combat = new Combat();
 		
 		// Punch attack
-		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 40, 80), 100);
+		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 40, 80), 300);
+		Point endPoint = new Point(60, 10);
 		pAnim.getPath().add(new Point(35, 10));
 		pAnim.getPath().add(new Point(40, 10));
 		pAnim.getPath().add(new Point(45, 10));
 		pAnim.getPath().add(new Point(50, 10));
 		pAnim.getPath().add(new Point(55, 10));
-		pAnim.getPath().add(new Point(60, 10));
-		pAnim.getPath().add(new Point(60, 10));
-		pAnim.getPath().add(new Point(60, 10));
-		pAnim.getPath().add(new Point(60, 10));
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
+		pAnim.getPath().add(endPoint);
 		Attack punch = new Attack("punch", 2f, pAnim);
 		combat.addAttack(punch);
 	}
@@ -185,8 +190,10 @@ public class Player extends ControllableEntity {
 		
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
-		Animation punch = new Animation(100, true);
+		Sprite punch2 = SpriteLoader.getSprite("player_punch_2");
+		Animation punch = new Animation(100, false);
 		punch.getSprites().add(punch1);
+		punch.getSprites().add(punch2);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
@@ -199,9 +206,7 @@ public class Player extends ControllableEntity {
 
 		this.graphics = new EntityGraphics(this.getWidth());
 		this.graphics.setAnimator(anim);
-		// this.graphics.setColor(new Color(0, 0, 255, 255));
 		this.graphics.setColor(color);
-		this.graphics.setLineWidth(2.0f);
 	}
 
 	@Override

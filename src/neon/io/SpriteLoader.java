@@ -13,9 +13,8 @@ public class SpriteLoader {
 	
 	private static ArrayList<Sprite> sprites;
 	
-	public SpriteLoader(String resPath) {
+	public SpriteLoader() {
 		sprites = new ArrayList<Sprite>();
-		searchFolder(resPath);
 	}
 	
 	private Sprite readFile(String path) {
@@ -41,7 +40,7 @@ public class SpriteLoader {
 		return null;
 	}
 	
-	private void searchFolder(String path) {
+	public void searchFolder(String path) {
 		File file = new File(path);
 		File[] list = file.listFiles();
 		for (int i = 0; i < list.length; i++) {

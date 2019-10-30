@@ -5,6 +5,7 @@ import org.newdawn.slick.Input;
 import neon.combat.Combat;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.state.State;
@@ -54,6 +55,13 @@ public class PlayerController implements Controller {
 			player.setHealth(player.getHealth() - damage);
 			dmgTimer = 0;
 			isInvulnerable = true;
+			
+			// Respawns player after death
+			if (player.getHealth() <= 0) {
+				player.setHealth(player.getMaxHealth());
+				player.setX(LevelManager.getSpawnPoint().getX());
+				player.setY(LevelManager.getSpawnPoint().getY());
+			}
 		}
 	}
 
@@ -139,7 +147,7 @@ public class PlayerController implements Controller {
 	}
 	
 	private void punch() {
-		if (sm.canActivateState("punching")) {
+		if (sm.canActivateState("punching") && !combat.isAttacking()) {
 			combat.startAttack("punch");
 			sm.activateState("punching");
 		}

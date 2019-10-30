@@ -4,8 +4,8 @@ public class TimeInfo {
 	
 	private static int delta;
 	
-	public void setDelta(int time) {
-		delta = time;
+	public static void setDelta(int delta) {
+		TimeInfo.delta = delta;
 	}
 	
 	public static int getDelta() {

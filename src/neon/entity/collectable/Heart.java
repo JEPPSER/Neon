@@ -6,15 +6,21 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
+import neon.level.LevelManager;
 import neon.physics.Collision;
 import neon.physics.Physics;
 
 public class Heart extends CollectableEntity {
 	
-	private float health = 1.0f;
+	private float health = 3.0f;
 
 	public Heart(float x, float y) {
 		name = "Heart";
+		color = Color.red;
 		initGraphics();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 50), 1.0f, 10f, true);
@@ -26,11 +32,11 @@ public class Heart extends CollectableEntity {
 
 	@Override
 	public void collect(Player player) {
-		isCollected = true;
 		player.setHealth(player.getHealth() + health);
 		if (player.getHealth() > player.getMaxHealth()) {
 			player.setHealth(player.getMaxHealth());
 		}
+		LevelManager.removeEntity(this);
 	}
 
 	@Override
@@ -60,12 +66,19 @@ public class Heart extends CollectableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.red);
-		g.drawRect(x + offsetX, y + offsetY, this.width, this.height);
+		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 	}
 
 	private void initGraphics() {
+		Sprite one = SpriteLoader.getSprite("heart_1");
+		Animation idle = new Animation(100, true);
+		idle.getSprites().add(one);
+		Animator anim = new Animator();
+		anim.addAnimation(idle, "idle");
+		anim.setState("idle");
 		this.graphics = new EntityGraphics(width);
+		this.graphics.setAnimator(anim);
+		this.graphics.setColor(color);
 	}
 
 	@Override

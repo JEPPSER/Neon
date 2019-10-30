@@ -16,7 +16,7 @@ public class SpiderController implements AIController {
 	private CollisionDirection damageDirection;
 
 	private float speed = 0.2f;
-	private float dmg = 1.0f;
+	private float dmg = 3.0f;
 	private int timer = 0;
 	private boolean mirrored = false;
 	private boolean isDead = false;
