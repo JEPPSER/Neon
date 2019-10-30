@@ -11,6 +11,7 @@ import neon.controller.PlayerController;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
+import neon.entity.collectable.CollectableEntity;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
 import neon.graphics.Sprite;
@@ -102,6 +103,8 @@ public class Player extends ControllableEntity {
 			}
 		} else if (other instanceof AIEntity) {
 
+		} else if (other instanceof CollectableEntity && cd != CollisionDirection.NONE) {
+			((CollectableEntity) other).collect(this);
 		} else if (cd == CollisionDirection.DOWN) {
 			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
 			physics.setYVelocity(0f);

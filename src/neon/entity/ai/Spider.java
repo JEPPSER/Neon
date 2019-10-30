@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.controller.ai.SpiderController;
 import neon.entity.PhysicalEntity;
+import neon.entity.collectable.CollectableEntity;
 import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
@@ -34,6 +35,8 @@ public class Spider extends Enemy {
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof Player && collisionDirection != CollisionDirection.NONE) {
 			((SpiderController) ai).hurtPlayer((Player) other);
+		} else if (other instanceof CollectableEntity) {
+			
 		} else if (!(other instanceof Enemy)){
 			super.handleCollision(other);
 		}
@@ -119,7 +122,7 @@ public class Spider extends Enemy {
 	}
 
 	@Override
-	public void takeDamage(float damage) {
-		((SpiderController) ai).takeDamage(damage);
+	public void takeDamage(float damage, CollisionDirection cd) {
+		((SpiderController) ai).takeDamage(damage, cd);
 	}
 }

@@ -61,16 +61,7 @@ public class Sprite {
 	
 	private void createImage() {
 		try {
-			image = new Image((int) width, (int) height);
-			Graphics g = image.getGraphics();
-			g.setAntiAlias(true);
-			g.setLineWidth(2.5f);
-			g.setColor(Color.white);
-			for (int i = 0; i < points.size() - 1; i++) {
-				Point p1 = points.get(i);
-				Point p2 = points.get(i + 1);
-				g.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-			}
+			image = new Image("res/images/" + name + ".png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}	

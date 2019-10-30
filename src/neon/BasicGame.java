@@ -11,6 +11,8 @@ import org.newdawn.slick.util.Log;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.Spider;
+import neon.entity.collectable.CollectableEntity;
+import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
@@ -50,6 +52,8 @@ public class BasicGame extends BasicGameState {
 
 		Spider spider = new Spider(500, 500);
 		level.getObjects().add(spider);
+		Heart heart = new Heart(700, 500);
+		level.getObjects().add(heart);
 	}
 
 	@Override
@@ -76,10 +80,14 @@ public class BasicGame extends BasicGameState {
 			}
 		}
 
-		// Control all AI entities
 		for (int i = 0; i < level.getObjects().size(); i++) {
-			if (level.getObjects().get(i) instanceof AIEntity) {
+			if (level.getObjects().get(i) instanceof AIEntity) { // control ai
 				((AIEntity) level.getObjects().get(i)).control(p);
+			} else if (level.getObjects().get(i) instanceof CollectableEntity) { // remove collected entities
+				CollectableEntity ce = (CollectableEntity) level.getObjects().get(i);
+				if (ce.isCollected()) {
+					level.getObjects().remove(ce);
+				}
 			}
 		}
 		
@@ -93,6 +101,11 @@ public class BasicGame extends BasicGameState {
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			Spider spider = new Spider(500, 500);
 			level.getObjects().add(spider);
+		}
+		
+		if (input.isKeyPressed(Input.KEY_TAB)) {
+			Heart heart = new Heart(700, 500);
+			level.getObjects().add(heart);
 		}
 
 		/*

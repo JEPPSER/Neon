@@ -3,6 +3,7 @@ package neon.controller.ai;
 import neon.entity.ai.Spider;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
+import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.time.TimeInfo;
 
@@ -11,6 +12,8 @@ public class SpiderController implements AIController {
 	private Spider spider;
 	private Physics ph;
 	private Animator anim;
+	
+	private CollisionDirection damageDirection;
 
 	private float speed = 0.2f;
 	private float dmg = 1.0f;
@@ -26,6 +29,7 @@ public class SpiderController implements AIController {
 		this.spider = spider;
 		this.ph = spider.getPhysics();
 		this.anim = spider.getGraphics().getAnimator();
+		damageDirection = CollisionDirection.NONE;
 		ph.setXVelocity(speed);
 		anim.setState("moving");
 	}
@@ -33,13 +37,18 @@ public class SpiderController implements AIController {
 	@Override
 	public void control(Player player) {
 		if (!isDead) {
-			backAndForth(player);
+			if (!isInvulnerable) {
+				backAndForth(player);
+				//followPlayer(player);
+			}
+			
 			updateInvulnerability();
 		}
 	}
 	
-	public void takeDamage(float damage) {
+	public void takeDamage(float damage, CollisionDirection cd) {
 		if (!isInvulnerable) {
+			damageDirection = cd;
 			spider.setHealth(spider.getHealth() - damage);
 			dmgTimer = 0;
 			isInvulnerable = true;
@@ -52,7 +61,21 @@ public class SpiderController implements AIController {
 			if (dmgTimer > INVULNERABLE_TIME) {
 				isInvulnerable = false;
 				dmgTimer = 0;
+				timer = 3001;
 			}
+			if (dmgTimer > INVULNERABLE_TIME / 2) {
+				ph.setXVelocity(0);
+			} else {
+				knockBack();
+			}
+		}
+	}
+	
+	private void knockBack() {
+		if (damageDirection == CollisionDirection.RIGHT) {
+			ph.setXVelocity(-0.3f);
+		} else if (damageDirection == CollisionDirection.LEFT) {
+			ph.setXVelocity(0.3f);
 		}
 	}
 	

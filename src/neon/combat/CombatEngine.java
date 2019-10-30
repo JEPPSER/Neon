@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import neon.entity.Entity;
 import neon.entity.ai.Enemy;
 import neon.entity.controllable.Player;
+import neon.physics.CollisionDirection;
 
 public class CombatEngine {
 	
@@ -21,7 +22,11 @@ public class CombatEngine {
 					Rectangle tempR = e.getCollision().getHitbox();
 					Rectangle enemyHitBox = new Rectangle(tempR.getX() + e.getX(), tempR.getY() + e.getY(), tempR.getWidth(), tempR.getHeight());
 					if (enemyHitBox.intersects(attackHitBox)) {
-						e.takeDamage(attack.getDamage());
+						if (e.getX() < p.getX()) {
+							e.takeDamage(attack.getDamage(), CollisionDirection.RIGHT);
+						} else {
+							e.takeDamage(attack.getDamage(), CollisionDirection.LEFT);
+						}
 						if (e.getHealth() <= 0) {
 							e.death();
 						}
