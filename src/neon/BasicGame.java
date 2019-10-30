@@ -13,6 +13,7 @@ import neon.entity.ai.AIEntity;
 import neon.entity.ai.Spider;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
+import neon.graphics.Point;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;

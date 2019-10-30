@@ -4,42 +4,61 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import neon.entity.Entity;
-import neon.entity.controllable.ControllableEntity;
+import neon.entity.PhysicalEntity;
+import neon.graphics.Point;
 import neon.level.Level;
 
 public class Camera {
 
-	private ControllableEntity focusedEntity;
+	private PhysicalEntity focusedEntity;
 	private GameContainer gc;
 	private float offsetX;
 	private float offsetY;
+	private Point focalPoint;
 	private float yScrollValue = 0.2f;
+	private float scale = 1.0f;
 
-	public Camera(ControllableEntity focusedEntity, GameContainer gc) {
+	public Camera(PhysicalEntity focusedEntity, GameContainer gc) {
 		this.focusedEntity = focusedEntity;
 		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
 		offsetY = focusedEntity.getY() * -1 + gc.getHeight() / 2;
 		this.gc = gc;
 	}
 
-	public void setFocusedEntity(ControllableEntity focusedEntity) {
+	public void setFocusedEntity(PhysicalEntity focusedEntity) {
 		this.focusedEntity = focusedEntity;
 	}
 
-	public ControllableEntity getFocusedEntity() {
+	public PhysicalEntity getFocusedEntity() {
 		return this.focusedEntity;
 	}
 
 	public void renderPlayField(Level level, Graphics g) {
-		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2 - focusedEntity.getWidth() / 2;
-		float y = focusedEntity.getY() + offsetY;
+		g.scale(scale, scale);
+		
+		float focalX;
+		float focalY;
+		if (focalPoint == null) {
+			focalX = focusedEntity.getX();
+			focalY = focusedEntity.getY();
+		} else {
+			focalX = focalPoint.getX();
+			focalY = focalPoint.getY();
+		}
+		
+		offsetX = focalX * -1 + gc.getWidth() / (2f * scale) - focusedEntity.getWidth() / 2;
+		float y = offsetY + focalY;
 		float height = focusedEntity.getHeight();
 
-		// Scroll screen vertically
-		if (y > gc.getHeight() - height - gc.getHeight() * yScrollValue) {
-			offsetY = -focusedEntity.getY() + gc.getHeight() - height - gc.getHeight() * yScrollValue;
-		} else if (y < gc.getHeight() * yScrollValue) {
-			offsetY = -focusedEntity.getY() + gc.getHeight() * yScrollValue;
+		if (focalPoint == null) {
+			// Scroll screen vertically
+			if (y > gc.getHeight() - height - gc.getHeight() * yScrollValue) {
+				offsetY = -focalY + gc.getHeight() - height - gc.getHeight() * yScrollValue;
+			} else if (y < gc.getHeight() * yScrollValue) {
+				offsetY = -focalY + gc.getHeight() * yScrollValue;
+			}
+		} else {
+			offsetY = focalY * -1 + gc.getHeight() / (2f * scale);
 		}
 
 		for (int i = 0; i < level.getObjects().size(); i++) {
@@ -47,6 +66,14 @@ public class Camera {
 				level.getObjects().get(i).render(g, offsetX, offsetY);
 			}
 		}
+	}
+	
+	public void zoom(float scale) {
+		this.scale = scale;
+	}
+	
+	public void setFocalPoint(Point focalPoint) {
+		this.focalPoint = focalPoint;
 	}
 
 	private boolean isInView(Entity entity) {
