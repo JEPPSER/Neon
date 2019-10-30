@@ -21,7 +21,7 @@ public class CombatEngine {
 					Enemy e = (Enemy) objects.get(i);
 					Rectangle tempR = e.getCollision().getHitbox();
 					Rectangle enemyHitBox = new Rectangle(tempR.getX() + e.getX(), tempR.getY() + e.getY(), tempR.getWidth(), tempR.getHeight());
-					if (enemyHitBox.intersects(attackHitBox)) {
+					if (!e.isDead() && enemyHitBox.intersects(attackHitBox)) {
 						if (e.getX() < p.getX()) {
 							e.takeDamage(attack.getDamage(), CollisionDirection.RIGHT);
 						} else {

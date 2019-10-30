@@ -1,8 +1,10 @@
 package neon.controller.ai;
 
 import neon.entity.ai.Spider;
+import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.time.TimeInfo;
@@ -129,5 +131,13 @@ public class SpiderController implements AIController {
 	public void death() {
 		isDead = true;
 		ph.setXVelocity(0);
+		Heart heart = new Heart(spider.getX(), spider.getY() - 50);
+		LevelManager.addEntity(heart);
+		heart.getPhysics().setYVelocity(-1.5f);
+		if (damageDirection == CollisionDirection.RIGHT) {
+			heart.getPhysics().setXVelocity(-0.2f);
+		} else if (damageDirection == CollisionDirection.LEFT) {
+			heart.getPhysics().setXVelocity(0.2f);
+		}
 	}
 }
