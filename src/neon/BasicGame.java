@@ -22,7 +22,10 @@ import neon.level.LevelManager;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
+import neon.camera.CameraScript;
 import neon.combat.CombatEngine;
+import neon.cutscene.Cutscene;
+import neon.cutscene.CutsceneManager;
 
 public class BasicGame extends BasicGameState {
 
@@ -30,6 +33,7 @@ public class BasicGame extends BasicGameState {
 
 	private Player p;
 	private LevelLoader levelLoader;
+	private CutsceneManager cutsceneManager;
 	private Level level;
 	private PhysicsEngine physics;
 	private CombatEngine combat;
@@ -55,6 +59,18 @@ public class BasicGame extends BasicGameState {
 		level.getObjects().add(spider);
 		Heart heart = new Heart(700, 500);
 		level.getObjects().add(heart);
+		
+		cutsceneManager = new CutsceneManager();
+		Cutscene cutscene = new Cutscene(5000);
+		CameraScript cs = new CameraScript();
+		cs.addFocalPoint(1000, 500, 500, 1);
+		cs.addFocalPoint(2000, 500, 500, 2);
+		cs.addFocalPoint(3000, 400, 500, 2);
+		cs.addFocalPoint(4000, 400, 400, 1);
+		cs.addFocalPoint(5000, 200, 500, 1);
+		cutscene.setCameraScript(cs);
+		cutsceneManager.getCutscenes().add(cutscene);
+		cutscene.startCutscene();
 	}
 
 	@Override
@@ -68,7 +84,10 @@ public class BasicGame extends BasicGameState {
 		TimeInfo.setDelta(delta);
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
-		p.control(input);
+		cutsceneManager.updateCutScenes(camera);
+		if (!cutsceneManager.isCutsceneRunnging()) {
+			p.control(input);
+		}
 		combat.updateCombat(level.getObjects(), p);
 
 		// Updates timing for all animations

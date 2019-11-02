@@ -33,6 +33,7 @@ public class Cutscene {
 		cameraScript.updateScript(ellapsedTime, camera);
 		if (ellapsedTime > duration) {
 			isRunning = false;
+			camera.setFocalPoint(null);
 		}
 	}
 	
