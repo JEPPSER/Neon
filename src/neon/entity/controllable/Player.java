@@ -61,12 +61,6 @@ public class Player extends ControllableEntity {
 	public void setMaxHealth(float maxHealth) {
 		this.maxHealth = maxHealth;
 	}
-	
-	public void drawHealthBar(Graphics g, float x, float y) {
-		g.setColor(Color.white);
-		g.drawRect(x, y, 100, 20);
-		g.fillRect(x, y, (health / maxHealth) * 100, 20);
-	}
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
@@ -76,6 +70,7 @@ public class Player extends ControllableEntity {
 			this.graphics.setColor(this.color);
 		}
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
+		//drawHealthBar(g, screenWidth / 2 - 50, 50);
 		//drawAttackHitBox(g, offsetX, offsetY);
 	}
 	

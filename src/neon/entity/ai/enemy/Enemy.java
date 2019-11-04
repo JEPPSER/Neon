@@ -1,5 +1,6 @@
-package neon.entity.ai;
+package neon.entity.ai.enemy;
 
+import neon.entity.ai.AIEntity;
 import neon.physics.CollisionDirection;
 import neon.time.TimeInfo;
 

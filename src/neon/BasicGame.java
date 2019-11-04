@@ -1,19 +1,25 @@
 package neon;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
-import neon.entity.ai.Spider;
+import neon.entity.ai.enemy.Gorilla;
+import neon.entity.ai.enemy.Spider;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
-import neon.graphics.Point;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
@@ -22,9 +28,7 @@ import neon.level.LevelManager;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
-import neon.camera.CameraScript;
 import neon.combat.CombatEngine;
-import neon.cutscene.Cutscene;
 import neon.cutscene.CutsceneManager;
 
 public class BasicGame extends BasicGameState {
@@ -41,7 +45,10 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		Log.setVerbose(false);
+		gc.setShowFPS(false);
+		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
+		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
+		Log.setVerbose(true);
 		SpriteLoader sl = new SpriteLoader();
 		sl.searchFolder("res");
 		physics = new PhysicsEngine();
@@ -51,36 +58,42 @@ public class BasicGame extends BasicGameState {
 		LevelManager.setLevel(level);
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);
+		camera.zoom(defaultZoom);
+		camera.pan(0, gc.getHeight() - Display.getHeight());
 		p.setX(level.getSpawnPoint().getX());
 		p.setY(level.getSpawnPoint().getY());
 		level.getObjects().add(p);
 
 		Spider spider = new Spider(500, 500);
 		level.getObjects().add(spider);
+		Gorilla gorilla = new Gorilla(500, 500);
+		level.getObjects().add(gorilla);
 		Heart heart = new Heart(700, 500);
 		level.getObjects().add(heart);
-		
+
 		cutsceneManager = new CutsceneManager();
-		Cutscene cutscene = new Cutscene(5000);
-		CameraScript cs = new CameraScript();
-		cs.addFocalPoint(1000, 500, 500, 1);
-		cs.addFocalPoint(2000, 500, 500, 2);
-		cs.addFocalPoint(3000, 400, 500, 2);
-		cs.addFocalPoint(4000, 400, 400, 1);
-		cs.addFocalPoint(5000, 200, 500, 1);
-		cutscene.setCameraScript(cs);
-		cutsceneManager.getCutscenes().add(cutscene);
-		cutscene.startCutscene();
+		/*
+		 * Cutscene cutscene = new Cutscene(5000); CameraScript cs = new
+		 * CameraScript(); cs.addFocalPoint(1000, 500, 500, 1);
+		 * cs.addFocalPoint(2000, 500, 500, 2); cs.addFocalPoint(3000, 400, 500,
+		 * 2); cs.addFocalPoint(4000, 400, 400, 1); cs.addFocalPoint(5000, 200,
+		 * 500, 1); cutscene.setCameraScript(cs);
+		 * cutsceneManager.getCutscenes().add(cutscene);
+		 * cutscene.startCutscene();
+		 */
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		camera.renderPlayField(level, g);
-		p.drawHealthBar(g, gc.getWidth() / 2 - 50, 10);
+		camera.renderStaticElements(gc, g, p);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		if (delta > 50) {
+			delta = 0;
+		}
 		TimeInfo.setDelta(delta);
 		Input input = gc.getInput();
 		physics.applyPhysics(level.getObjects());
@@ -105,12 +118,12 @@ public class BasicGame extends BasicGameState {
 				((AIEntity) level.getObjects().get(i)).control(p);
 			}
 		}
-		
+
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			Spider spider = new Spider(500, 500);
 			level.getObjects().add(spider);
 		}
-		
+
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			Heart heart = new Heart(700, 500);
 			level.getObjects().add(heart);

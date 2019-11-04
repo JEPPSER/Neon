@@ -1,4 +1,4 @@
-package neon.entity.ai;
+package neon.entity.ai.enemy;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

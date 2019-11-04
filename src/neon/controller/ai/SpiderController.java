@@ -1,6 +1,6 @@
 package neon.controller.ai;
 
-import neon.entity.ai.Spider;
+import neon.entity.ai.enemy.Spider;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;

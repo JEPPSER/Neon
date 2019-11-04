@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.Entity;
-import neon.entity.ai.Enemy;
+import neon.entity.ai.enemy.Enemy;
 import neon.entity.controllable.Player;
 import neon.physics.CollisionDirection;
 
