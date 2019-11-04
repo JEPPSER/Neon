@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
+import neon.entity.area.TextTrigger;
 import neon.entity.controllable.Player;
 import neon.graphics.Point;
 import neon.level.Level;
@@ -72,20 +73,24 @@ public class Camera {
 		}
 
 		for (int i = 0; i < level.getObjects().size(); i++) {
-			if (isInView(level.getObjects().get(i))) {
-				level.getObjects().get(i).render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
+			Entity e = level.getObjects().get(i);
+			if (isInView(e)) {
+				if (e instanceof TextTrigger) {
+					((TextTrigger) e).setScale(scale);
+				}
+				e.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
 			}
 		}
 	}
 	
 	public void renderStaticElements(GameContainer gc, Graphics g, Player p) {
-		float difx = gc.getWidth() - Display.getWidth();
 		float dify = gc.getHeight() - Display.getHeight();
-		float x = ((float) Display.getWidth() / 2f + difx - 50) / scale;
+		float x = (float) Display.getWidth() / scale / 2f - 100;
 		float y = dify + 20;
 		g.setColor(Color.white);
-		g.drawRect(x, y, 100, 20);
-		g.fillRect(x, y, (p.getHealth() / p.getMaxHealth()) * 100, 20);
+		g.drawRect(x, y, 200, 30);
+		g.setColor(Color.green);
+		g.fillRect(x + 2, y + 2, (p.getHealth() / p.getMaxHealth()) * 200 - 4, 30 - 4);
 		g.resetFont();
 		g.drawString("FPS: " + String.valueOf(gc.getFPS()), 10, y);
 	}

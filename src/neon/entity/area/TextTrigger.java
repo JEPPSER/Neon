@@ -15,6 +15,7 @@ public class TextTrigger extends Trigger {
 	private String text = "";
 	private TrueTypeFont font;
 	private TextAnimation anim;
+	private float scale;
 	
 	public TextTrigger() {
 		this.name = "TextTrigger";
@@ -38,14 +39,17 @@ public class TextTrigger extends Trigger {
 		anim = new TextAnimation();
 		anim.setFont(font);
 		anim.setType(AnimationType.FADE);
-		anim.setX(textX);
 		anim.setY(textY);
+	}
+	
+	public void setScale(float scale) {
+		this.scale = scale;
 	}
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
-		anim.render(g, text, offsetX, offsetY);
+		anim.render(g, text, scale);
 		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 }

@@ -1,5 +1,6 @@
 package neon.graphics.animation;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
@@ -81,7 +82,8 @@ public class TextAnimation {
 		}
 	}
 	
-	public void render(Graphics g, String text, float offsetX, float offsetY) {
+	public void render(Graphics g, String text, float scale) {
+		x = (float) Display.getWidth() / scale / 2f - (float) this.font.getWidth(text) / 2f;
 		if (type == AnimationType.DROP) {
 			renderDrop(g, text);
 		} else if (type == AnimationType.FADE) {
