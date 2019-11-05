@@ -55,7 +55,7 @@ public class EntityGraphics {
 			difX = currentSprite.getWidth() - entityWidth;
 			image = currentSprite.getImage().getFlippedCopy(true, false);
 		}
-		g.drawImage(image, x + offsetX - difX, y + offsetY, this.color);
+		g.drawImage(image, x + offsetX - difX + currentSprite.getOffsetX(), y + offsetY + currentSprite.getOffsetY(), this.color);
 	}
 	
 	public ArrayList<Point> mirrorPoints(ArrayList<Point> points) {

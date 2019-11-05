@@ -59,9 +59,9 @@ public class BasicGame extends BasicGameState {
 		p.setY(level.getSpawnPoint().getY());
 		level.getObjects().add(p);
 
-		Spider spider = new Spider(500, 500);
+		Spider spider = new Spider(1000, 500);
 		level.getObjects().add(spider);
-		Gorilla gorilla = new Gorilla(500, 500);
+		Gorilla gorilla = new Gorilla(1000, 500);
 		level.getObjects().add(gorilla);
 		Heart heart = new Heart(700, 500);
 		level.getObjects().add(heart);

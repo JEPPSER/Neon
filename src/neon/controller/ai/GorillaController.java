@@ -9,12 +9,12 @@ import neon.physics.Physics;
 import neon.time.TimeInfo;
 
 public class GorillaController implements AIController {
-	
+
 	private Gorilla gorilla;
 	private Physics ph;
 	private Animator anim;
 	private Combat combat;
-	
+
 	private CollisionDirection damageDirection;
 
 	private float speed = 0.2f;
@@ -24,8 +24,8 @@ public class GorillaController implements AIController {
 	private final int MOVEMENT_INTERVAL = 2000;
 	private final float MINIMUM_DISTANCE = 200;
 	private boolean isDead = false;
-	
-	private final int INVULNERABLE_TIME = 500;
+
+	private final int INVULNERABLE_TIME = 1000;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 
@@ -43,24 +43,41 @@ public class GorillaController implements AIController {
 			updateMovement(player);
 			updateInvulnerability();
 			updateCombat();
+			updateAnimations();
 		}
 	}
 	
+	private void updateAnimations() {
+		if (combat.isAttacking()) {
+			if (!anim.getState().equals("ground_smash")) {
+				anim.setState("ground_smash");
+			}
+		} else {
+			if (ph.getXVelocity() != 0 && !anim.getState().equals("walk")) {
+				anim.setState("walk");
+			} else if (ph.getXVelocity() == 0 && !anim.getState().equals("idle")) {
+				anim.setState("idle");
+			}
+		}
+	}
+
 	private void updateCombat() {
 		combat.updateAttacks();
 		if (cooldownTimer < COOLDOWN) {
 			cooldownTimer += TimeInfo.getDelta();
 		}
 	}
-	
+
 	private void updateMovement(Player player) {
 		movementTimer += TimeInfo.getDelta();
 		if (movementTimer > MOVEMENT_INTERVAL * 2) {
 			movementTimer = 0;
 		}
-		
+
 		float playerX = player.getX() + player.getWidth() / 2;
 		float gorX = gorilla.getX() + gorilla.getWidth() / 2;
+		float playerY = player.getY() + player.getHeight() / 2;
+		float gorY = gorilla.getY() + gorilla.getHeight() / 2;
 		if (!combat.isAttacking()) {
 			if (gorX > playerX) {
 				gorilla.setMirrored(true);
@@ -68,12 +85,13 @@ public class GorillaController implements AIController {
 				gorilla.setMirrored(false);
 			}
 		}
-		
-		if (Math.abs(gorX - playerX) < MINIMUM_DISTANCE && cooldownTimer >= COOLDOWN) {
+
+		if (Math.abs(gorX - playerX) < MINIMUM_DISTANCE && cooldownTimer >= COOLDOWN
+				&& Math.abs(gorY - playerY) < MINIMUM_DISTANCE) {
 			combat.startAttack("ground_smash");
 			cooldownTimer = 0;
 		}
-		
+
 		if (canMove()) {
 			if (Math.abs(gorX - playerX) > MINIMUM_DISTANCE) {
 				if (gorX > playerX) {
@@ -88,11 +106,11 @@ public class GorillaController implements AIController {
 			ph.setXVelocity(0);
 		}
 	}
-	
+
 	private boolean canMove() {
 		return (movementTimer < MOVEMENT_INTERVAL);
 	}
-	
+
 	private void updateInvulnerability() {
 		if (isInvulnerable) {
 			dmgTimer += TimeInfo.getDelta();
@@ -107,7 +125,7 @@ public class GorillaController implements AIController {
 			}
 		}
 	}
-	
+
 	private void knockBack() {
 		if (damageDirection == CollisionDirection.RIGHT) {
 			ph.setXVelocity(-0.3f);
@@ -118,7 +136,7 @@ public class GorillaController implements AIController {
 
 	@Override
 	public void death() {
-		
+
 	}
 
 	@Override

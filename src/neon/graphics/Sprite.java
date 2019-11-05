@@ -14,13 +14,31 @@ public class Sprite {
 	private String name;
 	private float width;
 	private float height;
-	
+	private float offsetX;
+	private float offsetY;
+
 	public Sprite(ArrayList<Point> points, float width, float height, String name) {
 		this.points = points;
 		this.name = name;
 		this.width = width;
 		this.height = height;
 		createImage();
+	}
+	
+	public float getOffsetX() {
+		return offsetX;
+	}
+
+	public void setOffsetX(float offsetX) {
+		this.offsetX = offsetX;
+	}
+
+	public float getOffsetY() {
+		return offsetY;
+	}
+
+	public void setOffsetY(float offsetY) {
+		this.offsetY = offsetY;
 	}
 	
 	public ArrayList<Point> getPoints() {
