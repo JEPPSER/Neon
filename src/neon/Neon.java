@@ -17,10 +17,6 @@ public class Neon extends StateBasedGame{
 	public static void main(String[] args) {
 		try {
 			AppGameContainer agc = new AppGameContainer(new Neon("Neon"));
-			DisplayMode[] modes = Display.getAvailableDisplayModes();
-			for (int i = 0; i < modes.length; i++) {
-				System.out.println(modes[i]);
-			}
 			//agc.setDisplayMode(1920, 1080, true);
 			//agc.setDisplayMode(1280, 720, false);
 			agc.setDisplayMode(1600, 900, false);
@@ -29,8 +25,6 @@ public class Neon extends StateBasedGame{
 			agc.setAlwaysRender(true);
 			agc.start();
 		} catch (SlickException e) {
-			e.printStackTrace();
-		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
 	}

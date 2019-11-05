@@ -24,8 +24,8 @@ public class Gorilla extends Enemy {
 	
 	public Gorilla(float x, float y) {
 		name = "Gorilla";
-		health = 20f;
-		maxHealth = 20f;
+		health = 10f;
+		maxHealth = 10f;
 		this.color = Color.lightGray;
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 200, 200), 1.0f, 10f, true);
@@ -166,9 +166,25 @@ public class Gorilla extends Enemy {
 		groundSmash.getSprites().add(smash1);
 		groundSmash.getSprites().add(smash2);
 		
+		// Death animation
+		Sprite d1 = SpriteLoader.getSprite("gorilla_death_1");
+		Sprite d2 = SpriteLoader.getSprite("gorilla_death_2");
+		Sprite d3 = SpriteLoader.getSprite("gorilla_death_3");
+		Sprite d4 = SpriteLoader.getSprite("gorilla_death_4");
+		Sprite d5 = SpriteLoader.getSprite("gorilla_death_5");
+		Sprite d6 = SpriteLoader.getSprite("gorilla_death_6");
+		Animation death = new Animation(100, false);
+		death.getSprites().add(d1);
+		death.getSprites().add(d2);
+		death.getSprites().add(d3);
+		death.getSprites().add(d4);
+		death.getSprites().add(d5);
+		death.getSprites().add(d6);
+		
 		anim.addAnimation(idle, "idle");
 		anim.addAnimation(walk, "walk");
 		anim.addAnimation(groundSmash, "ground_smash");
+		anim.addAnimation(death, "death");
 		anim.setState("idle");
 	}
 }

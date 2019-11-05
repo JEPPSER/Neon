@@ -49,7 +49,7 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		levelLoader = new LevelLoader();
-		level = levelLoader.readFile("res/levels/level_4.nlvl");
+		level = levelLoader.readFile("res/levels/level_3.nlvl");
 		LevelManager.setLevel(level);
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);
@@ -61,7 +61,7 @@ public class BasicGame extends BasicGameState {
 
 		Spider spider = new Spider(1000, 500);
 		level.getObjects().add(spider);
-		Gorilla gorilla = new Gorilla(1000, 500);
+		Gorilla gorilla = new Gorilla(3000, 500);
 		level.getObjects().add(gorilla);
 		Heart heart = new Heart(700, 500);
 		level.getObjects().add(heart);
