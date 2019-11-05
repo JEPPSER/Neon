@@ -35,6 +35,8 @@ public class CombatEngine {
 			}
 		}
 		
+		updateEnemyCombat(objects, p);
+		
 		// Checks for dead enemies that can be despawned
 		for (int i = 0; i < objects.size(); i++) {
 			if (objects.get(i) instanceof Enemy) {
@@ -42,6 +44,23 @@ public class CombatEngine {
 				if (e.isDead()) {
 					if (e.canDespawn()) {
 						objects.remove(e);
+					}
+				}
+			}
+		}
+	}
+	
+	private void updateEnemyCombat(ArrayList<Entity> objects, Player p) {
+		for (int i = 0; i < objects.size(); i++) {
+			if (objects.get(i) instanceof Enemy) {
+				Enemy e = (Enemy) objects.get(i);
+				if (e.getCombat().isAttacking()) {
+					Attack attack = e.getCombat().getCurrentAttack();
+					Rectangle attackHitbox = attack.getHitBox(e);
+					Rectangle tempR = p.getCollision().getHitbox();
+					Rectangle playerHitBox = new Rectangle(tempR.getX() + p.getX(), tempR.getY() + p.getY(), tempR.getWidth(), tempR.getHeight());
+					if (playerHitBox.intersects(attackHitbox)) {
+						p.takeDamage(attack.getDamage());
 					}
 				}
 			}

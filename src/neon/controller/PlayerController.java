@@ -199,6 +199,10 @@ public class PlayerController implements Controller {
 	}
 
 	private void right() {
+		if (combat.isAttacking()) {
+			ph.setXVelocity(0);
+			return;
+		}
 		if (sm.canActivateState("running")) {
 			sm.activateState("running");
 		}
@@ -216,6 +220,10 @@ public class PlayerController implements Controller {
 	}
 
 	private void left() {
+		if (combat.isAttacking()) {
+			ph.setXVelocity(0);
+			return;
+		}
 		if (sm.canActivateState("running")) {
 			sm.activateState("running");
 		}

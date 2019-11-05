@@ -1,15 +1,10 @@
 package neon;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
@@ -54,7 +49,7 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		levelLoader = new LevelLoader();
-		level = levelLoader.readFile("res/levels/level_3.nlvl");
+		level = levelLoader.readFile("res/levels/level_4.nlvl");
 		LevelManager.setLevel(level);
 		p = new Player(300, 100);
 		camera = new Camera(p, gc);

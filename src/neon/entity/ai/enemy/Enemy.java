@@ -1,5 +1,6 @@
 package neon.entity.ai.enemy;
 
+import neon.combat.Combat;
 import neon.entity.ai.AIEntity;
 import neon.physics.CollisionDirection;
 import neon.time.TimeInfo;
@@ -12,6 +13,7 @@ public abstract class Enemy extends AIEntity {
 	protected float despawn = 1000;
 	protected float despawnTimer = 0;
 	protected boolean isDead = false;
+	protected Combat combat;
 	
 	public abstract void takeDamage(float damage, CollisionDirection cd);
 	
@@ -21,6 +23,10 @@ public abstract class Enemy extends AIEntity {
 	
 	public void setHealth(float health) {
 		this.health = health;
+	}
+	
+	public Combat getCombat() {
+		return combat;
 	}
 	
 	public void death() {

@@ -1,5 +1,6 @@
 package neon.controller.ai;
 
+import neon.combat.Combat;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
@@ -12,12 +13,16 @@ public class GorillaController implements AIController {
 	private Gorilla gorilla;
 	private Physics ph;
 	private Animator anim;
+	private Combat combat;
 	
 	private CollisionDirection damageDirection;
 
 	private float speed = 0.2f;
-	private int timer = 0;
-	private boolean mirrored = false;
+	private int movementTimer = 0;
+	private int cooldownTimer = 0;
+	private final int COOLDOWN = 2000;
+	private final int MOVEMENT_INTERVAL = 2000;
+	private final float MINIMUM_DISTANCE = 200;
 	private boolean isDead = false;
 	
 	private final int INVULNERABLE_TIME = 500;
@@ -27,19 +32,65 @@ public class GorillaController implements AIController {
 	public GorillaController(Gorilla gorilla) {
 		this.gorilla = gorilla;
 		this.ph = gorilla.getPhysics();
-		//this.anim = gorilla.getGraphics().getAnimator();
+		this.combat = gorilla.getCombat();
+		this.anim = gorilla.getGraphics().getAnimator();
 		this.damageDirection = CollisionDirection.NONE;
 	}
 
 	@Override
 	public void control(Player player) {
 		if (!isDead) {
-			if (!isInvulnerable) {
-				ph.setXVelocity(0f);
-			}
-			
+			updateMovement(player);
 			updateInvulnerability();
+			updateCombat();
 		}
+	}
+	
+	private void updateCombat() {
+		combat.updateAttacks();
+		if (cooldownTimer < COOLDOWN) {
+			cooldownTimer += TimeInfo.getDelta();
+		}
+	}
+	
+	private void updateMovement(Player player) {
+		movementTimer += TimeInfo.getDelta();
+		if (movementTimer > MOVEMENT_INTERVAL * 2) {
+			movementTimer = 0;
+		}
+		
+		float playerX = player.getX() + player.getWidth() / 2;
+		float gorX = gorilla.getX() + gorilla.getWidth() / 2;
+		if (!combat.isAttacking()) {
+			if (gorX > playerX) {
+				gorilla.setMirrored(true);
+			} else {
+				gorilla.setMirrored(false);
+			}
+		}
+		
+		if (Math.abs(gorX - playerX) < MINIMUM_DISTANCE && cooldownTimer >= COOLDOWN) {
+			combat.startAttack("ground_smash");
+			cooldownTimer = 0;
+		}
+		
+		if (canMove()) {
+			if (Math.abs(gorX - playerX) > MINIMUM_DISTANCE) {
+				if (gorX > playerX) {
+					ph.setXVelocity(-speed);
+				} else {
+					ph.setXVelocity(speed);
+				}
+			} else {
+				ph.setXVelocity(0);
+			}
+		} else {
+			ph.setXVelocity(0);
+		}
+	}
+	
+	private boolean canMove() {
+		return (movementTimer < MOVEMENT_INTERVAL);
 	}
 	
 	private void updateInvulnerability() {
@@ -48,7 +99,6 @@ public class GorillaController implements AIController {
 			if (dmgTimer > INVULNERABLE_TIME) {
 				isInvulnerable = false;
 				dmgTimer = 0;
-				timer = 3001;
 			}
 			if (dmgTimer > INVULNERABLE_TIME / 2) {
 				ph.setXVelocity(0);

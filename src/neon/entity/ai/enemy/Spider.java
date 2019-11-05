@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import neon.combat.Combat;
 import neon.controller.ai.SpiderController;
 import neon.entity.PhysicalEntity;
 import neon.entity.collectable.CollectableEntity;
@@ -29,6 +30,7 @@ public class Spider extends Enemy {
 		this.x = x;
 		this.y = y;
 		this.ai = new SpiderController(this);
+		this.combat = new Combat();
 	}
 
 	@Override
