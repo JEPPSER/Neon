@@ -12,6 +12,7 @@ import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
 import neon.entity.collectable.CollectableEntity;
+import neon.entity.terrain.TerrainEntity;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
 import neon.graphics.Sprite;
@@ -27,7 +28,7 @@ public class Player extends ControllableEntity {
 	private Combat combat;
 	private float health;
 	private float maxHealth;
-	
+
 	public Player(float x, float y) {
 		name = "Player";
 		color = Color.yellow;
@@ -41,23 +42,23 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 	}
-	
+
 	public void takeDamage(float damage) {
 		((PlayerController) controller).takeDamage(damage);
 	}
-	
+
 	public void setHealth(float health) {
 		this.health = health;
 	}
-	
+
 	public float getHealth() {
 		return health;
 	}
-	
+
 	public float getMaxHealth() {
 		return maxHealth;
 	}
-	
+
 	public void setMaxHealth(float maxHealth) {
 		this.maxHealth = maxHealth;
 	}
@@ -70,10 +71,10 @@ public class Player extends ControllableEntity {
 			this.graphics.setColor(this.color);
 		}
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
-		//drawHealthBar(g, screenWidth / 2 - 50, 50);
-		//drawAttackHitBox(g, offsetX, offsetY);
+		// drawHealthBar(g, screenWidth / 2 - 50, 50);
+		// drawAttackHitBox(g, offsetX, offsetY);
 	}
-	
+
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
 		Attack attack = combat.getCurrentAttack();
 		if (attack != null) {
@@ -98,32 +99,36 @@ public class Player extends ControllableEntity {
 			}
 		} else if (other instanceof AIEntity) {
 
-		} else if (other instanceof CollectableEntity && cd != CollisionDirection.NONE) {
-			((CollectableEntity) other).collect(this);
-		} else if (cd == CollisionDirection.DOWN) {
-			this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
-			physics.setYVelocity(0f);
-		} else if (cd == CollisionDirection.UP) {
-			this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-			physics.setYVelocity(0f);
-		} else if (cd == CollisionDirection.RIGHT) {
-			this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
-			physics.setXVelocity(0f);
-			((PlayerController) controller).glide(cd);
-		} else if (cd == CollisionDirection.LEFT) {
-			this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-			physics.setXVelocity(0f);
-			((PlayerController) controller).glide(cd);
+		} else if (other instanceof CollectableEntity) {
+			if (cd != CollisionDirection.NONE) {
+				((CollectableEntity) other).collect(this);
+			}
+		} else if (pe == other && other instanceof TerrainEntity) {
+			if (cd == CollisionDirection.DOWN) {
+				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+				physics.setYVelocity(0f);
+			} else if (cd == CollisionDirection.UP) {
+				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+				physics.setYVelocity(0f);
+			} else if (cd == CollisionDirection.RIGHT) {
+				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+				physics.setXVelocity(0f);
+				((PlayerController) controller).glide(cd);
+			} else if (cd == CollisionDirection.LEFT) {
+				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+				physics.setXVelocity(0f);
+				((PlayerController) controller).glide(cd);
+			}
 		}
 	}
-	
+
 	public Combat getCombat() {
 		return combat;
 	}
-	
+
 	private void initCombat() {
 		combat = new Combat();
-		
+
 		// Punch attack
 		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 40, 80), 300);
 		Point endPoint = new Point(60, 10);
@@ -182,7 +187,7 @@ public class Player extends ControllableEntity {
 		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
 		Animation idle = new Animation(100, true);
 		idle.getSprites().add(idleSprite);
-		
+
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
 		Sprite punch2 = SpriteLoader.getSprite("player_punch_2");
@@ -206,7 +211,7 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public int getID() {
-		return 0;
+		return -1;
 	}
 
 	@Override

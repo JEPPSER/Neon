@@ -58,9 +58,13 @@ public class PlayerController implements Controller {
 			
 			// Respawns player after death
 			if (player.getHealth() <= 0) {
-				player.setHealth(player.getMaxHealth());
-				player.setX(LevelManager.getSpawnPoint().getX());
-				player.setY(LevelManager.getSpawnPoint().getY());
+				if (LevelManager.getCheckpoint() != null) {
+					LevelManager.resetFromCheckpoint();
+				} else {
+					player.setHealth(player.getMaxHealth());
+					player.setX(LevelManager.getSpawnPoint().getX());
+					player.setY(LevelManager.getSpawnPoint().getY());
+				}
 			}
 		}
 	}

@@ -10,6 +10,11 @@ import neon.physics.Physics;
 
 public abstract class Trigger extends PhysicalEntity {
 	
+	protected String text;
+	protected float textX;
+	protected float textY;
+	protected float scale = 1.0f;
+
 	public Trigger() {
 		this.name = "Trigger";
 		this.physics = new Physics(0f, 0f);
@@ -20,6 +25,38 @@ public abstract class Trigger extends PhysicalEntity {
 	public abstract void setTrigger(String text, float textX, float textY);
 	
 	public abstract void unTriggered();
+	
+	public float getScale() {
+		return scale;
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public float getTextX() {
+		return textX;
+	}
+
+	public void setTextX(float textX) {
+		this.textX = textX;
+	}
+
+	public float getTextY() {
+		return textY;
+	}
+
+	public void setTextY(float textY) {
+		this.textY = textY;
+	}
 
 	@Override
 	public float getWidth() {
@@ -54,11 +91,6 @@ public abstract class Trigger extends PhysicalEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
-	}
-
-	@Override
-	public int getID() {
-		return 1;
 	}
 
 	private void initGraphics() {

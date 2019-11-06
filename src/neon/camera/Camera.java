@@ -7,10 +7,11 @@ import org.newdawn.slick.Graphics;
 
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
-import neon.entity.area.TextTrigger;
+import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.graphics.Point;
 import neon.level.Level;
+import neon.level.LevelManager;
 
 public class Camera {
 
@@ -45,6 +46,9 @@ public class Camera {
 	}
 
 	public void renderPlayField(Level level, Graphics g) {
+		if (focusedEntity == null) {
+			focusedEntity = LevelManager.getLevel().getPlayer();
+		}
 		g.scale(scale, scale);
 		
 		float focalX;
@@ -75,15 +79,16 @@ public class Camera {
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
 			if (isInView(e)) {
-				if (e instanceof TextTrigger) {
-					((TextTrigger) e).setScale(scale);
+				if (e instanceof Trigger) {
+					((Trigger) e).setScale(scale);
 				}
 				e.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
 			}
 		}
 	}
 	
-	public void renderStaticElements(GameContainer gc, Graphics g, Player p) {
+	public void renderStaticElements(GameContainer gc, Graphics g) {
+		Player p = LevelManager.getLevel().getPlayer();
 		float dify = gc.getHeight() - Display.getHeight();
 		float x = (float) Display.getWidth() / scale / 2f - 100;
 		float y = dify + 20;

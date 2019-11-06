@@ -1,6 +1,8 @@
 package neon.level;
 
+import neon.camera.Camera;
 import neon.entity.Entity;
+import neon.entity.controllable.Player;
 import neon.graphics.Point;
 
 import java.util.ArrayList;
@@ -11,10 +13,33 @@ public class Level {
 	
 	private Point spawnPoint;
 	private Color background;
+	private Player player;
+	private Camera camera;
+
 	private float width;
 	private float height;
 	private String name;
 	private ArrayList<Entity> objects;
+	
+	public Level() {
+		objects = new ArrayList<Entity>();
+	}
+	
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
 	public Point getSpawnPoint() {
 		return spawnPoint;

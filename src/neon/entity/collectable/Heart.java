@@ -99,6 +99,6 @@ public class Heart extends CollectableEntity {
 
 	@Override
 	public int getID() {
-		return 0;
+		return 4;
 	}
 }

@@ -120,7 +120,7 @@ public class Spider extends Enemy {
 
 	@Override
 	public int getID() {
-		return 0;
+		return 2;
 	}
 
 	@Override

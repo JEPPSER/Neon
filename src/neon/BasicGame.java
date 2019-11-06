@@ -11,14 +11,12 @@ import org.newdawn.slick.util.Log;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
-import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
-import neon.level.Level;
 import neon.level.LevelManager;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
@@ -30,10 +28,8 @@ public class BasicGame extends BasicGameState {
 
 	public static int id = 1;
 
-	private Player p;
 	private LevelLoader levelLoader;
 	private CutsceneManager cutsceneManager;
-	private Level level;
 	private PhysicsEngine physics;
 	private CombatEngine combat;
 	private Camera camera;
@@ -46,25 +42,17 @@ public class BasicGame extends BasicGameState {
 		Log.setVerbose(true);
 		SpriteLoader sl = new SpriteLoader();
 		sl.searchFolder("res");
+		
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
+		
 		levelLoader = new LevelLoader();
-		level = levelLoader.readFile("res/levels/level_3.nlvl");
-		LevelManager.setLevel(level);
-		p = new Player(300, 100);
-		camera = new Camera(p, gc);
+		LevelManager.setLevel(levelLoader.readFile("res/levels/level_1.nlvl"));
+		
+		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
+		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
 		camera.pan(0, gc.getHeight() - Display.getHeight());
-		p.setX(level.getSpawnPoint().getX());
-		p.setY(level.getSpawnPoint().getY());
-		level.getObjects().add(p);
-
-		Spider spider = new Spider(1000, 500);
-		level.getObjects().add(spider);
-		Gorilla gorilla = new Gorilla(3000, 500);
-		level.getObjects().add(gorilla);
-		Heart heart = new Heart(700, 500);
-		level.getObjects().add(heart);
 
 		cutsceneManager = new CutsceneManager();
 		/*
@@ -80,8 +68,8 @@ public class BasicGame extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		camera.renderPlayField(level, g);
-		camera.renderStaticElements(gc, g, p);
+		camera.renderPlayField(LevelManager.getLevel(), g);
+		camera.renderStaticElements(gc, g);
 	}
 
 	@Override
@@ -90,38 +78,39 @@ public class BasicGame extends BasicGameState {
 			delta = 0;
 		}
 		TimeInfo.setDelta(delta);
+		Player p = LevelManager.getLevel().getPlayer();
 		Input input = gc.getInput();
-		physics.applyPhysics(level.getObjects());
+		physics.applyPhysics(LevelManager.getLevel().getObjects());
 		cutsceneManager.updateCutScenes(camera);
 		if (!cutsceneManager.isCutsceneRunnging()) {
 			p.control(input);
 		}
-		combat.updateCombat(level.getObjects(), p);
+		combat.updateCombat(LevelManager.getLevel().getObjects(), p);
 
 		// Updates timing for all animations
-		for (int i = 0; i < level.getObjects().size(); i++) {
-			if (level.getObjects().get(i) instanceof PhysicalEntity) {
-				Animator anim = ((PhysicalEntity) level.getObjects().get(i)).getGraphics().getAnimator();
+		for (int i = 0; i < LevelManager.getLevel().getObjects().size(); i++) {
+			if (LevelManager.getLevel().getObjects().get(i) instanceof PhysicalEntity) {
+				Animator anim = ((PhysicalEntity) LevelManager.getLevel().getObjects().get(i)).getGraphics().getAnimator();
 				if (anim != null) {
 					anim.updateAnimations();
 				}
 			}
 		}
 
-		for (int i = 0; i < level.getObjects().size(); i++) {
-			if (level.getObjects().get(i) instanceof AIEntity) { // control ai
-				((AIEntity) level.getObjects().get(i)).control(p);
+		for (int i = 0; i < LevelManager.getLevel().getObjects().size(); i++) {
+			if (LevelManager.getLevel().getObjects().get(i) instanceof AIEntity) { // control ai
+				((AIEntity) LevelManager.getLevel().getObjects().get(i)).control(p);
 			}
 		}
 
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			Spider spider = new Spider(500, 500);
-			level.getObjects().add(spider);
+			LevelManager.getLevel().getObjects().add(spider);
 		}
 
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			Heart heart = new Heart(700, 500);
-			level.getObjects().add(heart);
+			LevelManager.getLevel().getObjects().add(heart);
 		}
 
 		/*

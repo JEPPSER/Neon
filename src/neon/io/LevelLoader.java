@@ -9,8 +9,12 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import neon.entity.Entity;
+import neon.entity.ai.enemy.Gorilla;
+import neon.entity.ai.enemy.Spider;
+import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.TextTrigger;
-import neon.entity.area.Trigger;
+import neon.entity.collectable.Heart;
+import neon.entity.controllable.Player;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.graphics.Point;
@@ -40,29 +44,10 @@ public class LevelLoader {
 			Point p = new Point(Float.parseFloat(point[0]), Float.parseFloat(point[1]));
 			level.setSpawnPoint(p);
 
-			ArrayList<Entity> objects = new ArrayList<Entity>();
+			ArrayList<Entity> objects = level.getObjects();
 			for (int i = 3; i < lines.length; i++) {
 				String[] parts = lines[i].split(",");
-				int id = Integer.parseInt(parts[0]);
-				Entity e = getEntityFromID(id);
-				
-				float x = Float.parseFloat(parts[1]);
-				float y = Float.parseFloat(parts[2]);
-				e.setX(x);
-				e.setY(y);
-				
-				float height = 0;
-				float width = 0;
-				if (parts.length >= 5) {
-					width = Float.parseFloat(parts[3]);
-					height = Float.parseFloat(parts[4]);
-					e.setSize(width, height);
-				}
-				
-				if (e instanceof Trigger) {
-					((Trigger) e).setTrigger(parts[5], Float.parseFloat(parts[6]), Float.parseFloat(parts[7]));
-				}
-				
+				Entity e = getEntity(parts);
 				objects.add(e);
 			}
 			
@@ -75,7 +60,7 @@ public class LevelLoader {
 		return null;
 	}
 	
-	private void setBounds(Level level, ArrayList<Entity> objects) {
+	public static void setBounds(Level level, ArrayList<Entity> objects) {
 		Bounds ceil = new Bounds(CollisionDirection.DOWN);
 		ceil.setX(0);
 		ceil.setY(-100);
@@ -96,14 +81,86 @@ public class LevelLoader {
 		right.setY(0);
 		right.setSize(100, level.getHeight());
 		objects.add(right);
+		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY());
+		objects.add(p);
+		level.setPlayer(p);
 	}
 	
-	private Entity getEntityFromID(int id) {
+	private static Entity getEntity(String[] parts) {
+		int id = Integer.parseInt(parts[0]);
 		if (id == 0) {
-			return new Ground();
+			return createGround(parts);
 		} else if (id == 1) {
-			return new TextTrigger();
+			return createTextTrigger(parts);
+		} else if (id == 2) {
+			return createSpider(parts);
+		} else if (id == 3) {
+			return createGorilla(parts);
+		} else if (id == 4) {
+			return createHeart(parts);
+		} else if (id == 5) {
+			return createCheckpoint(parts);
 		}
 		return null;
+	}
+	
+	private static CheckpointTrigger createCheckpoint(String[] parts) {
+		CheckpointTrigger g = new CheckpointTrigger();
+		g.setX(Float.parseFloat(parts[1]));
+		g.setY(Float.parseFloat(parts[2]));
+		g.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		g.setTrigger("", 0, 0);
+		return g;
+	}
+	
+	private static Heart createHeart(String[] parts) {
+		Heart h = new Heart(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return h;
+	}
+	
+	private static Gorilla createGorilla(String[] parts) {
+		Gorilla s = new Gorilla(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return s;
+	}
+	
+	private static Spider createSpider(String[] parts) {
+		Spider s = new Spider(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return s;
+	}
+	
+	private static Ground createGround(String[] parts) {
+		Ground g = new Ground();
+		g.setX(Float.parseFloat(parts[1]));
+		g.setY(Float.parseFloat(parts[2]));
+		g.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return g;
+	}
+	
+	private static TextTrigger createTextTrigger(String[] parts) {
+		TextTrigger t = new TextTrigger();
+		t.setX(Float.parseFloat(parts[1]));
+		t.setY(Float.parseFloat(parts[2]));
+		t.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		t.setTrigger(parts[5], 0, 100);
+		return t;
+	}
+	
+	public static Entity copyEntity(Entity e) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(e.getID());
+		sb.append(",");
+		sb.append(e.getX());
+		sb.append(",");
+		sb.append(e.getY());
+		sb.append(",");
+		sb.append(e.getWidth());
+		sb.append(",");
+		sb.append(e.getHeight());
+		if (e.getID() == 1) {
+			sb.append(",");
+			sb.append(((TextTrigger) e).getText());
+		}
+		String line = sb.toString();
+		return getEntity(line.split(","));
 	}
 }

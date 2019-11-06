@@ -102,7 +102,7 @@ public class Gorilla extends Enemy {
 
 	@Override
 	public int getID() {
-		return 0;
+		return 3;
 	}
 
 	@Override
