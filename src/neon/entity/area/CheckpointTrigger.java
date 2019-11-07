@@ -58,8 +58,8 @@ public class CheckpointTrigger extends Trigger {
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.red);
-		g.drawRect(x + offsetX, y + offsetY, width, height);
+//		g.setColor(Color.red);
+//		g.drawRect(x + offsetX, y + offsetY, width, height);
 		anim.render(g, "Checkpoint has been reached.", scale);
 	}
 }

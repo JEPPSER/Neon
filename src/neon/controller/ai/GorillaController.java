@@ -141,7 +141,7 @@ public class GorillaController implements AIController {
 	public void death() {
 		isDead = true;
 		ph.setXVelocity(0);
-		Portal portal = new Portal(gorilla.getX() + 75, 800);
+		Portal portal = new Portal(8300, 800);
 		LevelManager.addEntity(portal);
 	}
 
