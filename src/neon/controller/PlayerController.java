@@ -56,12 +56,16 @@ public class PlayerController implements Controller {
 		if (player.getHealth() <= 0) {
 			death();
 			updateAnimationState();
+			input.clearKeyPressedRecord();
+			input.clearControlPressedRecord();
 			return;
 		}
 		
 		if (sm.getCurrentState().equals("spawn")) {
 			spawn();
 			updateAnimationState();
+			input.clearKeyPressedRecord();
+			input.clearControlPressedRecord();
 			return;
 		}
 		
@@ -102,6 +106,9 @@ public class PlayerController implements Controller {
 	public void takeDamage(float damage) {
 		if (!isInvulnerable) {
 			player.setHealth(player.getHealth() - damage);
+			if (player.getHealth() < 0) {
+				player.setHealth(0);
+			}
 			dmgTimer = 0;
 			isInvulnerable = true;
 		}
@@ -112,18 +119,21 @@ public class PlayerController implements Controller {
 		if (!sm.getCurrentState().equals("death")) {
 			sm.activateState("death");
 			player.getCollision().setMovable(false);
+			if (combat.isAttacking()) {
+				combat.getCurrentAttack().cancelAttack();
+			}
 		}
 		if (deathTimer >= DEATH_TIME) {
 			deathTimer = 0;
 			if (LevelManager.getCheckpoint() != null) {
 				LevelManager.resetFromCheckpoint();
 			} else {
+				sm.activateState("spawn");
+				isInvulnerable = false;
 				player.setHealth(player.getMaxHealth());
 				player.setX(LevelManager.getSpawnPoint().getX());
 				player.setY(LevelManager.getSpawnPoint().getY());
 			}
-			sm.activateState("spawn");
-			isInvulnerable = false;
 		}
 	}
 	

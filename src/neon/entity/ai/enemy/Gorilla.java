@@ -85,8 +85,10 @@ public class Gorilla extends Enemy {
 		}
 		//g.drawRect(x + offsetX, y + offsetY, width, height);
 		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
-		drawHealthBar(g, x + offsetX + (width - 100) / 2, y + offsetY - 40);
-		drawAttackHitBox(g, offsetX, offsetY);
+		if (!isDead) {
+			drawHealthBar(g, x + offsetX + (width - 100) / 2, y + offsetY - 40);
+		}
+		//drawAttackHitBox(g, offsetX, offsetY);
 	}
 	
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {

@@ -3,6 +3,7 @@ package neon.level;
 import java.util.ArrayList;
 
 import neon.entity.Entity;
+import neon.entity.ai.enemy.Gorilla;
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.TerrainEntity;
