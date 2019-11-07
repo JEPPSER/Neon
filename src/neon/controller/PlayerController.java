@@ -75,13 +75,13 @@ public class PlayerController implements Controller {
 				&& !input.isControllerLeft(Input.ANY_CONTROLLER) && !input.isControllerRight(Input.ANY_CONTROLLER)) {
 			stop();
 		}
-		if (input.isKeyPressed(Input.KEY_SPACE) || input.isControllerDown(0)) {
+		if (input.isKeyPressed(Input.KEY_SPACE) || input.isButton1Pressed(Input.ANY_CONTROLLER)) {
 			jump();
 		}
-		if (input.isKeyPressed(Input.KEY_LSHIFT)) {
+		if (input.isKeyPressed(Input.KEY_LSHIFT) || input.isButton3Pressed(Input.ANY_CONTROLLER)) {
 			dash();
 		}
-		if (input.isKeyPressed(Input.KEY_J)) {
+		if (input.isKeyPressed(Input.KEY_J) || input.isButton2Pressed(Input.ANY_CONTROLLER)) {
 			punch();
 		}
 
@@ -267,16 +267,15 @@ public class PlayerController implements Controller {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
-			if (direction == 1) {
-				direction = 0;
-				ph.setXVelocity(ph.getXVelocity() * -1);
-				player.setMirrored(false);
-			}
 			float vel = ph.getXVelocity() + xAcc * TimeInfo.getDelta();
 			if (vel > runningSpeed) {
 				vel = runningSpeed;
 			}
 			ph.setXVelocity(vel);
+			if (direction == 1) {
+				direction = 0;
+				player.setMirrored(false);
+			}
 		}
 	}
 
@@ -289,16 +288,15 @@ public class PlayerController implements Controller {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
-			if (direction == 0) {
-				direction = 1;
-				ph.setXVelocity(ph.getXVelocity() * -1);
-				player.setMirrored(true);
-			}
 			float vel = ph.getXVelocity() - xAcc * TimeInfo.getDelta();
 			if (vel * -1 > runningSpeed) {
 				vel = runningSpeed * -1;
 			}
 			ph.setXVelocity(vel);
+			if (direction == 0) {
+				direction = 1;
+				player.setMirrored(true);
+			}
 		}
 	}
 
