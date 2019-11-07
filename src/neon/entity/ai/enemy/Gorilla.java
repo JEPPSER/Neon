@@ -86,7 +86,7 @@ public class Gorilla extends Enemy {
 		//g.drawRect(x + offsetX, y + offsetY, width, height);
 		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 		drawHealthBar(g, x + offsetX + (width - 100) / 2, y + offsetY - 40);
-		//drawAttackHitBox(g, offsetX, offsetY);
+		drawAttackHitBox(g, offsetX, offsetY);
 	}
 	
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
@@ -118,13 +118,13 @@ public class Gorilla extends Enemy {
 		combat = new Combat();
 		
 		// Ground smash attack
-		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 200, 50), 300);
+		AttackAnimation pAnim = new AttackAnimation(new Rectangle(0, 0, 200, 50), 500);
 		Point endPoint = new Point(80, 150);
-		pAnim.getPath().add(new Point(60, 0));
-		pAnim.getPath().add(new Point(60, 0));
-		pAnim.getPath().add(new Point(60, 0));
-		pAnim.getPath().add(new Point(60, 0));
-		pAnim.getPath().add(new Point(70, 30));
+		pAnim.getPath().add(new Point(10, 60));
+		pAnim.getPath().add(new Point(10, 60));
+		pAnim.getPath().add(new Point(10, 60));
+		pAnim.getPath().add(new Point(10, 60));
+		pAnim.getPath().add(new Point(50, 60));
 		pAnim.getPath().add(new Point(80, 60));
 		pAnim.getPath().add(new Point(80, 90));
 		pAnim.getPath().add(new Point(80, 120));

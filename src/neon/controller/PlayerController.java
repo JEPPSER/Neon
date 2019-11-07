@@ -21,7 +21,7 @@ public class PlayerController implements Controller {
 	private Combat combat;
 
 	private float runningSpeed = 0.7f;
-	private float xAcc = 0.005f;
+	private float xAcc = 0.008f;
 	private int direction = 0; // 0 = right, 1 = left
 	private CollisionDirection glideDirection;
 
@@ -65,14 +65,14 @@ public class PlayerController implements Controller {
 			return;
 		}
 		
-		if (input.isKeyDown(Input.KEY_A) || input.isControllerLeft(Input.ANY_CONTROLLER)) {
+		if (input.isKeyDown(Input.KEY_A)/* || input.isControllerLeft(Input.ANY_CONTROLLER)*/) {
 			left();
 		}
-		if (input.isKeyDown(Input.KEY_D) || input.isControllerRight(Input.ANY_CONTROLLER)) {
+		if (input.isKeyDown(Input.KEY_D)/* || input.isControllerRight(Input.ANY_CONTROLLER)*/) {
 			right();
 		}
 		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A) 
-				&& !input.isControllerLeft(Input.ANY_CONTROLLER) && !input.isControllerRight(Input.ANY_CONTROLLER)) {
+				/*&& !input.isControllerLeft(Input.ANY_CONTROLLER) && !input.isControllerRight(Input.ANY_CONTROLLER)*/) {
 			stop();
 		}
 		if (input.isKeyPressed(Input.KEY_SPACE) || input.isButton1Pressed(Input.ANY_CONTROLLER)) {
