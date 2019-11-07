@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
+import neon.entity.collectable.Portal;
 import neon.time.TimeInfo;
 
 public class PhysicsEngine {
@@ -16,7 +17,7 @@ public class PhysicsEngine {
 		for (int i = 0; i < playField.size(); i++) {
 			if (playField.get(i) instanceof PhysicalEntity) {
 				PhysicalEntity e = (PhysicalEntity) playField.get(i);
-				if (e.getCollision().isMovable()) {
+				if (e.getCollision().isMovable() && !(e instanceof Portal)) {
 					float vel = e.getPhysics().getYVelocity() + gravity * TimeInfo.getDelta();
 					if (vel > maxYVelocity) {
 						vel = maxYVelocity;

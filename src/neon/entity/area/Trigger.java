@@ -1,6 +1,5 @@
 package neon.entity.area;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.PhysicalEntity;
@@ -86,11 +85,6 @@ public abstract class Trigger extends PhysicalEntity {
 		this.collision.getHitbox().setHeight(height);
 		this.collision.getHitbox().setWidth(width);
 		initGraphics();
-	}
-
-	@Override
-	public void render(Graphics g, float offsetX, float offsetY) {
-		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 
 	private void initGraphics() {

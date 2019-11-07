@@ -14,6 +14,7 @@ import neon.entity.ai.enemy.Spider;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.TextTrigger;
 import neon.entity.collectable.Heart;
+import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
@@ -100,8 +101,15 @@ public class LevelLoader {
 			return createHeart(parts);
 		} else if (id == 5) {
 			return createCheckpoint(parts);
+		} else if (id == 6) {
+			return createPortal(parts);
 		}
 		return null;
+	}
+	
+	private static Portal createPortal(String[] parts) {
+		Portal p = new Portal(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return p;
 	}
 	
 	private static CheckpointTrigger createCheckpoint(String[] parts) {
