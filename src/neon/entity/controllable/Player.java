@@ -42,6 +42,10 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 	}
+	
+	public void enterPortal() {
+		((PlayerController) controller).portal();
+	}
 
 	public void takeDamage(float damage) {
 		((PlayerController) controller).takeDamage(damage);
@@ -216,6 +220,28 @@ public class Player extends ControllableEntity {
 		spawn.getSprites().add(d2);
 		spawn.getSprites().add(d1);
 		spawn.getSprites().add(idleSprite);
+		
+		// Portal animation
+		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
+		Sprite p2 = SpriteLoader.getSprite("player_portal_2");
+		Sprite p3 = SpriteLoader.getSprite("player_portal_3");
+		Sprite p4 = SpriteLoader.getSprite("player_portal_4");
+		Sprite p5 = SpriteLoader.getSprite("player_portal_5");
+		Sprite p6 = SpriteLoader.getSprite("player_portal_6");
+		p1.setOffsetY(-50);
+		p2.setOffsetY(-50);
+		p3.setOffsetY(-50);
+		p4.setOffsetY(-50);
+		p5.setOffsetY(-50);
+		p6.setOffsetY(-50);
+		Animation portal = new Animation(70, false);
+		portal.getSprites().add(p1);
+		portal.getSprites().add(p2);
+		portal.getSprites().add(p3);
+		portal.getSprites().add(p4);
+		portal.getSprites().add(p5);
+		portal.getSprites().add(p6);
+		portal.getSprites().add(d5);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
@@ -227,6 +253,7 @@ public class Player extends ControllableEntity {
 		anim.addAnimation(punch, "punching");
 		anim.addAnimation(death, "death");
 		anim.addAnimation(spawn, "spawn");
+		anim.addAnimation(portal, "portal");
 
 		this.graphics = new EntityGraphics(this.getWidth());
 		this.graphics.setAnimator(anim);

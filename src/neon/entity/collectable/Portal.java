@@ -78,7 +78,7 @@ public class Portal extends CollectableEntity {
 
 	@Override
 	public void collect(Player player) {
-		System.exit(1);
+		player.enterPortal();
 	}
 	
 	private void initGraphics() {

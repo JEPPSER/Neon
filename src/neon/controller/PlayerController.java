@@ -90,9 +90,30 @@ public class PlayerController implements Controller {
 			player.getCollision().setMovable(true);
 		}
 	}
+	
+	public void portal() {
+		sm.activateState("portal");
+		player.getCollision().setMovable(false);
+	}
+	
+	private void updatePortal() {
+		deathTimer += TimeInfo.getDelta();
+		if (deathTimer >= DEATH_TIME) {
+			deathTimer = 0;
+			sm.activateState("idle");
+			player.getCollision().setMovable(true);
+			System.exit(1);
+		}
+	}
 
 	@Override
 	public void control(Input input) {
+		if (sm.getCurrentState().equals("portal")) {
+			updatePortal();
+			updateAnimationState();
+			return;
+		}
+		
 		if (player.getHealth() <= 0) {
 			death();
 			updateAnimationState();
@@ -288,6 +309,7 @@ public class PlayerController implements Controller {
 		idle.getToStates().add("jumping");
 		idle.getToStates().add("punching");
 		idle.getToStates().add("death");
+		idle.getToStates().add("portal");
 
 		// Running
 		State running = new State("running", true);
@@ -296,6 +318,7 @@ public class PlayerController implements Controller {
 		running.getToStates().add("idle");
 		running.getToStates().add("punching");
 		running.getToStates().add("death");
+		running.getToStates().add("portal");
 
 		// Jumping
 		State jumping = new State("jumping", true);
@@ -304,6 +327,7 @@ public class PlayerController implements Controller {
 		jumping.getToStates().add("dashing");
 		jumping.getToStates().add("punching");
 		jumping.getToStates().add("death");
+		jumping.getToStates().add("portal");
 
 		// Dashing
 		State dashing = new State("dashing", false);
@@ -311,6 +335,7 @@ public class PlayerController implements Controller {
 		dashing.getToStates().add("gliding");
 		dashing.getToStates().add("punching");
 		dashing.getToStates().add("death");
+		dashing.getToStates().add("portal");
 
 		// Gliding
 		State gliding = new State("gliding", true);
@@ -318,6 +343,7 @@ public class PlayerController implements Controller {
 		gliding.getToStates().add("idle");
 		gliding.getToStates().add("gliding");
 		gliding.getToStates().add("death");
+		gliding.getToStates().add("portal");
 
 		// Punching
 		State punching = new State("punching", false);
@@ -325,6 +351,7 @@ public class PlayerController implements Controller {
 		punching.getToStates().add("jumping");
 		punching.getToStates().add("running");
 		punching.getToStates().add("death");
+		punching.getToStates().add("portal");
 
 		// Death
 		State death = new State("death", false);
@@ -332,6 +359,9 @@ public class PlayerController implements Controller {
 		// Spawn
 		State spawn = new State("spawn", false);
 		spawn.getToStates().add("idle");
+		
+		// Portal
+		State portal = new State("portal", false);
 
 		sm.addState(idle);
 		sm.addState(running);
@@ -341,6 +371,7 @@ public class PlayerController implements Controller {
 		sm.addState(punching);
 		sm.addState(death);
 		sm.addState(spawn);
+		sm.addState(portal);
 		sm.activateState("spawn");
 	}
 
