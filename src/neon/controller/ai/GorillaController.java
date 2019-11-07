@@ -2,7 +2,6 @@ package neon.controller.ai;
 
 import neon.combat.Combat;
 import neon.entity.ai.enemy.Gorilla;
-import neon.entity.collectable.Heart;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;

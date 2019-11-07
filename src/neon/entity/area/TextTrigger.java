@@ -30,6 +30,7 @@ public class TextTrigger extends Trigger {
 
 	@Override
 	public void triggered() {
+		anim.setX((float) Display.getWidth() / scale / 2f - (float) this.font.getWidth(text) / 2f);
 		anim.show();
 	}
 

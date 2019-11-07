@@ -3,7 +3,6 @@ package neon.entity.area;
 import java.awt.Font;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -22,6 +21,7 @@ public class CheckpointTrigger extends Trigger {
 	public CheckpointTrigger() {
 		this.name = "CheckpointTrigger";
 		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, 30), true);
+		text = "Checkpoint has been reaced.";
 	}
 
 	@Override
@@ -31,6 +31,7 @@ public class CheckpointTrigger extends Trigger {
 
 	@Override
 	public void triggered() {
+		anim.setX((float) Display.getWidth() / scale / 2f - (float) this.font.getWidth(text) / 2f);
 		anim.show();
 		if (!isTriggered) {
 			isTriggered = true;
@@ -47,7 +48,7 @@ public class CheckpointTrigger extends Trigger {
 		anim.setFont(font);
 		anim.setType(AnimationType.FADE);
 		anim.setY(100);
-		anim.setX((float) Display.getWidth() / scale / 2f - (float) this.font.getWidth("Checkpoint has been reached.") / 2f);
+		anim.setX((float) Display.getWidth() / scale / 2f - (float) this.font.getWidth(text) / 2f);
 	}
 
 	@Override
@@ -60,6 +61,6 @@ public class CheckpointTrigger extends Trigger {
 	public void render(Graphics g, float offsetX, float offsetY) {
 //		g.setColor(Color.red);
 //		g.drawRect(x + offsetX, y + offsetY, width, height);
-		anim.render(g, "Checkpoint has been reached.", scale);
+		anim.render(g, text, scale);
 	}
 }

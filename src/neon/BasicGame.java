@@ -13,7 +13,6 @@ import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.collectable.Heart;
-import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
@@ -102,16 +101,6 @@ public class BasicGame extends BasicGameState {
 			if (LevelManager.getLevel().getObjects().get(i) instanceof AIEntity) { // control ai
 				((AIEntity) LevelManager.getLevel().getObjects().get(i)).control(p);
 			}
-		}
-
-		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-			Spider spider = new Spider(500, 500);
-			LevelManager.getLevel().getObjects().add(spider);
-		}
-
-		if (input.isKeyPressed(Input.KEY_TAB)) {
-			Heart heart = new Heart(700, 500);
-			LevelManager.getLevel().getObjects().add(heart);
 		}
 
 		/*
