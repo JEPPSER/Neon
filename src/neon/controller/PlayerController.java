@@ -19,15 +19,18 @@ public class PlayerController implements Controller {
 	private Physics ph;
 	private Animator animator;
 	private Combat combat;
-	
+
 	private float runningSpeed = 0.7f;
 	private float xAcc = 0.008f;
 	private int direction = 0; // 0 = right, 1 = left
 	private CollisionDirection glideDirection;
-	
+
 	private final int INVULNERABLE_TIME = 1000;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
+
+	private int deathTimer = 0;
+	private final int DEATH_TIME = 1000;
 
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;
@@ -49,28 +52,59 @@ public class PlayerController implements Controller {
 			glideDirection = cd;
 		}
 	}
-	
+
 	public void takeDamage(float damage) {
 		if (!isInvulnerable) {
 			player.setHealth(player.getHealth() - damage);
 			dmgTimer = 0;
 			isInvulnerable = true;
-			
-			// Respawns player after death
-			if (player.getHealth() <= 0) {
-				if (LevelManager.getCheckpoint() != null) {
-					LevelManager.resetFromCheckpoint();
-				} else {
-					player.setHealth(player.getMaxHealth());
-					player.setX(LevelManager.getSpawnPoint().getX());
-					player.setY(LevelManager.getSpawnPoint().getY());
-				}
+		}
+	}
+
+	private void death() {
+		deathTimer += TimeInfo.getDelta();
+		if (!sm.getCurrentState().equals("death")) {
+			sm.activateState("death");
+			player.getCollision().setMovable(false);
+		}
+		if (deathTimer >= DEATH_TIME) {
+			deathTimer = 0;
+			if (LevelManager.getCheckpoint() != null) {
+				LevelManager.resetFromCheckpoint();
+			} else {
+				player.setHealth(player.getMaxHealth());
+				player.setX(LevelManager.getSpawnPoint().getX());
+				player.setY(LevelManager.getSpawnPoint().getY());
 			}
+			sm.activateState("spawn");
+			isInvulnerable = false;
+		}
+	}
+	
+	private void spawn() {
+		deathTimer += TimeInfo.getDelta();
+		player.getCollision().setMovable(false);
+		if (deathTimer >= DEATH_TIME) {
+			deathTimer = 0;
+			sm.activateState("idle");
+			player.getCollision().setMovable(true);
 		}
 	}
 
 	@Override
 	public void control(Input input) {
+		if (player.getHealth() <= 0) {
+			death();
+			updateAnimationState();
+			return;
+		}
+		
+		if (sm.getCurrentState().equals("spawn")) {
+			spawn();
+			updateAnimationState();
+			return;
+		}
+		
 		if (input.isKeyDown(Input.KEY_A)) {
 			left();
 		}
@@ -95,11 +129,11 @@ public class PlayerController implements Controller {
 		updateInvulnerability();
 		updateCombat();
 	}
-	
+
 	private void updateCombat() {
 		combat.updateAttacks();
 	}
-	
+
 	private void updateInvulnerability() {
 		if (isInvulnerable) {
 			dmgTimer += TimeInfo.getDelta();
@@ -114,7 +148,7 @@ public class PlayerController implements Controller {
 		if (combat.isAttacking()) {
 			return;
 		}
-		
+
 		if (ph.getYVelocity() == 0) { // Detect idle or running
 			if (ph.getXVelocity() == 0) {
 				sm.activateState("idle");
@@ -149,7 +183,7 @@ public class PlayerController implements Controller {
 			animator.setState(sm.getCurrentState());
 		}
 	}
-	
+
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking()) {
 			combat.startAttack("punch");
@@ -253,6 +287,7 @@ public class PlayerController implements Controller {
 		idle.getToStates().add("dashing");
 		idle.getToStates().add("jumping");
 		idle.getToStates().add("punching");
+		idle.getToStates().add("death");
 
 		// Running
 		State running = new State("running", true);
@@ -260,6 +295,7 @@ public class PlayerController implements Controller {
 		running.getToStates().add("dashing");
 		running.getToStates().add("idle");
 		running.getToStates().add("punching");
+		running.getToStates().add("death");
 
 		// Jumping
 		State jumping = new State("jumping", true);
@@ -267,24 +303,35 @@ public class PlayerController implements Controller {
 		jumping.getToStates().add("gliding");
 		jumping.getToStates().add("dashing");
 		jumping.getToStates().add("punching");
+		jumping.getToStates().add("death");
 
 		// Dashing
 		State dashing = new State("dashing", false);
 		dashing.getToStates().add("idle");
 		dashing.getToStates().add("gliding");
 		dashing.getToStates().add("punching");
+		dashing.getToStates().add("death");
 
 		// Gliding
 		State gliding = new State("gliding", true);
 		gliding.getToStates().add("jumping");
 		gliding.getToStates().add("idle");
 		gliding.getToStates().add("gliding");
-		
+		gliding.getToStates().add("death");
+
 		// Punching
 		State punching = new State("punching", false);
 		punching.getToStates().add("idle");
 		punching.getToStates().add("jumping");
 		punching.getToStates().add("running");
+		punching.getToStates().add("death");
+
+		// Death
+		State death = new State("death", false);
+		
+		// Spawn
+		State spawn = new State("spawn", false);
+		spawn.getToStates().add("idle");
 
 		sm.addState(idle);
 		sm.addState(running);
@@ -292,9 +339,11 @@ public class PlayerController implements Controller {
 		sm.addState(dashing);
 		sm.addState(gliding);
 		sm.addState(punching);
-		sm.activateState("idle");
+		sm.addState(death);
+		sm.addState(spawn);
+		sm.activateState("spawn");
 	}
-	
+
 	public boolean isInvulnerable() {
 		return isInvulnerable;
 	}

@@ -194,6 +194,28 @@ public class Player extends ControllableEntity {
 		Animation punch = new Animation(100, false);
 		punch.getSprites().add(punch1);
 		punch.getSprites().add(punch2);
+		
+		// Death animation
+		Sprite d1 = SpriteLoader.getSprite("player_death_1");
+		Sprite d2 = SpriteLoader.getSprite("player_death_2");
+		Sprite d3 = SpriteLoader.getSprite("player_death_3");
+		Sprite d4 = SpriteLoader.getSprite("player_death_4");
+		Sprite d5 = SpriteLoader.getSprite("player_death_5");
+		Animation death = new Animation(100, false);
+		death.getSprites().add(d1);
+		death.getSprites().add(d2);
+		death.getSprites().add(d3);
+		death.getSprites().add(d4);
+		death.getSprites().add(d5);
+		
+		// Spawn animation
+		Animation spawn = new Animation(100, false);
+		spawn.getSprites().add(d5);
+		spawn.getSprites().add(d4);
+		spawn.getSprites().add(d3);
+		spawn.getSprites().add(d2);
+		spawn.getSprites().add(d1);
+		spawn.getSprites().add(idleSprite);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
@@ -203,6 +225,8 @@ public class Player extends ControllableEntity {
 		anim.addAnimation(dashing, "dashing");
 		anim.addAnimation(gliding, "gliding");
 		anim.addAnimation(punch, "punching");
+		anim.addAnimation(death, "death");
+		anim.addAnimation(spawn, "spawn");
 
 		this.graphics = new EntityGraphics(this.getWidth());
 		this.graphics.setAnimator(anim);
