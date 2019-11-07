@@ -21,7 +21,7 @@ public class PlayerController implements Controller {
 	private Combat combat;
 
 	private float runningSpeed = 0.7f;
-	private float xAcc = 0.008f;
+	private float xAcc = 0.005f;
 	private int direction = 0; // 0 = right, 1 = left
 	private CollisionDirection glideDirection;
 
@@ -45,6 +45,52 @@ public class PlayerController implements Controller {
 		initStateManager();
 	}
 
+	@Override
+	public void control(Input input) {
+		if (sm.getCurrentState().equals("portal")) {
+			updatePortal();
+			updateAnimationState();
+			return;
+		}
+		
+		if (player.getHealth() <= 0) {
+			death();
+			updateAnimationState();
+			return;
+		}
+		
+		if (sm.getCurrentState().equals("spawn")) {
+			spawn();
+			updateAnimationState();
+			return;
+		}
+		
+		if (input.isKeyDown(Input.KEY_A) || input.isControllerLeft(Input.ANY_CONTROLLER)) {
+			left();
+		}
+		if (input.isKeyDown(Input.KEY_D) || input.isControllerRight(Input.ANY_CONTROLLER)) {
+			right();
+		}
+		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A) 
+				&& !input.isControllerLeft(Input.ANY_CONTROLLER) && !input.isControllerRight(Input.ANY_CONTROLLER)) {
+			stop();
+		}
+		if (input.isKeyPressed(Input.KEY_SPACE) || input.isControllerDown(0)) {
+			jump();
+		}
+		if (input.isKeyPressed(Input.KEY_LSHIFT)) {
+			dash();
+		}
+		if (input.isKeyPressed(Input.KEY_J)) {
+			punch();
+		}
+
+		updateAnimationState();
+		updateActions();
+		updateInvulnerability();
+		updateCombat();
+	}
+	
 	public void glide(CollisionDirection cd) {
 		if (ph.getYVelocity() > 0 && sm.canActivateState("gliding")) {
 			sm.activateState("gliding");
@@ -104,51 +150,6 @@ public class PlayerController implements Controller {
 			player.getCollision().setMovable(true);
 			System.exit(1);
 		}
-	}
-
-	@Override
-	public void control(Input input) {
-		if (sm.getCurrentState().equals("portal")) {
-			updatePortal();
-			updateAnimationState();
-			return;
-		}
-		
-		if (player.getHealth() <= 0) {
-			death();
-			updateAnimationState();
-			return;
-		}
-		
-		if (sm.getCurrentState().equals("spawn")) {
-			spawn();
-			updateAnimationState();
-			return;
-		}
-		
-		if (input.isKeyDown(Input.KEY_A)) {
-			left();
-		}
-		if (input.isKeyDown(Input.KEY_D)) {
-			right();
-		}
-		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)) {
-			stop();
-		}
-		if (input.isKeyPressed(Input.KEY_SPACE)) {
-			jump();
-		}
-		if (input.isKeyPressed(Input.KEY_LSHIFT)) {
-			dash();
-		}
-		if (input.isKeyPressed(Input.KEY_J)) {
-			punch();
-		}
-
-		updateAnimationState();
-		updateActions();
-		updateInvulnerability();
-		updateCombat();
 	}
 
 	private void updateCombat() {
@@ -266,15 +267,16 @@ public class PlayerController implements Controller {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
+			if (direction == 1) {
+				direction = 0;
+				ph.setXVelocity(ph.getXVelocity() * -1);
+				player.setMirrored(false);
+			}
 			float vel = ph.getXVelocity() + xAcc * TimeInfo.getDelta();
 			if (vel > runningSpeed) {
 				vel = runningSpeed;
 			}
 			ph.setXVelocity(vel);
-			if (direction == 1) {
-				direction = 0;
-				player.setMirrored(false);
-			}
 		}
 	}
 
@@ -287,15 +289,16 @@ public class PlayerController implements Controller {
 			sm.activateState("running");
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
+			if (direction == 0) {
+				direction = 1;
+				ph.setXVelocity(ph.getXVelocity() * -1);
+				player.setMirrored(true);
+			}
 			float vel = ph.getXVelocity() - xAcc * TimeInfo.getDelta();
 			if (vel * -1 > runningSpeed) {
 				vel = runningSpeed * -1;
 			}
 			ph.setXVelocity(vel);
-			if (direction == 0) {
-				direction = 1;
-				player.setMirrored(true);
-			}
 		}
 	}
 
