@@ -70,23 +70,23 @@ public class PlayerController implements Controller {
 			return;
 		}
 		
-		if (input.isKeyDown(Input.KEY_A) || isButtonDown(input, "left")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || isButtonDown(input, "left")) {
 			left();
 		}
-		if (input.isKeyDown(Input.KEY_D) || isButtonDown(input, "right")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || isButtonDown(input, "right")) {
 			right();
 		}
-		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)
+		if (!input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) && !input.isKeyDown(InputSettings.getKeyboardBinds().get("right"))
 				&& !isButtonDown(input, "left") && !isButtonDown(input, "right")) {
 			stop();
 		}
-		if (input.isKeyPressed(Input.KEY_SPACE) || isButtonPressed(input, "jump")) {
+		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("jump")) || isButtonPressed(input, "jump")) {
 			jump();
 		}
-		if (input.isKeyPressed(Input.KEY_LSHIFT) || isButtonPressed(input, "dash")) {
+		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("dash")) || isButtonPressed(input, "dash")) {
 			dash();
 		}
-		if (input.isKeyPressed(Input.KEY_J) || isButtonPressed(input, "punch")) {
+		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("punch")) || isButtonPressed(input, "punch")) {
 			punch();
 		}
 
@@ -257,6 +257,11 @@ public class PlayerController implements Controller {
 
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking()) {
+			if (direction == 0) {
+				ph.setXVelocity(1f);
+			} else if (direction == 1) {
+				ph.setXVelocity(-1f);
+			}
 			combat.startAttack("punch");
 			sm.activateState("punching");
 		}

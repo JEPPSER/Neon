@@ -2,6 +2,8 @@ package neon.settings;
 
 import java.util.HashMap;
 
+import org.newdawn.slick.Input;
+
 public class InputSettings {
 	
 	private static HashMap<String, Integer> controllerBinds;
@@ -16,6 +18,12 @@ public class InputSettings {
 		controllerBinds.put("punch", 9);
 		controllerBinds.put("left", 0);
 		controllerBinds.put("right", 1);
+		
+		keyboardBinds.put("jump", Input.KEY_SPACE);
+		keyboardBinds.put("dash", Input.KEY_LSHIFT);
+		keyboardBinds.put("punch", Input.KEY_J);
+		keyboardBinds.put("left", Input.KEY_A);
+		keyboardBinds.put("right", Input.KEY_D);
 	}
 	
 	public static HashMap<String, Integer> getControllerBinds() {
