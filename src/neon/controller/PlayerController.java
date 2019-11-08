@@ -8,6 +8,7 @@ import neon.graphics.animation.Animator;
 import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
+import neon.settings.InputSettings;
 import neon.state.State;
 import neon.state.StateManager;
 import neon.time.TimeInfo;
@@ -52,7 +53,7 @@ public class PlayerController implements Controller {
 			updateAnimationState();
 			return;
 		}
-		
+
 		if (player.getHealth() <= 0) {
 			death();
 			updateAnimationState();
@@ -60,7 +61,7 @@ public class PlayerController implements Controller {
 			input.clearControlPressedRecord();
 			return;
 		}
-		
+
 		if (sm.getCurrentState().equals("spawn")) {
 			spawn();
 			updateAnimationState();
@@ -69,23 +70,23 @@ public class PlayerController implements Controller {
 			return;
 		}
 		
-		if (input.isKeyDown(Input.KEY_A)/* || input.isControllerLeft(Input.ANY_CONTROLLER)*/) {
+		if (input.isKeyDown(Input.KEY_A) || isButtonDown(input, "left")) {
 			left();
 		}
-		if (input.isKeyDown(Input.KEY_D)/* || input.isControllerRight(Input.ANY_CONTROLLER)*/) {
+		if (input.isKeyDown(Input.KEY_D) || isButtonDown(input, "right")) {
 			right();
 		}
-		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A) 
-				/*&& !input.isControllerLeft(Input.ANY_CONTROLLER) && !input.isControllerRight(Input.ANY_CONTROLLER)*/) {
+		if (!input.isKeyDown(Input.KEY_D) && !input.isKeyDown(Input.KEY_A)
+				&& !isButtonDown(input, "left") && !isButtonDown(input, "right")) {
 			stop();
 		}
-		if (input.isKeyPressed(Input.KEY_SPACE) || input.isButton1Pressed(Input.ANY_CONTROLLER)) {
+		if (input.isKeyPressed(Input.KEY_SPACE) || isButtonPressed(input, "jump")) {
 			jump();
 		}
-		if (input.isKeyPressed(Input.KEY_LSHIFT) || input.isButton3Pressed(Input.ANY_CONTROLLER)) {
+		if (input.isKeyPressed(Input.KEY_LSHIFT) || isButtonPressed(input, "dash")) {
 			dash();
 		}
-		if (input.isKeyPressed(Input.KEY_J) || input.isButton2Pressed(Input.ANY_CONTROLLER)) {
+		if (input.isKeyPressed(Input.KEY_J) || isButtonPressed(input, "punch")) {
 			punch();
 		}
 
@@ -94,7 +95,45 @@ public class PlayerController implements Controller {
 		updateInvulnerability();
 		updateCombat();
 	}
+
+	private boolean isButtonPressed(Input input, String action) {
+		int button = InputSettings.getControllerBinds().get(action);
+		for (int i = 0; i < input.getControllerCount(); i++) {
+			if (input.isControlPressed(button, i)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	private boolean isButtonDown(Input input, String action) {
+		int button = InputSettings.getControllerBinds().get(action);
+		for (int i = 0; i < input.getControllerCount(); i++) {
+			if (button >= 4 && input.isButtonPressed(button - 4, i)) {
+				return true;
+			} else if (button < 4) {
+				if (action.equals("left")) {
+					if (input.isControllerLeft(i)) {
+						return true;
+					}
+				} else if (action.equals("right")) {
+					if (input.isControllerRight(i)) {
+						return true;
+					}
+				} else if (action.equals("up")) {
+					if (input.isControllerUp(i)) {
+						return true;
+					}
+				} else if (action.equals("down")) {
+					if (input.isControllerDown(i)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public void glide(CollisionDirection cd) {
 		if (ph.getYVelocity() > 0 && sm.canActivateState("gliding")) {
 			sm.activateState("gliding");
@@ -136,7 +175,7 @@ public class PlayerController implements Controller {
 			}
 		}
 	}
-	
+
 	private void spawn() {
 		deathTimer += TimeInfo.getDelta();
 		player.getCollision().setMovable(false);
@@ -146,12 +185,12 @@ public class PlayerController implements Controller {
 			player.getCollision().setMovable(true);
 		}
 	}
-	
+
 	public void portal() {
 		sm.activateState("portal");
 		player.getCollision().setMovable(false);
 	}
-	
+
 	private void updatePortal() {
 		deathTimer += TimeInfo.getDelta();
 		if (deathTimer >= DEATH_TIME) {
@@ -366,11 +405,11 @@ public class PlayerController implements Controller {
 
 		// Death
 		State death = new State("death", false);
-		
+
 		// Spawn
 		State spawn = new State("spawn", false);
 		spawn.getToStates().add("idle");
-		
+
 		// Portal
 		State portal = new State("portal", false);
 
