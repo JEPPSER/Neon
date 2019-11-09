@@ -25,4 +25,9 @@ public class Point {
 	public float getY() {
 		return this.y;
 	}
+	
+	public float distaceTo(Point p) {
+		float distance = (float) Math.hypot(this.x - p.getX(), this.y - p.getY());
+		return distance;
+	}
 }
