@@ -1,17 +1,17 @@
 package neon.editor;
 
-import java.awt.Font;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -25,9 +25,7 @@ public class Editor extends BasicGameState {
 	public static int id = 2;
 	
 	private Level level;
-	
-	private TrueTypeFont font;
-	
+
 	private Ground placing;
 	private boolean isPlacing;
 	
@@ -49,7 +47,6 @@ public class Editor extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame arg1) throws SlickException {
 		level = new Level();
-		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, 50), true);
 		corners = new Point[] { new Point(x, y), new Point(x + width, y), new Point(x + width, y + height), new Point(x, y + height) };
 	}
 
@@ -129,6 +126,10 @@ public class Editor extends BasicGameState {
 		
 		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
 			delete();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ENTER)) {
+			exportLevel();
 		}
 	}
 	
@@ -230,6 +231,22 @@ public class Editor extends BasicGameState {
 				placing.setHeight(gridSize);
 			}
 			isPlacing = true;
+		}
+	}
+	
+	private void exportLevel() {
+		ArrayList<String> lines = new ArrayList<String>();
+		lines.add("0,0,0");
+		lines.add(width + "," + height);
+		lines.add("100,100");
+		for (int i = 0; i < level.getObjects().size(); i++) {
+			Entity e = level.getObjects().get(i);
+			lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
+		}
+		try {
+			Files.write(Paths.get("res/temp.nlvl"), lines, StandardCharsets.UTF_8);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
