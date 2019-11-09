@@ -131,6 +131,10 @@ public class Editor extends BasicGameState {
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
 			exportLevel();
 		}
+		
+		if (input.isKeyPressed(Input.KEY_I)) {
+			importLevel("res/temp.nlvl");
+		}
 	}
 	
 	private void changeSize(Input input) {
@@ -247,6 +251,35 @@ public class Editor extends BasicGameState {
 			Files.write(Paths.get("res/temp.nlvl"), lines, StandardCharsets.UTF_8);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		}
+	}
+	
+	private void importLevel(String path) {
+		try {
+			String str = new String(Files.readAllBytes(Paths.get(path)));
+			str = str.replaceAll("\r", "");
+			String[] lines = str.split("\n");
+			Level level = new Level();
+			String[] size = lines[1].split(",");
+			level.setWidth(Float.parseFloat(size[0]));
+			level.setHeight(Float.parseFloat(size[1]));
+			
+			for (int i = 3; i < lines.length; i++) {
+				String[] parts = lines[i].split(",");
+				if (parts[0].equals("0")) {
+					Ground g = new Ground();
+					g.setX(Float.parseFloat(parts[1]));
+					g.setY(Float.parseFloat(parts[2]));
+					g.setWidth(Float.parseFloat(parts[3]));
+					g.setHeight(Float.parseFloat(parts[4]));
+					level.getObjects().add(g);
+				}
+			}
+			this.width = level.getWidth();
+			this.height = level.getHeight();
+			this.level = level;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
