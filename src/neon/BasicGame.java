@@ -12,10 +12,12 @@ import org.newdawn.slick.util.Log;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.controllable.Player;
+import neon.entity.terrain.Spikes;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
 import neon.level.LevelManager;
+import neon.physics.CollisionDirection;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
@@ -45,7 +47,7 @@ public class BasicGame extends BasicGameState {
 		combat = new CombatEngine();
 		
 		levelLoader = new LevelLoader();
-		LevelManager.setLevel(levelLoader.readFile("res/temp.nlvl"));
+		LevelManager.setLevel(levelLoader.readFile("res/levels/level_2.nlvl"));
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);

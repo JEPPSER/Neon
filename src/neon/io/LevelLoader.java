@@ -18,6 +18,7 @@ import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
+import neon.entity.terrain.Spikes;
 import neon.graphics.Point;
 import neon.level.Level;
 import neon.physics.CollisionDirection;
@@ -103,8 +104,18 @@ public class LevelLoader {
 			return createCheckpoint(parts);
 		} else if (id == 6) {
 			return createPortal(parts);
+		} else if (id == 7) {
+			return createSpikes(parts);
 		}
 		return null;
+	}
+	
+	private static Spikes createSpikes(String[] parts) {
+		Spikes s = new Spikes(CollisionDirection.valueOf(parts[5]));
+		s.setX(Float.parseFloat(parts[1]));
+		s.setY(Float.parseFloat(parts[2]));
+		s.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return s;
 	}
 	
 	private static Portal createPortal(String[] parts) {

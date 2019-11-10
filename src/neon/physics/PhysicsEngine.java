@@ -33,13 +33,11 @@ public class PhysicsEngine {
 		for (int i = 0; i < playField.size(); i++) {
 			if (playField.get(i) instanceof PhysicalEntity) {
 				PhysicalEntity e = (PhysicalEntity) playField.get(i);
-				if (e.getCollision().isMovable()) {
-					for (int j = 0; j < playField.size(); j++) {
-						if (j != i && playField.get(j) instanceof PhysicalEntity) {
-							PhysicalEntity pe = (PhysicalEntity) playField.get(j);
-							e.checkCollision(pe);
-							e.handleCollision(pe);
-						}
+				for (int j = 0; j < playField.size(); j++) {
+					if (j != i && playField.get(j) instanceof PhysicalEntity) {
+						PhysicalEntity pe = (PhysicalEntity) playField.get(j);
+						e.checkCollision(pe);
+						e.handleCollision(pe);
 					}
 				}
 			}

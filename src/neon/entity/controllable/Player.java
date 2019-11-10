@@ -12,6 +12,7 @@ import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
 import neon.entity.collectable.CollectableEntity;
+import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
@@ -107,6 +108,8 @@ public class Player extends ControllableEntity {
 			if (cd != CollisionDirection.NONE) {
 				((CollectableEntity) other).collect(this);
 			}
+		} else if (pe == other && other instanceof Spikes) {
+			health = 0;
 		} else if (pe == other && other instanceof TerrainEntity) {
 			if (cd == CollisionDirection.DOWN) {
 				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
