@@ -35,11 +35,11 @@ public class Spider extends Enemy {
 
 	@Override
 	public void handleCollision(PhysicalEntity other) {
-		if (other instanceof Player && collisionDirection != CollisionDirection.NONE) {
+		if (other instanceof Player && collisionDirection != CollisionDirection.NONE && !isDead) {
 			((SpiderController) ai).hurtPlayer((Player) other);
 		} else if (other instanceof CollectableEntity) {
 			
-		} else if (!(other instanceof Enemy)){
+		} else if (!(other instanceof Enemy) && !(other instanceof Player)){
 			super.handleCollision(other);
 		}
 	}

@@ -11,6 +11,7 @@ import org.newdawn.slick.util.Log;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
+import neon.entity.ai.enemy.Skeleton;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
@@ -46,6 +47,9 @@ public class BasicGame extends BasicGameState {
 		
 		levelLoader = new LevelLoader();
 		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
+		
+		Skeleton skeleton = new Skeleton(1400, 300);
+		LevelManager.addEntity(skeleton);
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
@@ -101,10 +105,12 @@ public class BasicGame extends BasicGameState {
 			}
 		}
 
-		/*
-		 * try { Thread.sleep(4); } catch (InterruptedException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */
+//		try {
+//			Thread.sleep(4);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override

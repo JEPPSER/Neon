@@ -25,6 +25,11 @@ public abstract class Trigger extends PhysicalEntity {
 	
 	public abstract void unTriggered();
 	
+	@Override
+	public void handleCollision(PhysicalEntity other) {
+		
+	}
+	
 	public float getScale() {
 		return scale;
 	}

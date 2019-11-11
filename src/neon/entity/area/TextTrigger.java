@@ -48,6 +48,7 @@ public class TextTrigger extends Trigger {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
 		anim.render(g, text, scale);
+		//g.drawRect(offsetX + x, offsetY + y, width, height);
 		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 
