@@ -26,8 +26,12 @@ public class Point {
 		return this.y;
 	}
 	
-	public float distaceTo(Point p) {
+	public float distanceTo(Point p) {
 		float distance = (float) Math.hypot(this.x - p.getX(), this.y - p.getY());
 		return distance;
+	}
+	
+	public float angleTo(Point p) {
+		return (float) Math.atan2(p.y - y, p.x - x);
 	}
 }

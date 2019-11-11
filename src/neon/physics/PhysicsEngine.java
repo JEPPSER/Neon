@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 import neon.entity.collectable.Portal;
+import neon.entity.terrain.movable.MovableTerrain;
 import neon.time.TimeInfo;
 
 public class PhysicsEngine {
@@ -25,6 +26,9 @@ public class PhysicsEngine {
 					e.getPhysics().setYVelocity(vel);
 					e.setX(e.getX() + e.getPhysics().getXVelocity() * TimeInfo.getDelta());
 					e.setY(e.getY() + e.getPhysics().getYVelocity() * TimeInfo.getDelta());
+				}
+				if (e instanceof MovableTerrain) {
+					((MovableTerrain) e).updateMovement();
 				}
 			}
 		}

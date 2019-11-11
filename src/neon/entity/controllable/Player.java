@@ -1,7 +1,10 @@
 package neon.entity.controllable;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.combat.Attack;
@@ -29,6 +32,7 @@ public class Player extends ControllableEntity {
 	private Combat combat;
 	private float health;
 	private float maxHealth;
+	private ArrayList<CollisionDirection> colDirections;
 
 	public Player(float x, float y) {
 		name = "Player";
@@ -42,6 +46,11 @@ public class Player extends ControllableEntity {
 		initGraphics();
 		initCombat();
 		this.controller = new PlayerController(this);
+		colDirections = new ArrayList<CollisionDirection>();
+	}
+	
+	public void setState(String state) {
+		((PlayerController) controller).setState(state);;
 	}
 	
 	public void enterPortal() {
@@ -90,12 +99,18 @@ public class Player extends ControllableEntity {
 			}
 		}
 	}
+	
+	@Override
+	public void control(Input input) {
+		controller.control(input);
+		colDirections.clear();
+	}
 
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
-
+		
 		if (other instanceof Trigger) {
 			if (pe == other) {
 				((Trigger) other).triggered();
@@ -125,6 +140,10 @@ public class Player extends ControllableEntity {
 				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
 				physics.setXVelocity(0f);
 				((PlayerController) controller).glide(cd);
+			}
+			colDirections.add(cd);
+			if (colDirections.contains(CollisionDirection.UP) && colDirections.contains(CollisionDirection.DOWN)) {
+				this.health = 0;
 			}
 		}
 	}

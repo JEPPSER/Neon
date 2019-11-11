@@ -19,6 +19,7 @@ import neon.entity.controllable.Player;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
+import neon.entity.terrain.movable.MovableGround;
 import neon.graphics.Point;
 import neon.level.Level;
 import neon.physics.CollisionDirection;
@@ -106,8 +107,27 @@ public class LevelLoader {
 			return createPortal(parts);
 		} else if (id == 7) {
 			return createSpikes(parts);
+		} else if (id == 8) {
+			return createMovableGround(parts);
 		}
 		return null;
+	}
+	
+	private static MovableGround createMovableGround(String[] parts) {
+		float width = Float.parseFloat(parts[1]);
+		float height = Float.parseFloat(parts[2]);
+		String name = parts[3];
+		boolean active = Boolean.parseBoolean(parts[4]);
+		boolean looping = Boolean.parseBoolean(parts[5]);
+		float speed = Float.parseFloat(parts[6]);
+		ArrayList<Point> path = new ArrayList<Point>();
+		for (int i = 7; i < parts.length; i+=2) {
+			Point p = new Point(Float.parseFloat(parts[i]), Float.parseFloat(parts[i + 1]));
+			path.add(p);
+		}
+		MovableGround mg = new MovableGround(name, active, looping, speed, path);
+		mg.setSize(width, height);
+		return mg;
 	}
 	
 	private static Spikes createSpikes(String[] parts) {

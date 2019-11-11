@@ -187,7 +187,7 @@ public class Editor extends BasicGameState {
 	
 	private int getCorner() {
 		for (int i = 0; i < corners.length; i++) {
-			if (mousePos.distaceTo(corners[i]) < 10) {
+			if (mousePos.distanceTo(corners[i]) < 10) {
 				return i;
 			}
 		}

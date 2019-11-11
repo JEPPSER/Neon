@@ -95,6 +95,10 @@ public class PlayerController implements Controller {
 		updateInvulnerability();
 		updateCombat();
 	}
+	
+	public void setState(String state) {
+		sm.activateState(state);
+	}
 
 	private boolean isButtonPressed(Input input, String action) {
 		int button = InputSettings.getControllerBinds().get(action);
@@ -220,7 +224,7 @@ public class PlayerController implements Controller {
 			return;
 		}
 
-		if (ph.getYVelocity() == 0) { // Detect idle or running
+		if (player.getCollisionDirection() == CollisionDirection.DOWN || ph.getYVelocity() == 0) { // Detect idle or running
 			if (ph.getXVelocity() == 0) {
 				sm.activateState("idle");
 			} else if (!sm.getCurrentState().equals("dashing")) {
