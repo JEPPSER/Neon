@@ -1,5 +1,7 @@
 package neon;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,10 +11,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
+import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.controllable.Player;
+import neon.entity.event.Event;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
@@ -48,11 +52,6 @@ public class BasicGame extends BasicGameState {
 		levelLoader = new LevelLoader();
 		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
 		
-		Skeleton skeleton1 = new Skeleton(1400, 300);
-		Skeleton skeleton2 = new Skeleton(1400, 300);
-		LevelManager.addEntity(skeleton1);
-		LevelManager.addEntity(skeleton2);
-		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
@@ -82,28 +81,33 @@ public class BasicGame extends BasicGameState {
 			delta = 0;
 		}
 		TimeInfo.setDelta(delta);
+		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
 		Player p = LevelManager.getLevel().getPlayer();
 		Input input = gc.getInput();
-		physics.applyPhysics(LevelManager.getLevel().getObjects());
+		physics.applyPhysics(objects);
 		cutsceneManager.updateCutScenes(camera);
 		if (!cutsceneManager.isCutsceneRunnging()) {
 			p.control(input);
 		}
-		combat.updateCombat(LevelManager.getLevel().getObjects(), p);
+		combat.updateCombat(objects, p);
 
 		// Updates timing for all animations
-		for (int i = 0; i < LevelManager.getLevel().getObjects().size(); i++) {
-			if (LevelManager.getLevel().getObjects().get(i) instanceof PhysicalEntity) {
-				Animator anim = ((PhysicalEntity) LevelManager.getLevel().getObjects().get(i)).getGraphics().getAnimator();
+		for (int i = 0; i < objects.size(); i++) {
+			if (objects.get(i) instanceof PhysicalEntity) {
+				Animator anim = ((PhysicalEntity) objects.get(i)).getGraphics().getAnimator();
 				if (anim != null) {
 					anim.updateAnimations();
 				}
 			}
 		}
 
-		for (int i = 0; i < LevelManager.getLevel().getObjects().size(); i++) {
-			if (LevelManager.getLevel().getObjects().get(i) instanceof AIEntity) { // control ai
-				((AIEntity) LevelManager.getLevel().getObjects().get(i)).control(p);
+		for (int i = 0; i < objects.size(); i++) {
+			if (objects.get(i) instanceof AIEntity) { // control ai
+				((AIEntity) objects.get(i)).control(p);
+			} else if (objects.get(i) instanceof Event) { // fire events
+				if (((Event) objects.get(i)).meetsCondition()) {
+					((Event) objects.get(i)).fireEvent();
+				}
 			}
 		}
 

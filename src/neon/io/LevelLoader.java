@@ -10,12 +10,14 @@ import org.newdawn.slick.Color;
 
 import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
+import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.TextTrigger;
 import neon.entity.collectable.Heart;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
+import neon.entity.event.ActivateMovableEvent;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
@@ -109,8 +111,22 @@ public class LevelLoader {
 			return createSpikes(parts);
 		} else if (id == 8) {
 			return createMovableGround(parts);
+		} else if (id == 9) {
+			return createSkeleton(parts);
+		} else if (id == 10) {
+			return createActivateMovableEvent(parts);
 		}
 		return null;
+	}
+	
+	private static ActivateMovableEvent createActivateMovableEvent(String[] parts) {
+		ActivateMovableEvent e = new ActivateMovableEvent(parts[1], parts[2]);
+		return e;
+	}
+	
+	private static Skeleton createSkeleton(String[] parts) {
+		Skeleton s = new Skeleton(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return s;
 	}
 	
 	private static MovableGround createMovableGround(String[] parts) {
