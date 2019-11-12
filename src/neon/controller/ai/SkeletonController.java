@@ -1,5 +1,7 @@
 package neon.controller.ai;
 
+import java.util.Random;
+
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
@@ -17,23 +19,27 @@ public class SkeletonController implements AIController {
 	
 	private CollisionDirection damageDirection;
 
-	private float speed = 0.4f;
+	private float speed = 0.6f;
 	private float dmg = 3.0f;
 	private int timer = 0;
 	private boolean mirrored = false;
 	private boolean isDead = false;
 	
-	private final int INVULNERABLE_TIME = 500;
+	private final int INVULNERABLE_TIME = 1000;
+	private int dirTime;
+	private Random rand;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 	
 	public SkeletonController(Skeleton skeleton) {
 		this.skeleton = skeleton;
 		this.ph = skeleton.getPhysics();
-		//this.anim = skeleton.getGraphics().getAnimator();
+		this.anim = skeleton.getGraphics().getAnimator();
 		damageDirection = CollisionDirection.NONE;
 		ph.setXVelocity(speed);
-		//anim.setState("moving");
+		anim.setState("moving");
+		rand = new Random();
+		dirTime = rand.nextInt(2000);
 	}
 
 	@Override
@@ -73,8 +79,9 @@ public class SkeletonController implements AIController {
 	
 	private void backAndForth(Player player) {
 		timer += TimeInfo.getDelta();
-
-		if (timer > 2000) {
+		
+		if (timer > dirTime) {
+			dirTime = rand.nextInt(2000);
 			timer = 0;
 			if (mirrored) {
 				mirrored = false;

@@ -27,6 +27,8 @@ public class PlayerController implements Controller {
 	private CollisionDirection glideDirection;
 
 	private final int INVULNERABLE_TIME = 1000;
+	private final int COOLDOWN_TIME = 500;
+	private int cooldown = 500;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 
@@ -223,6 +225,10 @@ public class PlayerController implements Controller {
 		if (combat.isAttacking()) {
 			return;
 		}
+		
+		if (cooldown <= COOLDOWN_TIME) {
+			cooldown += TimeInfo.getDelta();
+		}
 
 		if (player.getCollisionDirection() == CollisionDirection.DOWN || ph.getYVelocity() == 0) { // Detect idle or running
 			if (ph.getXVelocity() == 0) {
@@ -260,7 +266,7 @@ public class PlayerController implements Controller {
 	}
 
 	private void punch() {
-		if (sm.canActivateState("punching") && !combat.isAttacking()) {
+		if (sm.canActivateState("punching") && !combat.isAttacking() && cooldown > COOLDOWN_TIME) {
 			if (direction == 0) {
 				ph.setXVelocity(1f);
 			} else if (direction == 1) {
@@ -268,6 +274,7 @@ public class PlayerController implements Controller {
 			}
 			combat.startAttack("punch");
 			sm.activateState("punching");
+			cooldown = 0;
 		}
 	}
 

@@ -10,6 +10,10 @@ import neon.entity.PhysicalEntity;
 import neon.entity.collectable.CollectableEntity;
 import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -24,13 +28,25 @@ public class Skeleton extends Enemy {
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
+		initGraphics();
 		this.ai = new SkeletonController(this);
 		this.combat = new Combat();
-		initGraphics();
 	}
 	
 	private void initGraphics() {
+		// Moving animation
+		Sprite one = SpriteLoader.getSprite("skeleton_1");
+		Sprite two = SpriteLoader.getSprite("skeleton_2");
+		Animation moving = new Animation(200, true);
+		moving.getSprites().add(one);
+		moving.getSprites().add(two);
+		
+		Animator anim = new Animator();
+		anim.addAnimation(moving, "moving");
+		anim.setState("moving");
+		
 		this.graphics = new EntityGraphics(this.getWidth());
+		this.graphics.setAnimator(anim);
 		this.color = Color.white;
 	}
 	
@@ -70,11 +86,11 @@ public class Skeleton extends Enemy {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		if (((SkeletonController) ai).isInvulnerable()) {
-			g.setColor(Color.red);
+			graphics.setColor(Color.red);
 		} else {
-			g.setColor(this.color);
+			graphics.setColor(this.color);
 		}
-		g.drawRect(offsetX + x, offsetY + y, getWidth(), getHeight());
+		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 		
 		if (!isDead) {
 			drawHealthBar(g, x + offsetX + (getWidth() - 100) / 2, y + offsetY - 40);

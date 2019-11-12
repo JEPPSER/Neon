@@ -48,8 +48,10 @@ public class BasicGame extends BasicGameState {
 		levelLoader = new LevelLoader();
 		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
 		
-		Skeleton skeleton = new Skeleton(1400, 300);
-		LevelManager.addEntity(skeleton);
+		Skeleton skeleton1 = new Skeleton(1400, 300);
+		Skeleton skeleton2 = new Skeleton(1400, 300);
+		LevelManager.addEntity(skeleton1);
+		LevelManager.addEntity(skeleton2);
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
