@@ -19,7 +19,7 @@ public class SkeletonController implements AIController {
 	
 	private CollisionDirection damageDirection;
 
-	private float speed = 0.6f;
+	private float speed = 0.5f;
 	private float dmg = 3.0f;
 	private int timer = 0;
 	private boolean mirrored = false;

@@ -14,7 +14,6 @@ import org.newdawn.slick.util.Log;
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
-import neon.entity.ai.enemy.Skeleton;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.graphics.animation.Animator;
@@ -50,7 +49,7 @@ public class BasicGame extends BasicGameState {
 		combat = new CombatEngine();
 		
 		levelLoader = new LevelLoader();
-		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
+		LevelManager.setLevel(levelLoader.readFile("res/temp.nlvl"));
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);

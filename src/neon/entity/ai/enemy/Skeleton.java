@@ -22,8 +22,8 @@ public class Skeleton extends Enemy {
 	
 	public Skeleton(float x, float y) {
 		name = "Skeleton";
-		health = 7f;
-		maxHealth = 7f;
+		health = 6f;
+		maxHealth = 6f;
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;

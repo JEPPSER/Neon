@@ -3,7 +3,9 @@ package neon.entity.terrain.movable;
 import java.util.ArrayList;
 
 import neon.entity.PhysicalEntity;
+import neon.entity.controllable.ControllableEntity;
 import neon.entity.terrain.Ground;
+import neon.entity.terrain.TerrainEntity;
 import neon.graphics.Point;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -44,7 +46,7 @@ public class MovableGround extends Ground implements MovableTerrain {
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		super.handleCollision(other);
-		if (this.collisionDirection == CollisionDirection.UP) {
+		if (this.collisionDirection == CollisionDirection.UP && (collidingEntity instanceof ControllableEntity)) {
 			standing = true;
 			standingEntity = collidingEntity;
 		}
