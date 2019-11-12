@@ -21,7 +21,7 @@ public class CheckpointTrigger extends Trigger {
 	public CheckpointTrigger() {
 		this.name = "CheckpointTrigger";
 		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, 30), true);
-		text = "Checkpoint has been reaced.";
+		text = "Checkpoint has been reached.";
 	}
 
 	@Override

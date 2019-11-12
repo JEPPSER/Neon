@@ -16,6 +16,7 @@ import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
+import neon.entity.projectile.Bullet;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
@@ -49,7 +50,7 @@ public class BasicGame extends BasicGameState {
 		combat = new CombatEngine();
 		
 		levelLoader = new LevelLoader();
-		LevelManager.setLevel(levelLoader.readFile("res/temp.nlvl"));
+		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
@@ -108,6 +109,11 @@ public class BasicGame extends BasicGameState {
 					((Event) objects.get(i)).fireEvent();
 				}
 			}
+		}
+		
+		if (input.isKeyPressed(Input.KEY_1)) {
+			Bullet b = new Bullet(p.getX(), p.getY(), -0.1f, "Player");
+			LevelManager.addEntity(b);
 		}
 
 //		try {
