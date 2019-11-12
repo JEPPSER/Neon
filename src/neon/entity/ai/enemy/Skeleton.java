@@ -6,7 +6,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.combat.Combat;
 import neon.controller.ai.SkeletonController;
-import neon.controller.ai.SpiderController;
 import neon.entity.PhysicalEntity;
 import neon.entity.collectable.CollectableEntity;
 import neon.entity.controllable.Player;
@@ -32,12 +31,13 @@ public class Skeleton extends Enemy {
 	
 	private void initGraphics() {
 		this.graphics = new EntityGraphics(this.getWidth());
+		this.color = Color.white;
 	}
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		if (other instanceof Player && collisionDirection != CollisionDirection.NONE && !isDead) {
-			((SpiderController) ai).hurtPlayer((Player) other);
+			((SkeletonController) ai).hurtPlayer((Player) other);
 		} else if (other instanceof CollectableEntity) {
 			
 		} else if (!(other instanceof Enemy) && !(other instanceof Player)){
@@ -69,8 +69,23 @@ public class Skeleton extends Enemy {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.white);
+		if (((SkeletonController) ai).isInvulnerable()) {
+			g.setColor(Color.red);
+		} else {
+			g.setColor(this.color);
+		}
 		g.drawRect(offsetX + x, offsetY + y, getWidth(), getHeight());
+		
+		if (!isDead) {
+			drawHealthBar(g, x + offsetX + (getWidth() - 100) / 2, y + offsetY - 40);
+		}
+	}
+	
+	private void drawHealthBar(Graphics g, float x, float y) {
+		g.setColor(Color.white);
+		g.drawRect(x, y, 100, 20);
+		g.setColor(Color.red);
+		g.fillRect(x + 2, y + 2, (health / maxHealth) * 100 - 4, 20 - 4);
 	}
 
 	@Override

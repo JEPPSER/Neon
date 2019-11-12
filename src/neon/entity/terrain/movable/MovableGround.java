@@ -2,6 +2,7 @@ package neon.entity.terrain.movable;
 
 import java.util.ArrayList;
 
+import neon.entity.PhysicalEntity;
 import neon.entity.terrain.Ground;
 import neon.graphics.Point;
 import neon.physics.CollisionDirection;
@@ -15,6 +16,8 @@ public class MovableGround extends Ground implements MovableTerrain {
 	private int currentPoint = 0;
 	private int direction = 1;
 	private boolean looping;
+	private boolean standing;
+	private PhysicalEntity standingEntity;
 	private float speed;
 	
 	public MovableGround(String name, boolean active, boolean looping, float speed, ArrayList<Point> path) {
@@ -37,6 +40,15 @@ public class MovableGround extends Ground implements MovableTerrain {
 	public void deactivate() {
 		this.active = false;
 	}
+	
+	@Override
+	public void handleCollision(PhysicalEntity other) {
+		super.handleCollision(other);
+		if (this.collisionDirection == CollisionDirection.UP) {
+			standing = true;
+			standingEntity = collidingEntity;
+		}
+	}
 
 	@Override
 	public void updateMovement() {
@@ -49,9 +61,9 @@ public class MovableGround extends Ground implements MovableTerrain {
 			x += difX;
 			y += difY;
 			
-			if (this.collisionDirection == CollisionDirection.UP) {
-				collidingEntity.setX(collidingEntity.getX() + difX);
-				collidingEntity.setY(collidingEntity.getY() + difY);
+			if (standing) {
+				standingEntity.setX(standingEntity.getX() + difX);
+				standingEntity.setY(standingEntity.getY() + difY);
 			}
 			
 			if (target.distanceTo(new Point(x, y)) < speed * TimeInfo.getDelta()) {
@@ -65,6 +77,8 @@ public class MovableGround extends Ground implements MovableTerrain {
 				y = target.getY();
 			}
 		}
+		standing = false;
+		standingEntity = null;
 	}
 	
 	@Override
