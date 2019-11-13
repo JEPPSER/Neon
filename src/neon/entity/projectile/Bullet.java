@@ -13,10 +13,10 @@ public class Bullet extends ProjectileEntity {
 	public Bullet(float x, float y, float angle, String sourceEntity) {
 		this.x = x;
 		this.y = y;
-		this.damage = 1;
+		this.damage = 4;
 		this.angle = angle;
-		this.speed = 1.5f;
-		this.weight = 0.1f;
+		this.speed = 2f;
+		this.weight = 0;
 		this.sourceEntity = sourceEntity;
 		this.collision = new Collision(new Rectangle(0, 0, 10, 10), 1, 10, true);
 		float velX = (float) (Math.cos(angle) * speed);

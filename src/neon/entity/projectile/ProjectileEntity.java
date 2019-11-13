@@ -3,6 +3,7 @@ package neon.entity.projectile;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.enemy.Enemy;
 import neon.entity.controllable.Player;
+import neon.entity.terrain.TerrainEntity;
 import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 
@@ -23,7 +24,9 @@ public abstract class ProjectileEntity extends PhysicalEntity {
 			} else if (other instanceof Enemy) {
 				((Enemy) other).takeDamage(damage, collisionDirection);
 			}
-			LevelManager.removeEntity(this);
+			if (other instanceof Player || other instanceof Enemy || other instanceof TerrainEntity) {
+				LevelManager.removeEntity(this);
+			}
 		}
 	}
 
