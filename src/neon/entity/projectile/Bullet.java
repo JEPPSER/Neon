@@ -13,7 +13,7 @@ public class Bullet extends ProjectileEntity {
 	public Bullet(float x, float y, float angle, String sourceEntity) {
 		this.x = x;
 		this.y = y;
-		this.damage = 4;
+		this.damage = 5;
 		this.angle = angle;
 		this.speed = 2f;
 		this.weight = 0;

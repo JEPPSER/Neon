@@ -111,11 +111,6 @@ public class BasicGame extends BasicGameState {
 				}
 			}
 		}
-		
-		if (input.isKeyPressed(Input.KEY_1)) {
-			Bullet b = new Bullet(p.getX(), p.getY(), -0.1f, "Player");
-			LevelManager.addEntity(b);
-		}
 
 //		try {
 //			Thread.sleep(4);

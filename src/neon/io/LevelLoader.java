@@ -13,6 +13,7 @@ import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
+import neon.entity.area.ActivateMovableTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.TextTrigger;
 import neon.entity.collectable.Heart;
@@ -118,8 +119,18 @@ public class LevelLoader {
 			return createActivateMovableEvent(parts);
 		} else if (id == 11) {
 			return createGunman(parts);
+		} else if (id == 12) {
+			return createActivateMovableTrigger(parts);
 		}
 		return null;
+	}
+	
+	private static ActivateMovableTrigger createActivateMovableTrigger(String[] parts) {
+		ActivateMovableTrigger t = new ActivateMovableTrigger(parts[5]);
+		t.setX(Float.parseFloat(parts[1]));
+		t.setY(Float.parseFloat(parts[2]));
+		t.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return t;
 	}
 	
 	private static Gunman createGunman(String[] parts) {

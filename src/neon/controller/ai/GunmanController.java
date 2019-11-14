@@ -3,7 +3,6 @@ package neon.controller.ai;
 import java.util.Random;
 
 import neon.entity.ai.enemy.Gunman;
-import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.entity.projectile.Bullet;
 import neon.graphics.Point;
@@ -17,7 +16,7 @@ public class GunmanController implements AIController {
 	private Gunman gunman;
 	private Animator anim;
 	
-	private final int COOLDOWN_TIME = 2000;
+	private final int COOLDOWN_TIME = 1500;
 	private int cooldown = 0;
 	
 	private final int AIM_TIME = 1000;
@@ -29,7 +28,7 @@ public class GunmanController implements AIController {
 	
 	private boolean isMoving = false;
 	private float movingSpeed = 0.2f;
-	private float range = 500;
+	private float range = 300;
 	
 	private final int INVULNERABLE_TIME = 1000;
 	private int dmgTimer = 0;
