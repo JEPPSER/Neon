@@ -38,6 +38,10 @@ public class EntityGraphics {
 		this.color = color;
 	}
 	
+	public Color getColor() {
+		return color;
+	}
+	
 	public void setLineWidth(float lineWidth) {
 		this.lineWidth = lineWidth;
 	}

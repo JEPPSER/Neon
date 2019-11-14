@@ -3,9 +3,11 @@ package neon.controller.ai;
 import java.util.Random;
 
 import neon.entity.ai.enemy.Gunman;
+import neon.entity.collectable.Heart;
 import neon.entity.controllable.Player;
 import neon.entity.projectile.Bullet;
 import neon.graphics.Point;
+import neon.graphics.animation.Animator;
 import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.time.TimeInfo;
@@ -13,6 +15,7 @@ import neon.time.TimeInfo;
 public class GunmanController implements AIController {
 	
 	private Gunman gunman;
+	private Animator anim;
 	
 	private final int COOLDOWN_TIME = 2000;
 	private int cooldown = 0;
@@ -31,18 +34,38 @@ public class GunmanController implements AIController {
 	private final int INVULNERABLE_TIME = 1000;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
+	private boolean isDead = false;
 	
 	public GunmanController(Gunman gunman) {
 		this.gunman = gunman;
 		rand = new Random();
+		anim = gunman.getGraphics().getAnimator();
 	}
 
 	@Override
 	public void control(Player player) {
+		updateAnimations();
+		if (isDead) {
+			return;
+		}
 		move(player);
 		takeAim(player);
 		shoot();
 		updateInvulnerability();
+	}
+	
+	private void updateAnimations() {
+		if (isDead) {
+			if (!anim.getState().equals("death")) {
+				anim.setState("death");
+			}
+		} else if (isMoving && !anim.getState().equals("moving")) {
+			anim.setState("moving");
+		} else if (!isMoving && !isAiming && !anim.getState().equals("idle")) {
+			anim.setState("idle");
+		} else if (isAiming && !anim.getState().equals("aiming")) {
+			anim.setState("aiming");
+		}
 	}
 	
 	private void move(Player player) {
@@ -57,8 +80,10 @@ public class GunmanController implements AIController {
 			} else {
 				gunman.getPhysics().setXVelocity(movingSpeed);
 			}
+			isMoving = true;
 		} else {
 			gunman.getPhysics().setXVelocity(0);
+			isMoving = false;
 		}
 	}
 	
@@ -114,6 +139,8 @@ public class GunmanController implements AIController {
 
 	@Override
 	public void death() {
+		isDead = true;
+		gunman.getPhysics().setXVelocity(0);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
+import neon.entity.ai.enemy.Gunman;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.CheckpointTrigger;
@@ -115,8 +116,15 @@ public class LevelLoader {
 			return createSkeleton(parts);
 		} else if (id == 10) {
 			return createActivateMovableEvent(parts);
+		} else if (id == 11) {
+			return createGunman(parts);
 		}
 		return null;
+	}
+	
+	private static Gunman createGunman(String[] parts) {
+		Gunman g = new Gunman(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return g;
 	}
 	
 	private static ActivateMovableEvent createActivateMovableEvent(String[] parts) {

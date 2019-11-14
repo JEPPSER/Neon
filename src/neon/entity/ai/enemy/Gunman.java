@@ -2,6 +2,7 @@ package neon.entity.ai.enemy;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.combat.Combat;
@@ -9,11 +10,17 @@ import neon.controller.ai.GunmanController;
 import neon.entity.PhysicalEntity;
 import neon.entity.terrain.TerrainEntity;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 
 public class Gunman extends Enemy {
+	
+	private Sprite arms;
 	
 	public Gunman(float x, float y) {
 		name = "Gunman";
@@ -25,6 +32,7 @@ public class Gunman extends Enemy {
 		this.height = collision.getHitbox().getHeight();
 		this.x = x;
 		this.y = y;
+		arms = SpriteLoader.getSprite("gunman_aim_arms");
 		initGraphics();
 		this.ai = new GunmanController(this);
 		this.combat = new Combat();
@@ -52,19 +60,44 @@ public class Gunman extends Enemy {
 	}
 	
 	private void initGraphics() {
-		// Moving animation
-		/*Sprite one = SpriteLoader.getSprite("skeleton_1");
-		Sprite two = SpriteLoader.getSprite("skeleton_2");
-		Animation moving = new Animation(200, true);
-		moving.getSprites().add(one);
-		moving.getSprites().add(two);
+		Sprite i = SpriteLoader.getSprite("gunman_idle");
+		Animation idle = new Animation(100, true);
+		idle.getSprites().add(i);
+		
+		Sprite m1 = SpriteLoader.getSprite("gunman_move_1");
+		Sprite m2 = SpriteLoader.getSprite("gunman_move_2");
+		Sprite m3 = SpriteLoader.getSprite("gunman_move_3");
+		Animation moving = new Animation(100, true);
+		moving.getSprites().add(m1);
+		moving.getSprites().add(m2);
+		moving.getSprites().add(m1);
+		moving.getSprites().add(m3);
+		
+		Sprite a = SpriteLoader.getSprite("gunman_aim_body");
+		Animation aiming = new Animation(100, true);
+		aiming.getSprites().add(a);
+		
+		Sprite d1 = SpriteLoader.getSprite("gunman_death_1");
+		Sprite d2 = SpriteLoader.getSprite("gunman_death_2");
+		Sprite d3 = SpriteLoader.getSprite("gunman_death_3");
+		Sprite d4 = SpriteLoader.getSprite("gunman_death_4");
+		Sprite d5 = SpriteLoader.getSprite("gunman_death_5");
+		Animation death = new Animation(200, false);
+		death.getSprites().add(d1);
+		death.getSprites().add(d2);
+		death.getSprites().add(d3);
+		death.getSprites().add(d4);
+		death.getSprites().add(d5);
 		
 		Animator anim = new Animator();
+		anim.addAnimation(idle, "idle");
 		anim.addAnimation(moving, "moving");
-		anim.setState("moving");*/
+		anim.addAnimation(aiming, "aiming");
+		anim.addAnimation(death, "death");
+		anim.setState("idle");
 		
 		this.graphics = new EntityGraphics(this.getWidth());
-		//this.graphics.setAnimator(anim);
+		this.graphics.setAnimator(anim);
 		this.color = Color.white;
 	}
 
@@ -96,18 +129,22 @@ public class Gunman extends Enemy {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		if (((GunmanController) ai).isInvulnerable()) {
-			g.setColor(Color.red);
+			graphics.setColor(Color.red);
 		} else {
-			g.setColor(this.color);
+			graphics.setColor(this.color);
 		}
-		g.drawRect(x + offsetX, y + offsetY, width, height);
+		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 		
 		GunmanController gc = (GunmanController) ai;
 		if (gc.isAiming()) {
-			float x1 = (float) (Math.cos(gc.getAimAngle()) * 100);
-			float y1 = (float) (Math.sin(gc.getAimAngle()) * 100);
-			g.setColor(Color.red);
-			g.drawLine(x + offsetX, y + offsetY, x + offsetX + x1, y + offsetY + y1);
+			arms.getImage().setRotation((float) Math.toDegrees(gc.getAimAngle()));
+			Image img = arms.getImage();
+			int i = 1;
+			if (isMirrored()) {
+				img = img.getFlippedCopy(true, false);
+				i = -1;
+			}
+			g.drawImage(img, x + offsetX + 6 * i, y + offsetY, graphics.getColor());
 		}
 		
 		if (!isDead) {

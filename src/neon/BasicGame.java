@@ -53,9 +53,6 @@ public class BasicGame extends BasicGameState {
 		levelLoader = new LevelLoader();
 		LevelManager.setLevel(levelLoader.readFile("res/levels/level_3.nlvl"));
 		
-		Gunman gunman = new Gunman(4000, 1000);
-		LevelManager.addEntity(gunman);
-		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
