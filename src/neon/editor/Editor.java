@@ -17,6 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.Entity;
 import neon.entity.terrain.Ground;
+import neon.entity.terrain.movable.MovableGround;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
 import neon.level.Level;
@@ -201,9 +202,11 @@ public class Editor extends BasicGameState {
 	private void delete() {
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			Rectangle r = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-			if (r.contains(mousePos.getX() - x, mousePos.getY() - y)) {
-				level.getObjects().remove(e);
+			if (e instanceof Ground && !(e instanceof MovableGround)) {
+				Rectangle r = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+				if (r.contains(mousePos.getX() - x, mousePos.getY() - y)) {
+					level.getObjects().remove(e);
+				}
 			}
 		}
 	}
@@ -263,7 +266,7 @@ public class Editor extends BasicGameState {
 		
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			if (e instanceof Ground) {
+			if (e instanceof Ground && !(e instanceof MovableGround)) {
 				lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
 			}
 		}

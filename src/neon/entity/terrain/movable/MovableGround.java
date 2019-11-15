@@ -83,6 +83,22 @@ public class MovableGround extends Ground implements MovableTerrain {
 		standingEntity = null;
 	}
 	
+	public boolean isActive() {
+		return active;
+	}
+	
+	public boolean isLooping() {
+		return looping;
+	}
+	
+	public float getSpeed() {
+		return speed;
+	}
+	
+	public ArrayList<Point> getPath() {
+		return path;
+	}
+	
 	@Override
 	public int getID() {
 		return 8;

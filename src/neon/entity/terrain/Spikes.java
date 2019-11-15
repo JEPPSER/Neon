@@ -61,18 +61,18 @@ public class Spikes extends TerrainEntity {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
 		if (direction == CollisionDirection.UP) {
-			for (int i = 0; i < width / sprite.getWidth() - 1; i++) {
+			for (int i = 0; i < width / sprite.getWidth(); i++) {
 				float x = this.x + offsetX + i * sprite.getWidth();
 				g.drawImage(sprite.getImage(), x, y + offsetY);
 			}
 		} else if (direction == CollisionDirection.DOWN) {
-			for (int i = 0; i < width / sprite.getWidth() - 1; i++) {
+			for (int i = 0; i < width / sprite.getWidth(); i++) {
 				float x = this.x + offsetX + i * sprite.getWidth();
 				g.drawImage(sprite.getImage().getFlippedCopy(false, true), x, y + offsetY);
 			}
 		} else if (direction == CollisionDirection.RIGHT) {
 			sprite.getImage().setRotation(90);
-			for (int i = 0; i < height / sprite.getWidth() - 1; i++) {
+			for (int i = 0; i < height / sprite.getWidth(); i++) {
 				float y = this.y + offsetY + i * sprite.getWidth();
 				
 				g.drawImage(sprite.getImage(), x + offsetX, y);
@@ -80,7 +80,7 @@ public class Spikes extends TerrainEntity {
 			sprite.getImage().setRotation(0);
 		} else if (direction == CollisionDirection.LEFT) {
 			sprite.getImage().setRotation(-90);
-			for (int i = 0; i < height / sprite.getWidth() - 1; i++) {
+			for (int i = 0; i < height / sprite.getWidth(); i++) {
 				float y = this.y + offsetY + i * sprite.getWidth();
 				g.drawImage(sprite.getImage(), x + offsetX, y);
 			}

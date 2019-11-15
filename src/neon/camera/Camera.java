@@ -22,7 +22,7 @@ public class Camera {
 	private float offsetX;
 	private float offsetY;
 	private Point focalPoint;
-	private float yScrollValue = 0.2f;
+	private float yScrollValue = 0.3f;
 	private float scale = 1.0f;
 
 	public Camera(PhysicalEntity focusedEntity, GameContainer gc) {

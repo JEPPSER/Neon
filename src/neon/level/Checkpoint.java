@@ -8,6 +8,7 @@ import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.entity.terrain.TerrainEntity;
+import neon.entity.terrain.movable.MovableGround;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
 
