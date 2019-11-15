@@ -30,7 +30,7 @@ import neon.physics.CollisionDirection;
 
 public class LevelLoader {
 	
-	public Level readFile(String path) {
+	public static Level readFile(String path) {
 		try {
 			File file = new File(path);
 			String str = new String(Files.readAllBytes(Paths.get(path)));

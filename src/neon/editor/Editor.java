@@ -18,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import neon.entity.Entity;
 import neon.entity.terrain.Ground;
 import neon.graphics.Point;
+import neon.io.LevelLoader;
 import neon.level.Level;
 
 public class Editor extends BasicGameState {
@@ -25,6 +26,7 @@ public class Editor extends BasicGameState {
 	public static int id = 2;
 	
 	private Level level;
+	private String levelPath;
 
 	private Ground placing;
 	private boolean isPlacing;
@@ -85,11 +87,13 @@ public class Editor extends BasicGameState {
 		g.drawRect(x + cursor.getX() - 5, y + cursor.getY() - 5, 10, 10);
 		
 		// Ground
-		g.setColor(Color.green);
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			g.drawRect(x + e.getX(), y + e.getY(), e.getWidth(), e.getHeight());
+			e.render(g, x, y);
 		}
+		
+		g.setColor(Color.green);
+		g.drawString("cursor: " + cursor.getX() + ", " + cursor.getY(), 50, 50);
 	}
 
 	@Override
@@ -243,9 +247,25 @@ public class Editor extends BasicGameState {
 		lines.add("0,0,0");
 		lines.add(width + "," + height);
 		lines.add("100,100");
+		
+		try {
+			String str = new String(Files.readAllBytes(Paths.get(levelPath)));
+			str = str.replaceAll("\r", "");
+			String[] parts = str.split("\n");
+			for (int i = 3; i < parts.length; i++) {
+				if (!parts[i].startsWith("0")) {
+					lines.add(parts[i]);
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
+			if (e instanceof Ground) {
+				lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
+			}
 		}
 		try {
 			Files.write(Paths.get("res/temp.nlvl"), lines, StandardCharsets.UTF_8);
@@ -255,32 +275,10 @@ public class Editor extends BasicGameState {
 	}
 	
 	private void importLevel(String path) {
-		try {
-			String str = new String(Files.readAllBytes(Paths.get(path)));
-			str = str.replaceAll("\r", "");
-			String[] lines = str.split("\n");
-			Level level = new Level();
-			String[] size = lines[1].split(",");
-			level.setWidth(Float.parseFloat(size[0]));
-			level.setHeight(Float.parseFloat(size[1]));
-			
-			for (int i = 3; i < lines.length; i++) {
-				String[] parts = lines[i].split(",");
-				if (parts[0].equals("0")) {
-					Ground g = new Ground();
-					g.setX(Float.parseFloat(parts[1]));
-					g.setY(Float.parseFloat(parts[2]));
-					g.setWidth(Float.parseFloat(parts[3]));
-					g.setHeight(Float.parseFloat(parts[4]));
-					level.getObjects().add(g);
-				}
-			}
-			this.width = level.getWidth();
-			this.height = level.getHeight();
-			this.level = level;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.level = LevelLoader.readFile(path);
+		this.width = level.getWidth();
+		this.height = level.getHeight();
+		this.levelPath = path;
 	}
 
 	@Override

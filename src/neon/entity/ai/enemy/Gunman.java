@@ -168,4 +168,10 @@ public class Gunman extends Enemy {
 	public void takeDamage(float damage, CollisionDirection cd) {
 		ai.takeDamage(damage, cd);
 	}
+	
+	@Override
+	public String toString() {
+		String str = this.getID() + "," + x + "," + y;
+		return str;
+	}
 }

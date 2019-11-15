@@ -189,4 +189,10 @@ public class Gorilla extends Enemy {
 		anim.addAnimation(death, "death");
 		anim.setState("idle");
 	}
+	
+	@Override
+	public String toString() {
+		String str = this.getID() + "," + x + "," + y;
+		return str;
+	}
 }
