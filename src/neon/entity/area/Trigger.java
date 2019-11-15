@@ -13,6 +13,7 @@ public abstract class Trigger extends PhysicalEntity {
 	protected float textX;
 	protected float textY;
 	protected float scale = 1.0f;
+	protected boolean isTriggered;
 
 	public Trigger() {
 		this.name = "Trigger";
@@ -28,6 +29,10 @@ public abstract class Trigger extends PhysicalEntity {
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		
+	}
+	
+	public void reset() {
+		isTriggered = false;
 	}
 	
 	public float getScale() {

@@ -12,7 +12,6 @@ import neon.level.LevelManager;
 public class ActivateMovableTrigger extends Trigger {
 	
 	private String activateName;
-	private boolean isTriggered;
 	
 	public ActivateMovableTrigger(String activateName) {
 		this.activateName = activateName;

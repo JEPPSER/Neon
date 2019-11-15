@@ -1,9 +1,14 @@
 package neon.controller;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Input;
 
 import neon.combat.Combat;
+import neon.entity.Entity;
+import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
+import neon.entity.terrain.movable.MovableTerrain;
 import neon.graphics.animation.Animator;
 import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
@@ -178,6 +183,14 @@ public class PlayerController implements Controller {
 				player.setHealth(player.getMaxHealth());
 				player.setX(LevelManager.getSpawnPoint().getX());
 				player.setY(LevelManager.getSpawnPoint().getY());
+			}
+			ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
+			for (int i = 0; i < objects.size(); i++) {
+				if (objects.get(i) instanceof MovableTerrain) {
+					((MovableTerrain) objects.get(i)).reset();
+				} else if (objects.get(i) instanceof Trigger) {
+					((Trigger) objects.get(i)).reset();
+				}
 			}
 		}
 	}

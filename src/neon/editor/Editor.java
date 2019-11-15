@@ -16,6 +16,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.Entity;
+import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.movable.MovableGround;
 import neon.graphics.Point;
@@ -90,7 +91,9 @@ public class Editor extends BasicGameState {
 		// Ground
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			e.render(g, x, y);
+			if (!(e instanceof Bounds)) {
+				e.render(g, x, y);
+			}
 		}
 		
 		g.setColor(Color.green);
@@ -251,17 +254,19 @@ public class Editor extends BasicGameState {
 		lines.add(width + "," + height);
 		lines.add("100,100");
 		
-		try {
-			String str = new String(Files.readAllBytes(Paths.get(levelPath)));
-			str = str.replaceAll("\r", "");
-			String[] parts = str.split("\n");
-			for (int i = 3; i < parts.length; i++) {
-				if (!parts[i].startsWith("0")) {
-					lines.add(parts[i]);
+		if (levelPath != null) {
+			try {
+				String str = new String(Files.readAllBytes(Paths.get(levelPath)));
+				str = str.replaceAll("\r", "");
+				String[] parts = str.split("\n");
+				for (int i = 3; i < parts.length; i++) {
+					if (!parts[i].startsWith("0")) {
+						lines.add(parts[i]);
+					}
 				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 		
 		for (int i = 0; i < level.getObjects().size(); i++) {

@@ -28,6 +28,17 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 		x = path.get(0).getX();
 		y = path.get(0).getY();
 	}
+	
+	@Override
+	public void reset() {
+		if (!looping) {
+			active = false;
+			x = path.get(0).getX();
+			y = path.get(0).getY();
+			currentPoint = 0;
+			direction = 1;
+		}
+	}
 
 	@Override
 	public void activate() {
