@@ -24,6 +24,7 @@ import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.movable.MovableGround;
+import neon.entity.terrain.movable.MovableSpikes;
 import neon.graphics.Point;
 import neon.level.Level;
 import neon.physics.CollisionDirection;
@@ -121,8 +122,28 @@ public class LevelLoader {
 			return createGunman(parts);
 		} else if (id == 12) {
 			return createActivateMovableTrigger(parts);
+		} else if (id == 13) {
+			return createMovableSpikes(parts);
 		}
 		return null;
+	}
+	
+	private static MovableSpikes createMovableSpikes(String[] parts) {
+		float width = Float.parseFloat(parts[1]);
+		float height = Float.parseFloat(parts[2]);
+		CollisionDirection cd = CollisionDirection.valueOf(parts[3]);
+		String name = parts[4];
+		boolean active = Boolean.parseBoolean(parts[5]);
+		boolean looping = Boolean.parseBoolean(parts[6]);
+		float speed = Float.parseFloat(parts[7]);
+		ArrayList<Point> path = new ArrayList<Point>();
+		for (int i = 8; i < parts.length; i+=2) {
+			Point p = new Point(Float.parseFloat(parts[i]), Float.parseFloat(parts[i + 1]));
+			path.add(p);
+		}
+		MovableSpikes mg = new MovableSpikes(cd, name, active, looping, speed, path);
+		mg.setSize(width, height);
+		return mg;
 	}
 	
 	private static ActivateMovableTrigger createActivateMovableTrigger(String[] parts) {
