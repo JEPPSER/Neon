@@ -23,6 +23,7 @@ public class MovableGround extends Ground implements MovableTerrain {
 	private float speed;
 	
 	private boolean originalActive;
+	private boolean resetWhenDone = false;
 	
 	public MovableGround(String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
 		this.name = name;
@@ -35,6 +36,11 @@ public class MovableGround extends Ground implements MovableTerrain {
 		this.physics = new Physics(0f, 0f);
 		x = path.get(0).getX();
 		y = path.get(0).getY();
+	}
+	
+	@Override
+	public void resetWhenDone() {
+		resetWhenDone = true;
 	}
 	
 	@Override
@@ -93,6 +99,8 @@ public class MovableGround extends Ground implements MovableTerrain {
 				x = target.getX();
 				y = target.getY();
 			}
+		} else if (active && resetWhenDone) {
+			reset();
 		}
 		standing = false;
 		standingEntity = null;

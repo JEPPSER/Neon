@@ -148,7 +148,11 @@ public class LevelLoader {
 	}
 	
 	private static ActivateMovableTrigger createActivateMovableTrigger(String[] parts) {
-		ActivateMovableTrigger t = new ActivateMovableTrigger(parts[5]);
+		boolean reset = false;
+		if (parts.length == 7) {
+			reset = Boolean.parseBoolean(parts[6]);
+		}
+		ActivateMovableTrigger t = new ActivateMovableTrigger(parts[5], reset);
 		t.setX(Float.parseFloat(parts[1]));
 		t.setY(Float.parseFloat(parts[2]));
 		t.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));

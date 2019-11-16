@@ -6,5 +6,6 @@ public interface MovableTerrain {
 	public void deactivate();
 	public void updateMovement();
 	public void reset();
+	public void resetWhenDone();
 	public int getID();
 }

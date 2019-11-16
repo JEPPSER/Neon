@@ -12,10 +12,12 @@ import neon.level.LevelManager;
 public class ActivateMovableTrigger extends Trigger {
 	
 	private String activateName;
+	private boolean resetWhenDone;
 	
-	public ActivateMovableTrigger(String activateName) {
+	public ActivateMovableTrigger(String activateName, boolean resetWhenDone) {
 		this.activateName = activateName;
 		this.name = "ActivateMovableTrigger";
+		this.resetWhenDone = resetWhenDone;
 	}
 
 	@Override
@@ -36,6 +38,10 @@ public class ActivateMovableTrigger extends Trigger {
 			for (int i = 0; i < objects.size(); i++) {
 				if (objects.get(i) instanceof MovableTerrain && objects.get(i).getName().equals(activateName)) {
 					((MovableTerrain) objects.get(i)).activate();
+					if (resetWhenDone) {
+						((MovableTerrain) objects.get(i)).resetWhenDone();
+						isTriggered = false;
+					}
 				}
 			}
 		}

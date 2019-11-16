@@ -47,7 +47,7 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		
-		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_5.nlvl"));
+		LevelManager.setLevel(LevelLoader.readFile("res/temp.nlvl"));
 		
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);

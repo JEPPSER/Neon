@@ -18,6 +18,7 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 	private float speed;
 	private boolean canReset;
 	private boolean originalActive;
+	private boolean resetWhenDone = false;
 
 	public MovableSpikes(CollisionDirection cd, String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
 		super(cd);
@@ -31,6 +32,11 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 		this.physics = new Physics(0f, 0f);
 		x = path.get(0).getX();
 		y = path.get(0).getY();
+	}
+	
+	@Override
+	public void resetWhenDone() {
+		resetWhenDone = true;
 	}
 	
 	@Override
@@ -75,6 +81,8 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 				x = target.getX();
 				y = target.getY();
 			}
+		} else if (active && resetWhenDone) {
+			reset();
 		}
 	}
 
