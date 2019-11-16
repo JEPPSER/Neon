@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import neon.entity.PhysicalEntity;
 import neon.entity.controllable.ControllableEntity;
 import neon.entity.terrain.Ground;
-import neon.entity.terrain.TerrainEntity;
 import neon.graphics.Point;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -19,15 +18,20 @@ public class MovableGround extends Ground implements MovableTerrain {
 	private int direction = 1;
 	private boolean looping;
 	private boolean standing;
+	private boolean canReset;
 	private PhysicalEntity standingEntity;
 	private float speed;
 	
-	public MovableGround(String name, boolean active, boolean looping, float speed, ArrayList<Point> path) {
+	private boolean originalActive;
+	
+	public MovableGround(String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
 		this.name = name;
 		this.active = active;
 		this.path = path;
 		this.looping = looping;
 		this.speed = speed;
+		this.canReset = canReset;
+		this.originalActive = active;
 		this.physics = new Physics(0f, 0f);
 		x = path.get(0).getX();
 		y = path.get(0).getY();
@@ -35,8 +39,8 @@ public class MovableGround extends Ground implements MovableTerrain {
 	
 	@Override
 	public void reset() {
-		if (!looping) {
-			active = false;
+		if (canReset) {
+			active = originalActive;
 			x = path.get(0).getX();
 			y = path.get(0).getY();
 			currentPoint = 0;

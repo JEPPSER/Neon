@@ -175,22 +175,26 @@ public class PlayerController implements Controller {
 		}
 		if (deathTimer >= DEATH_TIME) {
 			deathTimer = 0;
-			if (LevelManager.getCheckpoint() != null) {
-				LevelManager.resetFromCheckpoint();
-			} else {
-				sm.activateState("spawn");
-				isInvulnerable = false;
-				player.setHealth(player.getMaxHealth());
-				player.setX(LevelManager.getSpawnPoint().getX());
-				player.setY(LevelManager.getSpawnPoint().getY());
-			}
-			ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
-			for (int i = 0; i < objects.size(); i++) {
-				if (objects.get(i) instanceof MovableTerrain) {
-					((MovableTerrain) objects.get(i)).reset();
-				} else if (objects.get(i) instanceof Trigger) {
-					((Trigger) objects.get(i)).reset();
-				}
+			resetLevel();
+		}
+	}
+	
+	private void resetLevel() {
+		if (LevelManager.getCheckpoint() != null) {
+			LevelManager.resetFromCheckpoint();
+		} else {
+			sm.activateState("spawn");
+			isInvulnerable = false;
+			player.setHealth(player.getMaxHealth());
+			player.setX(LevelManager.getSpawnPoint().getX());
+			player.setY(LevelManager.getSpawnPoint().getY());
+		}
+		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
+		for (int i = 0; i < objects.size(); i++) {
+			if (objects.get(i) instanceof MovableTerrain) {
+				((MovableTerrain) objects.get(i)).reset();
+			} else if (objects.get(i) instanceof Trigger) {
+				((Trigger) objects.get(i)).reset();
 			}
 		}
 	}

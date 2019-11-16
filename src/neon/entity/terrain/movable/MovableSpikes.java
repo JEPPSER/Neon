@@ -16,14 +16,18 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 	private int direction = 1;
 	private boolean looping;
 	private float speed;
+	private boolean canReset;
+	private boolean originalActive;
 
-	public MovableSpikes(CollisionDirection cd, String name, boolean active, boolean looping, float speed, ArrayList<Point> path) {
+	public MovableSpikes(CollisionDirection cd, String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
 		super(cd);
 		this.name = name;
 		this.active = active;
 		this.path = path;
 		this.looping = looping;
 		this.speed = speed;
+		this.canReset = canReset;
+		this.originalActive = active;
 		this.physics = new Physics(0f, 0f);
 		x = path.get(0).getX();
 		y = path.get(0).getY();
@@ -31,8 +35,8 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 	
 	@Override
 	public void reset() {
-		if (!looping) {
-			active = false;
+		if (canReset) {
+			active = originalActive;
 			x = path.get(0).getX();
 			y = path.get(0).getY();
 			currentPoint = 0;

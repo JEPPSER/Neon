@@ -135,13 +135,14 @@ public class LevelLoader {
 		String name = parts[4];
 		boolean active = Boolean.parseBoolean(parts[5]);
 		boolean looping = Boolean.parseBoolean(parts[6]);
-		float speed = Float.parseFloat(parts[7]);
+		boolean canReset = Boolean.parseBoolean(parts[7]);
+		float speed = Float.parseFloat(parts[8]);
 		ArrayList<Point> path = new ArrayList<Point>();
-		for (int i = 8; i < parts.length; i+=2) {
+		for (int i = 9; i < parts.length; i+=2) {
 			Point p = new Point(Float.parseFloat(parts[i]), Float.parseFloat(parts[i + 1]));
 			path.add(p);
 		}
-		MovableSpikes mg = new MovableSpikes(cd, name, active, looping, speed, path);
+		MovableSpikes mg = new MovableSpikes(cd, name, active, looping, canReset, speed, path);
 		mg.setSize(width, height);
 		return mg;
 	}
@@ -175,13 +176,14 @@ public class LevelLoader {
 		String name = parts[3];
 		boolean active = Boolean.parseBoolean(parts[4]);
 		boolean looping = Boolean.parseBoolean(parts[5]);
-		float speed = Float.parseFloat(parts[6]);
+		boolean canReset = Boolean.parseBoolean(parts[6]);
+		float speed = Float.parseFloat(parts[7]);
 		ArrayList<Point> path = new ArrayList<Point>();
-		for (int i = 7; i < parts.length; i+=2) {
+		for (int i = 8; i < parts.length; i+=2) {
 			Point p = new Point(Float.parseFloat(parts[i]), Float.parseFloat(parts[i + 1]));
 			path.add(p);
 		}
-		MovableGround mg = new MovableGround(name, active, looping, speed, path);
+		MovableGround mg = new MovableGround(name, active, looping, canReset, speed, path);
 		mg.setSize(width, height);
 		return mg;
 	}
