@@ -38,8 +38,6 @@ public class BasicGame extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		gc.setShowFPS(false);
-		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
-		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
 		Log.setVerbose(true);
 		SpriteLoader sl = new SpriteLoader();
 		sl.searchFolder("res");
@@ -47,8 +45,10 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		
-		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_7.nlvl"));
+		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_1.nlvl"));
 		
+		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
+		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);

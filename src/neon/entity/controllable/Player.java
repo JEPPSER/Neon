@@ -49,6 +49,10 @@ public class Player extends ControllableEntity {
 		colDirections = new ArrayList<CollisionDirection>();
 	}
 	
+	public void resetLevel() {
+		((PlayerController) controller).resetLevel();
+	}
+	
 	public void setState(String state) {
 		((PlayerController) controller).setState(state);;
 	}

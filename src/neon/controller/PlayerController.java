@@ -183,7 +183,7 @@ public class PlayerController implements Controller {
 		}
 	}
 	
-	private void resetLevel() {
+	public void resetLevel() {
 		if (LevelManager.getCheckpoint() != null) {
 			LevelManager.resetFromCheckpoint();
 		} else {
@@ -224,7 +224,7 @@ public class PlayerController implements Controller {
 			deathTimer = 0;
 			sm.activateState("idle");
 			player.getCollision().setMovable(true);
-			System.exit(1);
+			LevelManager.nextLevel();
 		}
 	}
 
