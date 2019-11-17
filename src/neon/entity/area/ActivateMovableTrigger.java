@@ -22,7 +22,8 @@ public class ActivateMovableTrigger extends Trigger {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-
+//		g.setColor(Color.red);
+//		g.drawRect(offsetX + x, offsetY + y, width, height);
 	}
 
 	@Override

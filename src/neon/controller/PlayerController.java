@@ -96,6 +96,10 @@ public class PlayerController implements Controller {
 		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("punch")) || isButtonPressed(input, "punch")) {
 			punch();
 		}
+		
+		if (input.isKeyPressed(Input.KEY_R)) {
+			resetLevel();
+		}
 
 		updateAnimationState();
 		updateActions();
