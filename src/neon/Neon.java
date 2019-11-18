@@ -18,9 +18,9 @@ public class Neon extends StateBasedGame {
 		try {
 			InputSettings.init();
 			AppGameContainer agc = new AppGameContainer(new Neon("Neon"));
-			agc.setDisplayMode(1920, 1080, true);
+			//agc.setDisplayMode(1920, 1080, true);
 			//agc.setDisplayMode(1280, 720, false);
-			//agc.setDisplayMode(1600, 900, false);
+			agc.setDisplayMode(1600, 900, false);
 			//agc.setDisplayMode(720, 720, false);
 			//agc.setDisplayMode(800, 600, false);
 			agc.setAlwaysRender(true);

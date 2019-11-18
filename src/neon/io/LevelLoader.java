@@ -20,6 +20,7 @@ import neon.entity.collectable.Heart;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.event.ActivateMovableEvent;
+import neon.entity.terrain.BouncingGround;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
@@ -124,8 +125,18 @@ public class LevelLoader {
 			return createActivateMovableTrigger(parts);
 		} else if (id == 13) {
 			return createMovableSpikes(parts);
+		} else if (id == 14) {
+			return createBouncingGround(parts);
 		}
 		return null;
+	}
+	
+	private static BouncingGround createBouncingGround(String[] parts) {
+		BouncingGround g = new BouncingGround();
+		g.setX(Float.parseFloat(parts[1]));
+		g.setY(Float.parseFloat(parts[2]));
+		g.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return g;
 	}
 	
 	private static MovableSpikes createMovableSpikes(String[] parts) {
