@@ -354,7 +354,11 @@ public class PlayerController implements Controller {
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
 			float vel = ph.getXVelocity() + xAcc * TimeInfo.getDelta();
-			if (vel > runningSpeed) {
+			if (sm.getCurrentState().equals("jumping")) {
+				if (ph.getXVelocity() >= runningSpeed) {
+					vel = ph.getXVelocity();
+				}
+			} else if (vel > runningSpeed) {
 				vel = runningSpeed;
 			}
 			ph.setXVelocity(vel);
@@ -375,7 +379,11 @@ public class PlayerController implements Controller {
 		}
 		if (!sm.getCurrentState().equals("dashing")) {
 			float vel = ph.getXVelocity() - xAcc * TimeInfo.getDelta();
-			if (vel * -1 > runningSpeed) {
+			if (sm.getCurrentState().equals("jumping")) {
+				if (ph.getXVelocity() <= -runningSpeed) {
+					vel = ph.getXVelocity();
+				}
+			} else if (vel * -1 > runningSpeed) {
 				vel = runningSpeed * -1;
 			}
 			ph.setXVelocity(vel);

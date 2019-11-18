@@ -16,6 +16,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.Entity;
+import neon.entity.terrain.BouncingGround;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.movable.MovableGround;
@@ -271,7 +272,7 @@ public class Editor extends BasicGameState {
 		
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			if (e instanceof Ground && !(e instanceof MovableGround)) {
+			if (e instanceof Ground && !(e instanceof MovableGround) && !(e instanceof BouncingGround)) {
 				lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
 			}
 		}
