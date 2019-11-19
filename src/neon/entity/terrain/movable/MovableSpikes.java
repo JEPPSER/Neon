@@ -90,4 +90,9 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 	public int getID() {
 		return 12;
 	}
+
+	@Override
+	public boolean isActive() {
+		return active;
+	}
 }

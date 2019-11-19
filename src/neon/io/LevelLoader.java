@@ -15,6 +15,7 @@ import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.ActivateMovableTrigger;
 import neon.entity.area.CheckpointTrigger;
+import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
 import neon.entity.collectable.Heart;
 import neon.entity.collectable.Portal;
@@ -127,8 +128,18 @@ public class LevelLoader {
 			return createMovableSpikes(parts);
 		} else if (id == 14) {
 			return createBouncingGround(parts);
+		} else if (id == 15) {
+			return createRandomActivateTrigger(parts);
 		}
 		return null;
+	}
+	
+	private static RandomActivateTrigger createRandomActivateTrigger(String[] parts) {
+		RandomActivateTrigger t = new RandomActivateTrigger(parts[5], Integer.parseInt(parts[6]));
+		t.setX(Float.parseFloat(parts[1]));
+		t.setY(Float.parseFloat(parts[2]));
+		t.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return t;
 	}
 	
 	private static BouncingGround createBouncingGround(String[] parts) {
@@ -176,7 +187,11 @@ public class LevelLoader {
 	}
 	
 	private static ActivateMovableEvent createActivateMovableEvent(String[] parts) {
-		ActivateMovableEvent e = new ActivateMovableEvent(parts[1], parts[2]);
+		String type = "dead";
+		if (parts.length == 4) {
+			type = parts[3];
+		}
+		ActivateMovableEvent e = new ActivateMovableEvent(parts[1], parts[2], type);
 		return e;
 	}
 	

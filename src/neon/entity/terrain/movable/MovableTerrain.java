@@ -8,4 +8,5 @@ public interface MovableTerrain {
 	public void reset();
 	public void resetWhenDone();
 	public int getID();
+	public boolean isActive();
 }

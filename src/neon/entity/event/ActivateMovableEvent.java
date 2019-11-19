@@ -10,16 +10,18 @@ import neon.graphics.EntityGraphics;
 import neon.level.LevelManager;
 
 public class ActivateMovableEvent implements Event {
-	
+
 	private String activateName;
 	private String conditionName;
+	private String conditionType;
 	private String name = "ActivateMovableEvent";
-	
-	public ActivateMovableEvent(String activateName, String conditionName) {
+
+	public ActivateMovableEvent(String activateName, String conditionName, String conditionType) {
 		this.activateName = activateName;
 		this.conditionName = conditionName;
+		this.conditionType = conditionType;
 	}
-	
+
 	@Override
 	public int getID() {
 		return 10;
@@ -29,8 +31,14 @@ public class ActivateMovableEvent implements Event {
 	public boolean meetsCondition() {
 		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
 		for (int i = 0; i < objects.size(); i++) {
-			if (objects.get(i).getName().equals(conditionName)) {
-				return false;
+			if (conditionType.equals("dead")) {
+				if (objects.get(i).getName().equals(conditionName)) {
+					return false;
+				}
+			} else if (conditionType.equals("activated")) {
+				if (objects.get(i).getName().equals(conditionName) && !((MovableTerrain) objects.get(i)).isActive()) {
+					return false;
+				}
 			}
 		}
 		return true;
