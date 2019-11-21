@@ -9,7 +9,7 @@ public class LevelManager {
 	
 	private static Level level;
 	private static Checkpoint checkpoint;
-	private static String[] levels = { "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7", "level_8", "level_9" };
+	private static String[] levels = { "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7", "level_8", "level_9", "level_10" };
 	private static int currentLevel = 0;
 	
 	public static void setLevel(Level level) {
