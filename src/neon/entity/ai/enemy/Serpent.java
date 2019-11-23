@@ -6,6 +6,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.combat.Combat;
 import neon.controller.ai.SerpentController;
+import neon.entity.PhysicalEntity;
+import neon.entity.terrain.TerrainEntity;
 import neon.graphics.EntityGraphics;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
@@ -27,6 +29,13 @@ public class Serpent extends Enemy {
 		this.y = y;
 		this.ai = new SerpentController(this);
 		this.combat = new Combat();
+	}
+	
+	@Override
+	public void handleCollision(PhysicalEntity other) {
+		if (other instanceof TerrainEntity){
+			super.handleCollision(other);
+		}
 	}
 	
 	private void initGraphics() {
