@@ -96,10 +96,6 @@ public class PlayerController implements Controller {
 		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("punch")) || isButtonPressed(input, "punch")) {
 			punch();
 		}
-		
-		if (input.isKeyPressed(Input.KEY_R)) {
-			resetLevel();
-		}
 
 		updateAnimationState();
 		updateActions();
@@ -289,9 +285,9 @@ public class PlayerController implements Controller {
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking() && cooldown > COOLDOWN_TIME) {
 			if (direction == 0) {
-				ph.setXVelocity(1f);
+				ph.setXVelocity(0.5f);
 			} else if (direction == 1) {
-				ph.setXVelocity(-1f);
+				ph.setXVelocity(-0.5f);
 			}
 			combat.startAttack("punch");
 			sm.activateState("punching");

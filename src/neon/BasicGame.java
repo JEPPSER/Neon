@@ -14,6 +14,7 @@ import org.newdawn.slick.util.Log;
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
+import neon.entity.ai.enemy.Serpent;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.graphics.animation.Animator;
@@ -46,6 +47,8 @@ public class BasicGame extends BasicGameState {
 		combat = new CombatEngine();
 		
 		LevelManager.setLevel(LevelLoader.readFile("res/temp.nlvl"));
+		Serpent s = new Serpent(500, 500);
+		LevelManager.addEntity(s);
 		
 		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
 		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
