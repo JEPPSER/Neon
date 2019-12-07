@@ -46,7 +46,7 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		
-		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_10.nlvl"));
+		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_1.nlvl"));
 		//Serpent s = new Serpent(500, 500);
 		//LevelManager.addEntity(s);
 		

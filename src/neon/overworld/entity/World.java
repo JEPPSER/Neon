@@ -1,10 +1,13 @@
-package neon.overworld;
+package neon.overworld.entity;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-public class World {
+import neon.entity.area.InputPromptTrigger;
+
+public class World extends InputPromptTrigger {
 	
 	private ArrayList<String> levels;
 	private String name;
@@ -12,15 +15,26 @@ public class World {
 	private float x;
 	private float y;
 	
-	public World(ArrayList<String> levels, Image image, String name, float x, float y) {
+	public World(ArrayList<String> levels, Image image, String name, float x, float y, float width, float height) {
 		this.levels = levels;
-		this.image = image;
+		this.image = image.getScaledCopy((int) width, (int) height);
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.text = name;
+		this.setSize(width, height);
 	}
 	
-	public World() {
+	public World(float width, float height) {
+		this.setSize(width, height);
+	}
+	
+	@Override
+	public void render(Graphics g, float offsetX, float offsetY) {
+		g.drawImage(this.image, x + offsetX, y + offsetY);
+		if (isTriggered) {
+			g.drawString(this.text, offsetX + x, offsetY + y - 50);
+		}
 	}
 
 	public Image getImage() {
@@ -28,7 +42,7 @@ public class World {
 	}
 
 	public void setImage(Image image) {
-		this.image = image;
+		this.image = image.getScaledCopy((int) width, (int) height);
 	}
 
 	public ArrayList<String> getLevels() {

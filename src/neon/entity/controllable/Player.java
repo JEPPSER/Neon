@@ -12,6 +12,7 @@ import neon.combat.AttackAnimation;
 import neon.combat.Combat;
 import neon.controller.Controller;
 import neon.controller.PlayerController;
+import neon.controller.PlayerOverworldController;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
@@ -52,6 +53,10 @@ public class Player extends ControllableEntity {
 	
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+	
+	public boolean enterWorld() {
+		return ((PlayerOverworldController) controller).enterWorld();
 	}
 	
 	public void resetLevel() {

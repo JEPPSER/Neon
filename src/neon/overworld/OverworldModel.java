@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
+import neon.overworld.entity.World;
+
 public class OverworldModel {
 	
 	private ArrayList<World> worlds;

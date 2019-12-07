@@ -26,6 +26,7 @@ public class InputSettings {
 		keyboardBinds.put("right", Input.KEY_D);
 		keyboardBinds.put("up", Input.KEY_W);
 		keyboardBinds.put("down", Input.KEY_S);
+		keyboardBinds.put("action", Input.KEY_J);
 	}
 	
 	public static HashMap<String, Integer> getControllerBinds() {

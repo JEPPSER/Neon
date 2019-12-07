@@ -5,6 +5,7 @@ import org.newdawn.slick.Input;
 import neon.entity.controllable.Player;
 import neon.graphics.animation.Animator;
 import neon.level.LevelManager;
+import neon.overworld.entity.World;
 import neon.settings.InputSettings;
 import neon.state.State;
 import neon.state.StateManager;
@@ -15,6 +16,8 @@ public class PlayerOverworldController extends PlayerController {
 	private StateManager sm;
 	private Player player;
 	private Animator animator;
+	
+	private boolean enterWorld = false;
 
 	private float runningSpeed = 0.5f;
 	private int direction = 0; // 0 = right, 1 = left
@@ -64,11 +67,20 @@ public class PlayerOverworldController extends PlayerController {
 			isIdle = false;
 			down();
 		}
+		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("action"))) {
+			if (player.getCollidingEntity() instanceof World) {
+				this.enterWorld = true;
+			}
+		}
 		if (isIdle) {
 			sm.activateState("idle");
 		}
 
 		updateAnimationState();
+	}
+	
+	public boolean enterWorld() {
+		return enterWorld;
 	}
 
 	public void setState(String state) {

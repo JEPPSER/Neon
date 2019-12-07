@@ -11,6 +11,7 @@ import neon.camera.Camera;
 import neon.controller.PlayerOverworldController;
 import neon.entity.controllable.Player;
 import neon.io.OverworldLoader;
+import neon.overworld.entity.World;
 import neon.time.TimeInfo;
 
 public class Overworld extends BasicGameState {
@@ -44,6 +45,16 @@ public class Overworld extends BasicGameState {
 		TimeInfo.setDelta(delta);
 		player.control(gc.getInput());
 		player.getGraphics().getAnimator().updateAnimations();
+		
+		for (int i = 0; i < owm.getWorlds().size(); i++) {
+			World w = owm.getWorlds().get(i);
+			player.checkCollision(w);
+			player.handleCollision(w);
+		}
+		
+		if (player.enterWorld()) {
+			sbg.enterState(1);
+		}
 	}
 
 	@Override

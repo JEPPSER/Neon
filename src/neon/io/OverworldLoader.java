@@ -9,7 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import neon.overworld.OverworldModel;
-import neon.overworld.World;
+import neon.overworld.entity.World;
 
 public class OverworldLoader {
 	

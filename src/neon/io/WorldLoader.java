@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import neon.overworld.World;
+import neon.overworld.entity.World;
+import neon.settings.InputSettings;
 
 public class WorldLoader {
 
@@ -20,7 +21,8 @@ public class WorldLoader {
 			str = str.replaceAll("\r", "");
 			String[] lines = str.split("\n");
 			
-			World world = new World();
+			World world = new World(100, 100);
+			world.setTrigger("PRESS " + InputSettings.getKeyboardBinds().get("action") + " TO ENTER", 0, 0);
 			world.setName(file.getName().replace(".nwrld", ""));
 			
 			Image img = new Image(lines[0]);

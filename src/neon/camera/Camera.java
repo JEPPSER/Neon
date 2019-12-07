@@ -13,7 +13,7 @@ import neon.graphics.Point;
 import neon.level.Level;
 import neon.level.LevelManager;
 import neon.overworld.OverworldModel;
-import neon.overworld.World;
+import neon.overworld.entity.World;
 
 public class Camera {
 
@@ -88,8 +88,7 @@ public class Camera {
 		g.drawImage(owm.getBackground().getScaledCopy(2), cameraOffsetX + offsetX, cameraOffsetY + offsetY);
 		for (int i = 0; i < owm.getWorlds().size(); i++) {
 			World w = owm.getWorlds().get(i);
-			g.drawImage(w.getImage().getScaledCopy(100, 100), w.getX() + cameraOffsetX + offsetX,
-					w.getY() + cameraOffsetY + offsetY);
+			w.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
 		}
 
 		focusedEntity.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
