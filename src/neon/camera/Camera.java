@@ -12,6 +12,8 @@ import neon.entity.controllable.Player;
 import neon.graphics.Point;
 import neon.level.Level;
 import neon.level.LevelManager;
+import neon.overworld.OverworldModel;
+import neon.overworld.World;
 
 public class Camera {
 
@@ -23,6 +25,7 @@ public class Camera {
 	private float offsetY;
 	private Point focalPoint;
 	private float yScrollValue = 0.3f;
+	private float overworldScrollValue = 0.2f;
 	private float scale = 1.0f;
 
 	public Camera(PhysicalEntity focusedEntity, GameContainer gc) {
@@ -31,7 +34,7 @@ public class Camera {
 		offsetY = focusedEntity.getY() * -1 + gc.getHeight() / 2;
 		this.gc = gc;
 	}
-	
+
 	public void pan(float x, float y) {
 		cameraOffsetX += x;
 		cameraOffsetY += y;
@@ -45,12 +48,9 @@ public class Camera {
 		return this.focusedEntity;
 	}
 
-	public void renderPlayField(Level level, Graphics g) {
-		if (focusedEntity == null) {
-			focusedEntity = LevelManager.getLevel().getPlayer();
-		}
+	public void renderOverworld(OverworldModel owm, Graphics g) {
 		g.scale(scale, scale);
-		
+
 		float focalX;
 		float focalY;
 		if (focalPoint == null) {
@@ -60,7 +60,57 @@ public class Camera {
 			focalX = focalPoint.getX();
 			focalY = focalPoint.getY();
 		}
-		
+
+		float y = offsetY + focalY;
+		float x = offsetX + focalX;
+		float height = focusedEntity.getHeight();
+		float width = focusedEntity.getWidth();
+
+		if (focalPoint == null) {
+			// Scroll screen vertically
+			if (y > gc.getHeight() / scale - height - gc.getHeight() / scale * overworldScrollValue) {
+				offsetY = -focalY + gc.getHeight() / scale - height - gc.getHeight() / scale * overworldScrollValue;
+			} else if (y < gc.getHeight() / scale * overworldScrollValue) {
+				offsetY = -focalY + gc.getHeight() / scale * overworldScrollValue;
+			}
+
+			// Scroll screen horizontally
+			if (x > gc.getWidth() / scale - width - gc.getWidth() / scale * overworldScrollValue) {
+				offsetX = -focalX + gc.getWidth() / scale - width - gc.getWidth() / scale * overworldScrollValue;
+			} else if (x < gc.getWidth() / scale * overworldScrollValue) {
+				offsetX = -focalX + gc.getWidth() / scale * overworldScrollValue;
+			}
+		} else {
+			offsetY = focalY * -1 + gc.getHeight() / (2f * scale);
+			offsetX = focalX * -1 + gc.getWidth() / (2f * scale) - focusedEntity.getWidth() / 2;
+		}
+
+		g.drawImage(owm.getBackground().getScaledCopy(2), cameraOffsetX + offsetX, cameraOffsetY + offsetY);
+		for (int i = 0; i < owm.getWorlds().size(); i++) {
+			World w = owm.getWorlds().get(i);
+			g.drawImage(w.getImage().getScaledCopy(100, 100), w.getX() + cameraOffsetX + offsetX,
+					w.getY() + cameraOffsetY + offsetY);
+		}
+
+		focusedEntity.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
+	}
+
+	public void renderPlayField(Level level, Graphics g) {
+		if (focusedEntity == null) {
+			focusedEntity = LevelManager.getLevel().getPlayer();
+		}
+		g.scale(scale, scale);
+
+		float focalX;
+		float focalY;
+		if (focalPoint == null) {
+			focalX = focusedEntity.getX();
+			focalY = focusedEntity.getY();
+		} else {
+			focalX = focalPoint.getX();
+			focalY = focalPoint.getY();
+		}
+
 		offsetX = focalX * -1 + gc.getWidth() / (2f * scale) - focusedEntity.getWidth() / 2;
 		float y = offsetY + focalY;
 		float height = focusedEntity.getHeight();
@@ -86,7 +136,7 @@ public class Camera {
 			}
 		}
 	}
-	
+
 	public void renderStaticElements(GameContainer gc, Graphics g) {
 		Player p = LevelManager.getLevel().getPlayer();
 		float dify = gc.getHeight() - Display.getHeight();
@@ -99,18 +149,19 @@ public class Camera {
 		g.resetFont();
 		g.drawString("FPS: " + String.valueOf(gc.getFPS()), 10, y);
 	}
-	
+
 	public void zoom(float scale) {
 		this.scale = scale;
 	}
-	
+
 	public void setFocalPoint(Point focalPoint) {
 		this.focalPoint = focalPoint;
 	}
 
 	private boolean isInView(Entity entity) {
 		if (entity.getX() + offsetX + entity.getWidth() > 0 && entity.getX() + offsetX < gc.getWidth() / scale
-				&& entity.getY() + offsetY + entity.getHeight() > 0 && entity.getY() + offsetY < gc.getHeight() / scale) {
+				&& entity.getY() + offsetY + entity.getHeight() > 0
+				&& entity.getY() + offsetY < gc.getHeight() / scale) {
 			return true;
 		}
 		return false;

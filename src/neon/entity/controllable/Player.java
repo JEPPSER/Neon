@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 import neon.combat.Attack;
 import neon.combat.AttackAnimation;
 import neon.combat.Combat;
+import neon.controller.Controller;
 import neon.controller.PlayerController;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
@@ -47,6 +48,10 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
+	}
+	
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 	
 	public void resetLevel() {

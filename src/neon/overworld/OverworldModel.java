@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
-public class OverworldFile {
+public class OverworldModel {
 	
 	private ArrayList<World> worlds;
 	private Image background;
 	
-	public OverworldFile(ArrayList<World> worlds, Image background) {
+	public OverworldModel(ArrayList<World> worlds, Image background) {
 		this.worlds = worlds;
 		this.background = background;
 	}
 	
-	public OverworldFile() {
+	public OverworldModel() {
 	}
 	
 	public ArrayList<World> getWorlds() {

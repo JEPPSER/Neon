@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import neon.overworld.OverworldFile;
+import neon.overworld.OverworldModel;
 import neon.overworld.World;
 
 public class OverworldLoader {
 	
-	public static OverworldFile readFile(String path) {
+	public static OverworldModel readFile(String path) {
 		try {
 			String str = new String(Files.readAllBytes(Paths.get(path)));
 			str = str.replaceAll("\r", "");
 			String[] lines = str.split("\n");
 			
-			OverworldFile owf = new OverworldFile();
+			OverworldModel owf = new OverworldModel();
 			Image img = new Image(lines[0]);
 			owf.setBackground(img);
 			

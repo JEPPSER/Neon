@@ -1,11 +1,15 @@
 package neon.overworld;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import neon.camera.Camera;
+import neon.controller.PlayerOverworldController;
+import neon.entity.controllable.Player;
 import neon.io.OverworldLoader;
 import neon.time.TimeInfo;
 
@@ -13,25 +17,33 @@ public class Overworld extends BasicGameState {
 	
 	public static int id = 3;
 	
-	private OverworldFile owf;
+	private OverworldModel owm;
+	private Player player;
+	private Camera camera;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		owf = OverworldLoader.readFile("res/overworlds/overworld.now");
+		owm = OverworldLoader.readFile("res/overworlds/overworld.now");
+		player = new Player(100, 100);
+		player.setController(new PlayerOverworldController(player));
+		
+		float defaultZoom = (float) gc.getHeight() / 900f;
+		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
+		camera = new Camera(player, gc);
+		camera.zoom(defaultZoom);
+		camera.pan(0, gc.getHeight() - Display.getHeight());
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(owf.getBackground(), 0, 0);
-		for (int i = 0; i < owf.getWorlds().size(); i++) {
-			World w = owf.getWorlds().get(i);
-			g.drawImage(w.getImage().getScaledCopy(100, 100), w.getX(), w.getY());
-		}
+		camera.renderOverworld(owm, g);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		TimeInfo.setDelta(delta);
+		player.control(gc.getInput());
+		player.getGraphics().getAnimator().updateAnimations();
 	}
 
 	@Override
