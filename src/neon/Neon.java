@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.editor.Editor;
+import neon.overworld.Overworld;
 import neon.settings.InputSettings;
 
 public class Neon extends StateBasedGame {
@@ -34,6 +35,7 @@ public class Neon extends StateBasedGame {
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		addState(new BasicGame());
 		addState(new Editor());
-		//enterState(2);
+		addState(new Overworld());
+		enterState(3);
 	}
 }

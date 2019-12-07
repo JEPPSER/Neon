@@ -46,9 +46,9 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		
-		LevelManager.setLevel(LevelLoader.readFile("res/temp.nlvl"));
-		Serpent s = new Serpent(500, 500);
-		LevelManager.addEntity(s);
+		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_10.nlvl"));
+		//Serpent s = new Serpent(500, 500);
+		//LevelManager.addEntity(s);
 		
 		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
 		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
