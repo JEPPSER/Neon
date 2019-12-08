@@ -70,6 +70,7 @@ public class PlayerOverworldController extends PlayerController {
 		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("action"))) {
 			if (player.getCollidingEntity() instanceof World) {
 				this.enterWorld = true;
+				LevelManager.setWorld((World) player.getCollidingEntity());
 			}
 		}
 		if (isIdle) {
@@ -77,6 +78,10 @@ public class PlayerOverworldController extends PlayerController {
 		}
 
 		updateAnimationState();
+	}
+	
+	public void setEnterWorld(boolean enterWorld) {
+		this.enterWorld = enterWorld;
 	}
 	
 	public boolean enterWorld() {

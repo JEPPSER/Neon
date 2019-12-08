@@ -4,22 +4,34 @@ import neon.camera.Camera;
 import neon.entity.Entity;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
+import neon.overworld.entity.World;
 
 public class LevelManager {
 	
 	private static Level level;
 	private static Checkpoint checkpoint;
-	private static String[] levels = { "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7", "level_8", "level_9", "level_10" };
+	private static String[] levels;
 	private static int currentLevel = 0;
 	
-	public static void setLevel(Level level) {
-		LevelManager.level = level;
+	public static void setWorld(World world) {
+		String[] levels = new String[world.getLevels().size()];
+		for (int i = 0; i < levels.length; i++) {
+			levels[i] = world.getLevels().get(i);
+		}
+		LevelManager.levels = levels;
+		currentLevel = 0;
+		checkpoint = null;
+		LevelManager.level = LevelLoader.readFile(levels[currentLevel]);
 	}
 	
 	public static void nextLevel() {
+		if (currentLevel >= levels.length - 1) {
+			level.getPlayer().setExitWorld(true);
+			return;
+		}
 		currentLevel++;
 		Camera c = level.getCamera();
-		level = LevelLoader.readFile("res/levels/" + levels[currentLevel] + ".nlvl");
+		level = LevelLoader.readFile(levels[currentLevel]);
 		c.setFocusedEntity(level.getPlayer());
 		level.setCamera(c);
 		checkpoint = null;

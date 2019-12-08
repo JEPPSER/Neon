@@ -35,6 +35,16 @@ public class BasicGame extends BasicGameState {
 	private PhysicsEngine physics;
 	private CombatEngine combat;
 	private Camera camera;
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) {
+		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
+		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
+		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
+		LevelManager.getLevel().setCamera(camera);
+		camera.zoom(defaultZoom);
+		camera.pan(0, gc.getHeight() - Display.getHeight());
+	}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -46,16 +56,8 @@ public class BasicGame extends BasicGameState {
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
 		
-		LevelManager.setLevel(LevelLoader.readFile("res/levels/level_1.nlvl"));
 		//Serpent s = new Serpent(500, 500);
 		//LevelManager.addEntity(s);
-		
-		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
-		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
-		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
-		LevelManager.getLevel().setCamera(camera);
-		camera.zoom(defaultZoom);
-		camera.pan(0, gc.getHeight() - Display.getHeight());
 
 		cutsceneManager = new CutsceneManager();
 		/*
@@ -90,6 +92,11 @@ public class BasicGame extends BasicGameState {
 			p.control(input);
 		}
 		combat.updateCombat(objects, p);
+		
+		if (p.exitWorld()) {
+			p.setExitWorld(false);
+			sbg.enterState(3);
+		}
 
 		// Updates timing for all animations
 		for (int i = 0; i < objects.size(); i++) {

@@ -34,6 +34,7 @@ public class Player extends ControllableEntity {
 	private Combat combat;
 	private float health;
 	private float maxHealth;
+	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
 
 	public Player(float x, float y) {
@@ -55,8 +56,20 @@ public class Player extends ControllableEntity {
 		this.controller = controller;
 	}
 	
+	public void setEnterWorld(boolean enterWorld) {
+		((PlayerOverworldController) controller).setEnterWorld(enterWorld);
+	}
+	
 	public boolean enterWorld() {
 		return ((PlayerOverworldController) controller).enterWorld();
+	}
+	
+	public void setExitWorld(boolean exitWorld) {
+		this.exitWorld = exitWorld;
+	}
+	
+	public boolean exitWorld() {
+		return exitWorld;
 	}
 	
 	public void resetLevel() {

@@ -35,9 +35,9 @@ public class Neon extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		addState(new Overworld());
 		addState(new BasicGame());
 		addState(new Editor());
-		addState(new Overworld());
 		enterState(3);
 	}
 }

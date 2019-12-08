@@ -11,6 +11,7 @@ import neon.camera.Camera;
 import neon.controller.PlayerOverworldController;
 import neon.entity.controllable.Player;
 import neon.io.OverworldLoader;
+import neon.level.LevelManager;
 import neon.overworld.entity.World;
 import neon.time.TimeInfo;
 
@@ -53,6 +54,7 @@ public class Overworld extends BasicGameState {
 		}
 		
 		if (player.enterWorld()) {
+			player.setEnterWorld(false);
 			sbg.enterState(1);
 		}
 	}
