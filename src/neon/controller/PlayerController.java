@@ -43,6 +43,7 @@ public class PlayerController implements Controller {
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;
 	private boolean canDash = true;
+	private boolean airJump = false;
 
 	public PlayerController(Player player) {
 		this.player = player;
@@ -101,6 +102,12 @@ public class PlayerController implements Controller {
 		updateActions();
 		updateInvulnerability();
 		updateCombat();
+	}
+	
+	public void activateAirJump() {
+		this.airJump = true;
+		this.canDash = true;
+		this.dashTime = 0;
 	}
 	
 	public void setState(String state) {
@@ -308,9 +315,12 @@ public class PlayerController implements Controller {
 	}
 
 	private void jump() {
-		if (!sm.getCurrentState().equals("gliding") && sm.canActivateState("jumping")) {
+		if (!sm.getCurrentState().equals("gliding") && sm.canActivateState("jumping") ||
+				!sm.getCurrentState().equals("gliding") && airJump) {
 			sm.activateState("jumping");
 			ph.setYVelocity(-2f);
+			airJump = false;
+			canDash = true;
 		} else if (sm.canActivateState("jumping")) {
 			sm.activateState("jumping");
 			ph.setYVelocity(-2f);

@@ -52,6 +52,10 @@ public class Player extends ControllableEntity {
 		colDirections = new ArrayList<CollisionDirection>();
 	}
 	
+	public void activateAirJump() {
+		((PlayerController) controller).activateAirJump();
+	}
+	
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
