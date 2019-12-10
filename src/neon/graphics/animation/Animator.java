@@ -19,6 +19,7 @@ public class Animator {
 	public void setState(String state) {
 		this.state = state;
 		this.currentAnimation = animations.get(state);
+		//System.out.println(this.currentAnimation.getCurrentSprite().getName());
 		this.currentAnimation.setCurrentSpriteIndex(0);
 	}
 	
@@ -46,6 +47,7 @@ public class Animator {
 	}
 	
 	public Sprite getCurrentSprite() {
+		//System.out.println(currentAnimation.getCurrentSprite().getName());
 		return currentAnimation.getCurrentSprite();
 	}
 }

@@ -3,12 +3,10 @@ package neon.level;
 import java.util.ArrayList;
 
 import neon.entity.Entity;
-import neon.entity.ai.enemy.Gorilla;
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.entity.terrain.TerrainEntity;
-import neon.entity.terrain.movable.MovableGround;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
 
@@ -36,7 +34,7 @@ public class Checkpoint {
 		
 		ArrayList<Entity> objects = level.getObjects();
 		for (int i = 0; i < objects.size(); i++) {
-			if (!(objects.get(i) instanceof Player)) {
+			if (!(objects.get(i) instanceof Player) && objects.get(i) != null) {
 				if (!(objects.get(i) instanceof TerrainEntity) && !(objects.get(i) instanceof Trigger) && !(objects.get(i) instanceof Event)) {
 					Entity e = LevelLoader.copyEntity(objects.get(i));
 					result.getObjects().add(e);
@@ -46,7 +44,11 @@ public class Checkpoint {
 			}
 		}
 		
-		LevelLoader.setBounds(result, result.getObjects());
+		//LevelLoader.setBounds(result, result.getObjects());
+		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY());
+		p.setWeapon(level.getPlayer().getWeapon());
+		result.getObjects().add(p);
+		result.setPlayer(p);
 		
 		return result;
 	}

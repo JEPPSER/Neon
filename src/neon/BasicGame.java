@@ -18,6 +18,7 @@ import neon.entity.ai.enemy.Serpent;
 import neon.entity.collectable.JumpItem;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
+import neon.entity.weapon.Gun;
 import neon.graphics.animation.Animator;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;

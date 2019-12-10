@@ -291,14 +291,19 @@ public class PlayerController implements Controller {
 
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking() && cooldown > COOLDOWN_TIME) {
-			if (direction == 0) {
-				ph.setXVelocity(0.5f);
-			} else if (direction == 1) {
-				ph.setXVelocity(-0.5f);
+			if (player.getWeapon() == null) {
+				if (direction == 0) {
+					ph.setXVelocity(0.5f);
+				} else if (direction == 1) {
+					ph.setXVelocity(-0.5f);
+				}
+				combat.startAttack("punch");
+				sm.activateState("punching");
+				cooldown = 0;
+			} else {
+				player.getWeapon().attack(player);
+				sm.activateState("punching");
 			}
-			combat.startAttack("punch");
-			sm.activateState("punching");
-			cooldown = 0;
 		}
 	}
 

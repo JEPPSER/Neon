@@ -27,8 +27,10 @@ import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.movable.MovableGround;
 import neon.entity.terrain.movable.MovableSpikes;
+import neon.entity.weapon.Gun;
 import neon.graphics.Point;
 import neon.level.Level;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 
 public class LevelLoader {
@@ -92,6 +94,8 @@ public class LevelLoader {
 		right.setSize(100, level.getHeight());
 		objects.add(right);
 		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY());
+		Gun gun = new Gun();
+		p.setWeapon(gun);
 		objects.add(p);
 		level.setPlayer(p);
 	}

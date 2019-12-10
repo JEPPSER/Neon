@@ -19,6 +19,8 @@ import neon.entity.area.Trigger;
 import neon.entity.collectable.CollectableEntity;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
+import neon.entity.weapon.Gun;
+import neon.entity.weapon.Weapon;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
 import neon.graphics.Sprite;
@@ -31,6 +33,7 @@ import neon.physics.CollisionDirection;
 
 public class Player extends ControllableEntity {
 
+	private Weapon weapon;
 	private Combat combat;
 	private float health;
 	private float maxHealth;
@@ -50,6 +53,15 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
+	}
+	
+	public Weapon getWeapon() {
+		return weapon;
+	}
+	
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+		this.graphics.setAnimator(weapon.getAnimator());
 	}
 	
 	public void activateAirJump() {
