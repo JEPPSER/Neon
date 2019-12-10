@@ -17,7 +17,9 @@ import neon.entity.area.ActivateMovableTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
+import neon.entity.collectable.GunCollector;
 import neon.entity.collectable.Heart;
+import neon.entity.collectable.JumpItem;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.event.ActivateMovableEvent;
@@ -92,7 +94,7 @@ public class LevelLoader {
 		right.setY(0);
 		right.setSize(100, level.getHeight());
 		objects.add(right);
-		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY(), new Gun());
+		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY(), null);
 		objects.add(p);
 		level.setPlayer(p);
 	}
@@ -131,8 +133,22 @@ public class LevelLoader {
 			return createBouncingGround(parts);
 		} else if (id == 15) {
 			return createRandomActivateTrigger(parts);
+		} else if (id == 16) {
+			return createGunCollector(parts);
+		} else if (id == 17) {
+			return createJumpItem(parts);
 		}
 		return null;
+	}
+	
+	private static JumpItem createJumpItem(String[] parts) {
+		JumpItem ji = new JumpItem(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return ji;
+	}
+	
+	private static GunCollector createGunCollector(String[] parts) {
+		GunCollector gc = new GunCollector(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return gc;
 	}
 	
 	private static RandomActivateTrigger createRandomActivateTrigger(String[] parts) {

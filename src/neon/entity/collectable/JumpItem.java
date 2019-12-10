@@ -87,6 +87,6 @@ public class JumpItem extends CollectableEntity {
 
 	@Override
 	public int getID() {
-		return -1;
+		return 17;
 	}
 }

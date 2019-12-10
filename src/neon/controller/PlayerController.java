@@ -286,6 +286,7 @@ public class PlayerController implements Controller {
 	}
 
 	private void updateAnimationState() {
+		this.animator = player.getGraphics().getAnimator();
 		if (!animator.getState().equals(sm.getCurrentState())) {
 			animator.setState(sm.getCurrentState());
 		}

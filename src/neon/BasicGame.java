@@ -15,6 +15,7 @@ import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.ai.enemy.Serpent;
+import neon.entity.collectable.GunCollector;
 import neon.entity.collectable.JumpItem;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
@@ -46,9 +47,6 @@ public class BasicGame extends BasicGameState {
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
 		camera.pan(0, gc.getHeight() - Display.getHeight());
-		
-		JumpItem ji = new JumpItem(300, 1000);
-		LevelManager.addEntity(ji);
 	}
 
 	@Override
