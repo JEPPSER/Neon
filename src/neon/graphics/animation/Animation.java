@@ -9,6 +9,7 @@ public class Animation {
 	private ArrayList<Sprite> sprites;
 	private float frequency;
 	private boolean looping;
+	private boolean isDone = false;
 	private int currentSprite = 0;
 	
 	public Animation(float frequency, boolean looping) {
@@ -54,9 +55,18 @@ public class Animation {
 		if (currentSprite >= sprites.size()) {
 			if (!looping) {
 				currentSprite = sprites.size() - 1;
+				isDone = true;
 			} else {
 				currentSprite = 0;
 			}
 		}
+	}
+	
+	public boolean isDone() {
+		return isDone;
+	}
+	
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
 	}
 }

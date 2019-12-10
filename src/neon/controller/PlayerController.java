@@ -246,8 +246,10 @@ public class PlayerController implements Controller {
 	}
 
 	private void updateActions() {
-		if (combat.isAttacking()) {
-			return;
+		if (sm.getCurrentState().equals("punching")) {
+			if (!animator.getCurrentAnimation().isDone()) {
+				return;
+			}
 		}
 		
 		if (cooldown <= COOLDOWN_TIME) {

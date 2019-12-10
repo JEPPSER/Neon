@@ -1,10 +1,12 @@
 package neon.entity.weapon;
 
 import neon.entity.controllable.Player;
+import neon.entity.projectile.Bullet;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;
 import neon.graphics.animation.Animator;
 import neon.io.SpriteLoader;
+import neon.level.LevelManager;
 
 public class Gun extends Weapon {
 
@@ -14,7 +16,12 @@ public class Gun extends Weapon {
 
 	@Override
 	public void attack(Player player) {
-
+		float ang = 0;
+		if (player.isMirrored()) {
+			ang = (float) Math.PI;
+		}
+		Bullet b = new Bullet(player.getX(), player.getY(), ang, player.getName());
+		LevelManager.addEntity(b);
 	}
 
 	private void initAnimator() {

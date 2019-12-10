@@ -44,7 +44,6 @@ public class Checkpoint {
 			}
 		}
 		
-		//LevelLoader.setBounds(result, result.getObjects());
 		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY(), level.getPlayer().getWeapon());
 		result.getObjects().add(p);
 		result.setPlayer(p);

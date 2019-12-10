@@ -27,9 +27,6 @@ public class CombatEngine {
 						} else {
 							e.takeDamage(attack.getDamage(), CollisionDirection.LEFT);
 						}
-						if (e.getHealth() <= 0) {
-							e.death();
-						}
 					}
 				}
 			}
@@ -41,6 +38,9 @@ public class CombatEngine {
 		for (int i = 0; i < objects.size(); i++) {
 			if (objects.get(i) instanceof Enemy) {
 				Enemy e = (Enemy) objects.get(i);
+				if (e.getHealth() <= 0 && !e.isDead()) {
+					e.death();
+				}
 				if (e.isDead()) {
 					if (e.canDespawn()) {
 						objects.remove(e);

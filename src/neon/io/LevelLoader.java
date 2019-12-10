@@ -30,7 +30,6 @@ import neon.entity.terrain.movable.MovableSpikes;
 import neon.entity.weapon.Gun;
 import neon.graphics.Point;
 import neon.level.Level;
-import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 
 public class LevelLoader {
