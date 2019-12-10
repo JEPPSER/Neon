@@ -26,7 +26,7 @@ public class Overworld extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		owm = OverworldLoader.readFile("res/overworlds/overworld.now");
-		player = new Player(100, 100);
+		player = new Player(100, 100, null);
 		player.setController(new PlayerOverworldController(player));
 		
 		float defaultZoom = (float) gc.getHeight() / 900f;

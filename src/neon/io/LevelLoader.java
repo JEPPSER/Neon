@@ -93,9 +93,7 @@ public class LevelLoader {
 		right.setY(0);
 		right.setSize(100, level.getHeight());
 		objects.add(right);
-		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY());
-		Gun gun = new Gun();
-		p.setWeapon(gun);
+		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY(), new Gun());
 		objects.add(p);
 		level.setPlayer(p);
 	}

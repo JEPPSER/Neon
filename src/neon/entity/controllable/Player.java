@@ -40,7 +40,7 @@ public class Player extends ControllableEntity {
 	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
 
-	public Player(float x, float y) {
+	public Player(float x, float y, Weapon weapon) {
 		name = "Player";
 		color = Color.yellow;
 		this.physics = new Physics(0f, 0f);
@@ -50,6 +50,10 @@ public class Player extends ControllableEntity {
 		this.health = 10f;
 		this.maxHealth = 10f;
 		initGraphics();
+		this.weapon = weapon;
+		if (weapon != null) {
+			this.graphics.setAnimator(weapon.getAnimator());
+		}
 		initCombat();
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
