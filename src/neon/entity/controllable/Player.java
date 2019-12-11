@@ -42,7 +42,7 @@ public class Player extends ControllableEntity {
 
 	public Player(float x, float y, Weapon weapon) {
 		name = "Player";
-		color = Color.yellow;
+		color = Color.white;
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
