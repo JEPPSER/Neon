@@ -7,6 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import neon.editor.Editor;
 import neon.io.LevelLoader;
+import neon.io.SpriteLoader;
 import neon.overworld.Overworld;
 import neon.overworld.entity.World;
 import neon.settings.InputSettings;

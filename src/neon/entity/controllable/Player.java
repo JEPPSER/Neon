@@ -257,9 +257,16 @@ public class Player extends ControllableEntity {
 		running.getSprites().add(run5);
 
 		// Idle animation
-		Sprite idleSprite = SpriteLoader.getSprite("player_idle");
-		Animation idle = new Animation(100, true);
-		idle.getSprites().add(idleSprite);
+		Sprite idle1 = SpriteLoader.getSprite("player_idle_1");
+		Sprite idle2 = SpriteLoader.getSprite("player_idle_2");
+		Sprite idle3 = SpriteLoader.getSprite("player_idle_3");
+		Sprite idle4 = SpriteLoader.getSprite("player_idle_4");
+		Animation idle = new Animation(200, true);
+		idle.getSprites().add(idle1);
+		//idle.getSprites().add(idle2);
+		idle.getSprites().add(idle3);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle2);
 
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
@@ -288,7 +295,7 @@ public class Player extends ControllableEntity {
 		spawn.getSprites().add(d3);
 		spawn.getSprites().add(d2);
 		spawn.getSprites().add(d1);
-		spawn.getSprites().add(idleSprite);
+		spawn.getSprites().add(idle1);
 		
 		// Portal animation
 		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
