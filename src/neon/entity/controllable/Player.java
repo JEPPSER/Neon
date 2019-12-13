@@ -261,11 +261,15 @@ public class Player extends ControllableEntity {
 		Sprite idle2 = SpriteLoader.getSprite("player_idle_2");
 		Sprite idle3 = SpriteLoader.getSprite("player_idle_3");
 		Sprite idle4 = SpriteLoader.getSprite("player_idle_4");
-		Animation idle = new Animation(200, true);
+		Sprite idle5 = SpriteLoader.getSprite("player_idle_5");
+		Animation idle = new Animation(150, true);
 		idle.getSprites().add(idle1);
-		//idle.getSprites().add(idle2);
+		idle.getSprites().add(idle2);
 		idle.getSprites().add(idle3);
 		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle5);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle3);
 		idle.getSprites().add(idle2);
 
 		// Punch animation

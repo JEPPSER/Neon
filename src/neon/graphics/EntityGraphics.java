@@ -13,7 +13,6 @@ public class EntityGraphics {
 	private Animator animator;
 	private Sprite currentSprite;
 	private Color color;
-	private float lineWidth;
 	private float offsetX = 0f;
 	private float offsetY = 0f;
 	private float entityWidth;
@@ -40,10 +39,6 @@ public class EntityGraphics {
 	
 	public Color getColor() {
 		return color;
-	}
-	
-	public void setLineWidth(float lineWidth) {
-		this.lineWidth = lineWidth;
 	}
 	
 	public void setOffset(float x, float y) {

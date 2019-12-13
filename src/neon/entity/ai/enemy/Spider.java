@@ -114,7 +114,6 @@ public class Spider extends Enemy {
 		this.graphics = new EntityGraphics(one.getWidth());
 		this.graphics.setAnimator(anim);
 		this.color = Color.gray;
-		this.graphics.setLineWidth(2.0f);
 		this.graphics.setOffset(-10, 0);
 	}
 
