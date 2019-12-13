@@ -244,11 +244,11 @@ public class Player extends ControllableEntity {
 		jumping.getSprites().add(jump3);
 
 		// Running animation
-		Sprite run1 = SpriteLoader.getSprite("player_run_1");
-		Sprite run2 = SpriteLoader.getSprite("player_run_2");
-		Sprite run3 = SpriteLoader.getSprite("player_run_3");
-		Sprite run4 = SpriteLoader.getSprite("player_run_4");
-		Sprite run5 = SpriteLoader.getSprite("player_run_5");
+		Sprite run1 = SpriteLoader.getSprite("player_run_11");
+		Sprite run2 = SpriteLoader.getSprite("player_run_22");
+		Sprite run3 = SpriteLoader.getSprite("player_run_33");
+		Sprite run4 = SpriteLoader.getSprite("player_run_44");
+		Sprite run5 = SpriteLoader.getSprite("player_run_55");
 		Animation running = new Animation(50, true);
 		running.getSprites().add(run1);
 		running.getSprites().add(run2);
