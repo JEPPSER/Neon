@@ -87,7 +87,7 @@ public class Portal extends CollectableEntity {
 		Animator anim = new Animator();
 		graphics.setAnimator(anim);
 		
-		Sprite sun = new Sprite(null, width, height, "portal_1");
+		Sprite sun = new Sprite("portal_1");
 		Animation idle = new Animation(100, true);
 		idle.getSprites().add(sun);
 		anim.addAnimation(idle, "idle");

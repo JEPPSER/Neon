@@ -47,7 +47,7 @@ public class Rock extends TerrainEntity {
 		points.add(new Point(this.width, this.height));
 		points.add(new Point(0, this.height));
 		points.add(new Point(0, 0));
-		Sprite sprite = new Sprite(points, this.width, this.height, this.name);
+		Sprite sprite = new Sprite(this.name);
 		this.graphics.setSprite(sprite);
 	}
 

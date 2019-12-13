@@ -1,15 +1,10 @@
 package neon.graphics;
 
-import java.util.ArrayList;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Sprite {
 	
-	private ArrayList<Point> points;
 	private Image image;
 	private String name;
 	private float width;
@@ -17,12 +12,11 @@ public class Sprite {
 	private float offsetX;
 	private float offsetY;
 
-	public Sprite(ArrayList<Point> points, float width, float height, String name) {
-		this.points = points;
+	public Sprite(String name) {
 		this.name = name;
-		this.width = width;
-		this.height = height;
 		createImage();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 	}
 	
 	public float getOffsetX() {
@@ -39,14 +33,6 @@ public class Sprite {
 
 	public void setOffsetY(float offsetY) {
 		this.offsetY = offsetY;
-	}
-	
-	public ArrayList<Point> getPoints() {
-		return this.points;
-	}
-	
-	public void setPoints(ArrayList<Point> points) {
-		this.points = points;
 	}
 	
 	public String getName() {

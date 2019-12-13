@@ -22,18 +22,8 @@ public class SpriteLoader {
 			File file = new File(path);
 			String str = new String(Files.readAllBytes(Paths.get(path)));
 			str = str.replaceAll("\r", "");
-			ArrayList<Point> points = new ArrayList<Point>();
 			String[] lines = str.split("\n");
-			float width = Float.parseFloat(lines[0]);
-			float height = Float.parseFloat(lines[1]);
-			for (int i = 3; i < lines.length; i++) {
-				String[] parts = lines[i].split(",");
-				float x = Float.parseFloat(parts[0]);
-				float y = Float.parseFloat(parts[1]);
-				Point p = new Point(x, y);
-				points.add(p);
-			}
-			return new Sprite(points, width, height, file.getName().replace(".nspr", ""));
+			return new Sprite(file.getName().replace(".png", ""));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +36,7 @@ public class SpriteLoader {
 		for (int i = 0; i < list.length; i++) {
 			if (list[i].isDirectory()) {
 				searchFolder(list[i].getAbsolutePath());
-			} else if (list[i].getName().endsWith(".nspr")) {
+			} else if (list[i].getName().endsWith(".png")) {
 				sprites.add(readFile(list[i].getAbsolutePath()));
 			}
 		}

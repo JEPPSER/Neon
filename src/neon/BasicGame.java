@@ -54,7 +54,7 @@ public class BasicGame extends BasicGameState {
 		gc.setShowFPS(false);
 		Log.setVerbose(true);
 		SpriteLoader sl = new SpriteLoader();
-		sl.searchFolder("res");
+		sl.searchFolder("res/images");
 		
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
