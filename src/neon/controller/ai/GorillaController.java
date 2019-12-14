@@ -27,7 +27,7 @@ public class GorillaController implements AIController {
 	private final float MINIMUM_DISTANCE = 200;
 	private boolean isDead = false;
 
-	private final int INVULNERABLE_TIME = 2500;
+	private final int INVULNERABLE_TIME = 1500;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 
