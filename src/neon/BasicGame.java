@@ -52,7 +52,7 @@ public class BasicGame extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		gc.setShowFPS(false);
-		Log.setVerbose(true);
+		Log.setVerbose(false);
 		SpriteLoader sl = new SpriteLoader();
 		sl.searchFolder("res/images");
 		

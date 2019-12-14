@@ -27,12 +27,9 @@ public class Ground extends TerrainEntity {
 	private Sprite groundSmallSide;
 	private Sprite groundSmallUp;
 	
-	private Image image;
-	
 	public Ground() {
 		this.name = "Ground";
 		this.physics = new Physics(0f, 0f);
-		initGraphics();
 	}
 	
 	private void initGraphics() {
@@ -49,60 +46,6 @@ public class Ground extends TerrainEntity {
 		groundSmallSideCorner = SpriteLoader.getSprite("ground_small_side_corner");
 		groundSmallSide = SpriteLoader.getSprite("ground_small_side");
 		groundSmallUp = SpriteLoader.getSprite("ground_small_up");
-		
-		try {
-			image = new Image((int) width, (int) height);
-			Graphics g = image.getGraphics();
-			if (width == 50 && height == 50) {
-				g.drawImage(groundSmall.getImage(), 0, 0);
-				return;
-			}
-			
-			if (width == 50) {
-				g.drawImage(groundSmallUpCorner.getImage(), 0,  0);
-				g.drawImage(groundSmallDownCorner.getImage(), 0, height - 50);
-				for (int i = 50; i < height - 50; i+=50) {
-					g.drawImage(groundSmallSide.getImage(), 0, i);
-				}
-				return;
-			}
-			
-			if (height == 50) {
-				g.drawImage(groundSmallSideCorner.getImage().getFlippedCopy(true, false), 0, 0);
-				g.drawImage(groundSmallSideCorner.getImage(), width - 50, 0);
-				for (int i = 50; i < width - 50; i+=50) {
-					g.drawImage(groundSmallUp.getImage(), i, 0);
-				}
-				return;
-			}
-			
-			// Corners
-			g.drawImage(groundUpCorner.getImage().getFlippedCopy(true, false), 0, 0);
-			g.drawImage(groundUpCorner.getImage(), width - 50, 0);
-			g.drawImage(groundDownCorner.getImage().getFlippedCopy(true, false), 0, height - 50);
-			g.drawImage(groundDownCorner.getImage(), width - 50, height - 50);
-			
-			// Up/Down
-			for (int i = 50; i < width - 50; i+=50) {
-				g.drawImage(groundUp.getImage(), i, 0);
-				g.drawImage(groundDown.getImage(), i, height - 50);
-			}
-			
-			// Sides
-			for (int i = 50; i < height - 50; i+=50) {
-				g.drawImage(groundSide.getImage(), width - 50, i);
-				g.drawImage(groundSide.getImage().getFlippedCopy(true, false), 0, i);
-			}
-			
-			// Center
-			for (int i = 50; i < width - 50; i+=50) {
-				for (int j = 50; j < height - 50; j+=50) {
-					g.drawImage(groundCenter.getImage(), i, j);
-				}
-			}
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public float getWidth() {
@@ -126,7 +69,56 @@ public class Ground extends TerrainEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
-		g.drawImage(image, x + offsetX, y + offsetY);
+		
+		int x = (int) (this.x + offsetX);
+		int y = (int) (this.y + offsetY);
+		if (width == 50 && height == 50) {
+			g.drawImage(groundSmall.getImage(), x, y);
+			return;
+		}
+		
+		if (width == 50) {
+			g.drawImage(groundSmallUpCorner.getImage(), x,  y);
+			g.drawImage(groundSmallDownCorner.getImage(), x, y + height - 50);
+			for (int i = 50; i < height - 50; i+=50) {
+				g.drawImage(groundSmallSide.getImage(), x, y + i);
+			}
+			return;
+		}
+		
+		if (height == 50) {
+			g.drawImage(groundSmallSideCorner.getImage().getFlippedCopy(true, false), x, y);
+			g.drawImage(groundSmallSideCorner.getImage(), x + width - 50, y);
+			for (int i = 50; i < width - 50; i+=50) {
+				g.drawImage(groundSmallUp.getImage(), x + i, y);
+			}
+			return;
+		}
+		
+		// Corners
+		g.drawImage(groundUpCorner.getImage().getFlippedCopy(true, false), x, y);
+		g.drawImage(groundUpCorner.getImage(), x + width - 50, y);
+		g.drawImage(groundDownCorner.getImage().getFlippedCopy(true, false), x, y + height - 50);
+		g.drawImage(groundDownCorner.getImage(), x + width - 50, y + height - 50);
+		
+		// Up/Down
+		for (int i = 50; i < width - 50; i+=50) {
+			g.drawImage(groundUp.getImage(), x + i, y);
+			g.drawImage(groundDown.getImage(), x + i, y + height - 50);
+		}
+		
+		// Sides
+		for (int i = 50; i < height - 50; i+=50) {
+			g.drawImage(groundSide.getImage(), x + width - 50, y + i);
+			g.drawImage(groundSide.getImage().getFlippedCopy(true, false), x, y + i);
+		}
+		
+		// Center
+		for (int i = 50; i < width - 50; i+=50) {
+			for (int j = 50; j < height - 50; j+=50) {
+				g.drawImage(groundCenter.getImage(), i + x, j + y);
+			}
+		}
 	}
 
 	@Override
