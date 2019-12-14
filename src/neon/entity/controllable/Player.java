@@ -230,9 +230,11 @@ public class Player extends ControllableEntity {
 		gliding.getSprites().add(glide);
 
 		// Dash animation
-		Sprite dash = SpriteLoader.getSprite("player_dash");
+		Sprite dash1 = SpriteLoader.getSprite("player_dash_1");
+		Sprite dash2 = SpriteLoader.getSprite("player_dash_2");
 		Animation dashing = new Animation(100, true);
-		dashing.getSprites().add(dash);
+		dashing.getSprites().add(dash1);
+		dashing.getSprites().add(dash2);
 
 		// Jump animation
 		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
