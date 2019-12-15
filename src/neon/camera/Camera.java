@@ -4,6 +4,8 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
@@ -27,12 +29,22 @@ public class Camera {
 	private float yScrollValue = 0.3f;
 	private float overworldScrollValue = 0.2f;
 	private float scale = 1.0f;
+	
+	private Image buffer;
+	private Graphics g;
 
 	public Camera(PhysicalEntity focusedEntity, GameContainer gc) {
 		this.focusedEntity = focusedEntity;
 		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
 		offsetY = focusedEntity.getY() * -1 + gc.getHeight() / 2;
 		this.gc = gc;
+		try {
+			buffer = new Image(1600, 900);
+			g = buffer.getGraphics();
+			g.setAntiAlias(false);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void pan(float x, float y) {
@@ -94,11 +106,12 @@ public class Camera {
 		focusedEntity.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
 	}
 
-	public void renderPlayField(Level level, Graphics g) {
+	public void renderPlayField(Level level, Graphics gr) {
 		if (focusedEntity == null) {
 			focusedEntity = LevelManager.getLevel().getPlayer();
 		}
-		g.scale(scale, scale);
+		
+		g.clear();
 
 		float focalX;
 		float focalY;
@@ -131,9 +144,14 @@ public class Camera {
 				if (e instanceof Trigger) {
 					((Trigger) e).setScale(scale);
 				}
-				e.render(g, cameraOffsetX + offsetX, cameraOffsetY + offsetY);
+				int eX = (int) (cameraOffsetX + offsetX);
+				int eY = (int) (cameraOffsetY + offsetY);
+				e.render(g, eX, eY);
 			}
 		}
+		
+		gr.scale(scale, scale);
+		gr.drawImage(buffer, 0, 0);
 	}
 
 	public void renderStaticElements(GameContainer gc, Graphics g) {

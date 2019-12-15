@@ -19,7 +19,6 @@ import neon.entity.area.Trigger;
 import neon.entity.collectable.CollectableEntity;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
-import neon.entity.weapon.Gun;
 import neon.entity.weapon.Weapon;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
