@@ -127,7 +127,7 @@ public class Player extends ControllableEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		if (((PlayerController) controller).isInvulnerable()) {
-			this.graphics.setColor(Color.red);
+			this.graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 0.4f));
 		} else {
 			this.graphics.setColor(this.color);
 		}
@@ -225,7 +225,7 @@ public class Player extends ControllableEntity {
 	private void initGraphics() {
 
 		// Glide animation
-		Sprite glide = SpriteLoader.getSprite("player_glide");
+		Sprite glide = SpriteLoader.getSprite("player_idle_1");
 		Animation gliding = new Animation(100, true);
 		gliding.getSprites().add(glide);
 
@@ -237,13 +237,13 @@ public class Player extends ControllableEntity {
 		dashing.getSprites().add(dash2);
 
 		// Jump animation
-		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
-		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
-		Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
+		Sprite jump1 = SpriteLoader.getSprite("player_idle_1");
+//		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
+//		Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
 		Animation jumping = new Animation(80, false);
 		jumping.getSprites().add(jump1);
-		jumping.getSprites().add(jump2);
-		jumping.getSprites().add(jump3);
+//		jumping.getSprites().add(jump2);
+//		jumping.getSprites().add(jump3);
 
 		// Running animation
 		Sprite run1 = SpriteLoader.getSprite("player_run_11");

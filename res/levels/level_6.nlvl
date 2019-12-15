@@ -1,6 +1,7 @@
 0,0,0
 6900.0,1050.0
 100,800
+ground_down,ground_side,ground_up,ground_side
 7,450,1020,530,30,UP
 7,660,570,30,30,UP
 13,30,150,LEFT,one,false,false,true,1,1620,450,1000,450

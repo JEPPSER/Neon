@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
@@ -58,13 +60,14 @@ public class LevelLoader {
 			level.setSpawnPoint(p);
 
 			ArrayList<Entity> objects = level.getObjects();
-			for (int i = 3; i < lines.length; i++) {
+			for (int i = 4; i < lines.length; i++) {
 				String[] parts = lines[i].split(",");
 				Entity e = getEntity(parts);
 				objects.add(e);
 			}
 			
-			setBounds(level, objects);
+			String[] paths = lines[3].split(",");
+			setBounds(level, objects, paths);
 			level.setObjects(objects);
 			return level;
 		} catch (IOException e) {
@@ -73,7 +76,7 @@ public class LevelLoader {
 		return null;
 	}
 	
-	public static void setBounds(Level level, ArrayList<Entity> objects) {
+	public static void setBounds(Level level, ArrayList<Entity> objects, String[] imgPaths) {
 		Bounds ceil = new Bounds(CollisionDirection.DOWN);
 		ceil.setX(0);
 		ceil.setY(-100);
@@ -97,6 +100,16 @@ public class LevelLoader {
 		Player p = new Player(level.getSpawnPoint().getX(), level.getSpawnPoint().getY(), null);
 		objects.add(p);
 		level.setPlayer(p);
+		
+		try {
+			String res = "res/images/";
+			ceil.setImage(new Image(res + imgPaths[0] + ".png"));
+			right.setImage(new Image(res + imgPaths[1] + ".png").getFlippedCopy(true, false));
+			floor.setImage(new Image(res + imgPaths[2] + ".png"));
+			left.setImage(new Image(res + imgPaths[3] + ".png"));
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static Entity getEntity(String[] parts) {

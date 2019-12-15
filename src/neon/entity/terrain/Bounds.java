@@ -2,6 +2,8 @@ package neon.entity.terrain;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
@@ -12,11 +14,40 @@ import neon.physics.Physics;
 public class Bounds extends TerrainEntity {
 	
 	private CollisionDirection cd;
+	private Image image;
+	private Image gradient;
 
 	public Bounds(CollisionDirection cd) {
 		this.cd = cd;
+		try {
+			gradient = new Image("res/images/gradient.png");
+			if (cd == CollisionDirection.UP) {
+				gradient.rotate(-90);
+			} else if (cd == CollisionDirection.LEFT) {
+				gradient.rotate(180);
+			} else if (cd == CollisionDirection.DOWN) {
+				gradient.rotate(90);
+			}
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		this.name = "Bounds";
 		this.physics = new Physics(0f, 0f);
+	}
+	
+	public void setImage(Image image) {
+		this.image = image;
+		try {
+			Graphics g = image.getGraphics();
+			g.drawImage(gradient, 0, 0);
+			g.flush();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Image getImage() {
+		return image;
 	}
 
 	public float getWidth() {
@@ -39,17 +70,31 @@ public class Bounds extends TerrainEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		//this.graphics.render(g, x + offsetX, y + offsetY, 0, false);
-		g.setColor(Color.green);
-		g.setLineWidth(2.0f);
+		g.setColor(Color.white);
 		if (cd == CollisionDirection.DOWN) {
-			g.drawLine(x + offsetX, y + height + offsetY, x + width + offsetX, y + height + offsetY);
+			for (int i = -50; i < width + 50; i+=50) {
+				g.drawImage(image, (int) (x + offsetX + i), (int) (y + height + offsetY - 50));
+			}
+			gradient.setRotation(0);
+			g.drawImage(gradient, (int) (x + offsetX - 50), (int) (y + height + offsetY - 50));
+			gradient.setRotation(180);
+			g.drawImage(gradient, (int) (x + offsetX + width), (int) (y + height + offsetY - 50));
 		} else if (cd == CollisionDirection.UP) {
-			g.drawLine(x + offsetX, y + offsetY, x + width + offsetX, y + offsetY);
+			for (int i = -50; i < width + 50; i+=50) {
+				g.drawImage(image, (int) (x + offsetX + i), (int) (y + offsetY));
+			}
+			gradient.setRotation(0);
+			g.drawImage(gradient, (int) (x + offsetX - 50), (int) (y + offsetY));
+			gradient.setRotation(180);
+			g.drawImage(gradient, (int) (x + offsetX + width), (int) (y + offsetY));
 		} else if (cd == CollisionDirection.LEFT) {
-			g.drawLine(x + offsetX, y + offsetY, x + offsetX, y + height + offsetY);
+			for (int i = 0; i < height; i+=50) {
+				g.drawImage(image, (int) (x + offsetX), (int) (y + offsetY + i));
+			}
 		} else if (cd == CollisionDirection.RIGHT) {
-			g.drawLine(x + width + offsetX, y + offsetY, x + width + offsetX, y + height + offsetY);
+			for (int i = 0; i < height; i+=50) {
+				g.drawImage(image, (int) (x + width + offsetX - 50), (int) (y + offsetY + i));
+			}
 		}
 	}
 
@@ -59,7 +104,7 @@ public class Bounds extends TerrainEntity {
 
 	@Override
 	public int getID() {
-		return 0;
+		return -1;
 	}
 
 	@Override

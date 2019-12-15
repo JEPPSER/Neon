@@ -1,6 +1,7 @@
 0,0,0
 8500,900
 100,500
+ground_down,ground_side,ground_up,ground_side
 1,200,800,100,100,Press space to jump
 0,300,710,100,190
 1,500,450,100,100,Press shift to dash

@@ -38,7 +38,7 @@ public class PlayerController implements Controller {
 	private boolean isInvulnerable = false;
 
 	private int deathTimer = 0;
-	private final int DEATH_TIME = 1000;
+	private final int DEATH_TIME = 500;
 
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;
@@ -153,9 +153,11 @@ public class PlayerController implements Controller {
 	}
 
 	public void glide(CollisionDirection cd) {
-		if (ph.getYVelocity() > 0 && sm.canActivateState("gliding")) {
+		if (sm.canActivateState("gliding")) {
 			sm.activateState("gliding");
-			ph.setYVelocity(0.4f);
+			if (ph.getYVelocity() > 0) {
+				ph.setYVelocity(0.4f);
+			}
 			glideDirection = cd;
 		}
 	}
