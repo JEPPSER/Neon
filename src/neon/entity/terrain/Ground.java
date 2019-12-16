@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
+import neon.graphics.GraphicsUtil;
 import neon.graphics.Sprite;
 import neon.io.SpriteLoader;
 import neon.level.LevelManager;
@@ -26,8 +27,6 @@ public class Ground extends TerrainEntity {
 	private Sprite groundSmallSideCorner;
 	private Sprite groundSmallSide;
 	private Sprite groundSmallUp;
-	
-	private float scale;
 	
 	public Ground() {
 		this.name = "Ground";
@@ -72,63 +71,55 @@ public class Ground extends TerrainEntity {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
 		
-		scale = LevelManager.getLevel().getCamera().getScale();
-		g.scale(1f / scale, 1f / scale);
+		float scale = LevelManager.getLevel().getCamera().getScale();
 		int x = (int) ((this.x + offsetX) * scale);
 		int y = (int) ((this.y + offsetY) * scale);
-		int imgSize = (int) (50 * scale);
+		
+		Image[][] matrix = new Image[(int) (width / 50)][(int) (height / 50)];
 		
 		if (width == 50 && height == 50) {
-			drawImage(groundSmall.getImage(), x, y);
-			g.scale(scale, scale);
-			return;
-		}
-		
-		if (width == 50) {
-			drawImage(groundSmallUpCorner.getImage(), x,  y);
-			drawImage(groundSmallDownCorner.getImage(), x, y + height * scale - imgSize);
-			for (int i = imgSize; i < height * scale - imgSize; i+=imgSize) {
-				drawImage(groundSmallSide.getImage(), x, y + i);
+			matrix[0][0] = groundSmall.getImage();
+		} else if (width == 50) {
+			matrix[0][0] = groundSmallUpCorner.getImage();
+			matrix[0][matrix[0].length - 1] = groundSmallDownCorner.getImage();
+			for (int i = 1; i < matrix[0].length - 1; i++) {
+				matrix[0][i] = groundSmallSide.getImage();
 			}
-			g.scale(scale, scale);
-			return;
-		}
-		
-		if (height == 50) {
-			drawImage(groundSmallSideCorner.getImage().getFlippedCopy(true, false), x, y);
-			drawImage(groundSmallSideCorner.getImage(), x + width * scale - imgSize, y);
-			for (int i = imgSize; i < width * scale - imgSize; i+=imgSize) {
-				drawImage(groundSmallUp.getImage(), x + i, y);
+		} else if (height == 50) {
+			matrix[0][0] = groundSmallSideCorner.getImage().getFlippedCopy(true, false);
+			matrix[matrix.length - 1][0] = groundSmallSideCorner.getImage();
+			for (int i = 1; i < matrix.length - 1; i++) {
+				matrix[i][0] = groundSmallUp.getImage();
 			}
-			g.scale(scale, scale);
-			return;
-		}
-		
-		// Corners
-		drawImage(groundUpCorner.getImage().getFlippedCopy(true, false), x, y);
-		drawImage(groundUpCorner.getImage(), x + width * scale - imgSize, y);
-		drawImage(groundDownCorner.getImage().getFlippedCopy(true, false), x, y + height * scale - imgSize);
-		drawImage(groundDownCorner.getImage(), x + width * scale - imgSize, y + height * scale - imgSize);
-		
-		// Up/Down
-		for (int i = imgSize; i < width * scale - imgSize; i+=imgSize) {
-			drawImage(groundUp.getImage(), x + i, y);
-			drawImage(groundDown.getImage(), x + i, y + height * scale - imgSize);
-		}
-		
-		// Sides
-		for (int i = imgSize; i < height * scale - imgSize; i+=imgSize) {
-			drawImage(groundSide.getImage(), x + width * scale - imgSize, y + i);
-			drawImage(groundSide.getImage().getFlippedCopy(true, false), x, y + i);
-		}
-		
-		// Center
-		for (int i = imgSize; i < width * scale - imgSize; i+=imgSize) {
-			for (int j = imgSize; j < height * scale - imgSize; j+=imgSize) {
-				drawImage(groundCenter.getImage(), i + x, j + y);
+		} else {
+			// Corners
+			matrix[0][0] = groundUpCorner.getImage().getFlippedCopy(true, false);
+			matrix[matrix.length - 1][0] = groundUpCorner.getImage();
+			matrix[0][matrix[0].length - 1] = groundDownCorner.getImage().getFlippedCopy(true, false);
+			matrix[matrix.length - 1][matrix[0].length - 1] = groundDownCorner.getImage();
+			
+			// Up/Down
+			for (int i = 1; i < matrix.length - 1; i++) {
+				matrix[i][0] = groundUp.getImage();
+				matrix[i][matrix[i].length - 1] = groundDown.getImage();
+			}
+			
+			// Sides
+			for (int i = 1; i < matrix[0].length - 1; i++) {
+				matrix[0][i] = groundSide.getImage().getFlippedCopy(true, false);
+				matrix[matrix.length - 1][i] = groundSide.getImage();
+			}
+			
+			// Center
+			for (int i = 1; i < matrix.length - 1; i++) {
+				for (int j = 1; j < matrix[i].length - 1; j++) {
+					matrix[i][j] = groundCenter.getImage();
+				}
 			}
 		}
 		
+		g.scale(1f / scale, 1f / scale);
+		GraphicsUtil.drawImageMatrix(matrix, x, y, scale);
 		g.scale(scale, scale);
 	}
 
@@ -145,9 +136,5 @@ public class Ground extends TerrainEntity {
 		this.collision.getHitbox().setHeight(height);
 		this.collision.getHitbox().setWidth(width);
 		initGraphics();
-	}
-	
-	private void drawImage(Image img, float x, float y) {
-		img.draw(x, y, scale);
 	}
 }

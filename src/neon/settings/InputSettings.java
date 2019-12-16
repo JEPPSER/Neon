@@ -18,6 +18,9 @@ public class InputSettings {
 		controllerBinds.put("punch", 9);
 		controllerBinds.put("left", 0);
 		controllerBinds.put("right", 1);
+		controllerBinds.put("up", 2);
+		controllerBinds.put("down", 3);
+		controllerBinds.put("action", 4);
 		
 		keyboardBinds.put("jump", Input.KEY_SPACE);
 		keyboardBinds.put("dash", Input.KEY_LSHIFT);

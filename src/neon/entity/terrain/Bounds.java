@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
+import neon.level.LevelManager;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -71,6 +72,7 @@ public class Bounds extends TerrainEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
+		
 		if (cd == CollisionDirection.DOWN) {
 			for (int i = -50; i < width + 50; i+=50) {
 				g.drawImage(image, x + offsetX + i, y + height + offsetY - 50);

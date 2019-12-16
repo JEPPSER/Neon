@@ -22,7 +22,7 @@ public class WorldLoader {
 			String[] lines = str.split("\n");
 			
 			World world = new World(100, 100);
-			world.setTrigger("PRESS " + InputSettings.getKeyboardBinds().get("action") + " TO ENTER", 0, 0);
+			world.setTrigger("PRESS " + "J" + " TO ENTER", 0, 0);
 			world.setName(file.getName().replace(".nwrld", ""));
 			
 			Image img = new Image(lines[0]);

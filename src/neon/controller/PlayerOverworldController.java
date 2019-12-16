@@ -59,15 +59,15 @@ public class PlayerOverworldController extends PlayerController {
 			isIdle = false;
 			right();
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up"))) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up")) || isButtonDown(input, "up")) {
 			isIdle = false;
 			up();
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down"))) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down")) || isButtonDown(input, "down")) {
 			isIdle = false;
 			down();
 		}
-		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("action"))) {
+		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("action")) || isButtonPressed(input, "action")) {
 			if (player.getCollidingEntity() instanceof World) {
 				this.enterWorld = true;
 				LevelManager.setWorld((World) player.getCollidingEntity());
@@ -107,7 +107,7 @@ public class PlayerOverworldController extends PlayerController {
 		for (int i = 0; i < input.getControllerCount(); i++) {
 			if (button >= 4 && input.isButtonPressed(button - 4, i)) {
 				return true;
-			} else if (button < 4 && i == 3) {
+			} else if (button < 4 && i == 2) {
 				if (action.equals("left")) {
 					if (input.isControllerLeft(i)) {
 						return true;
