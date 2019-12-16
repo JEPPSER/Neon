@@ -73,27 +73,27 @@ public class Bounds extends TerrainEntity {
 		g.setColor(Color.white);
 		if (cd == CollisionDirection.DOWN) {
 			for (int i = -50; i < width + 50; i+=50) {
-				g.drawImage(image, (int) (x + offsetX + i), (int) (y + height + offsetY - 50));
+				g.drawImage(image, x + offsetX + i, y + height + offsetY - 50);
 			}
 			gradient.setRotation(0);
-			g.drawImage(gradient, (int) (x + offsetX - 50), (int) (y + height + offsetY - 50));
+			g.drawImage(gradient, x + offsetX - 50, y + height + offsetY - 50);
 			gradient.setRotation(180);
-			g.drawImage(gradient, (int) (x + offsetX + width), (int) (y + height + offsetY - 50));
+			g.drawImage(gradient, x + offsetX + width, y + height + offsetY - 50);
 		} else if (cd == CollisionDirection.UP) {
 			for (int i = -50; i < width + 50; i+=50) {
-				g.drawImage(image, (int) (x + offsetX + i), (int) (y + offsetY));
+				g.drawImage(image, x + offsetX + i, y + offsetY);
 			}
 			gradient.setRotation(0);
-			g.drawImage(gradient, (int) (x + offsetX - 50), (int) (y + offsetY));
+			g.drawImage(gradient, x + offsetX - 50, y + offsetY);
 			gradient.setRotation(180);
-			g.drawImage(gradient, (int) (x + offsetX + width), (int) (y + offsetY));
+			g.drawImage(gradient, x + offsetX + width, y + offsetY);
 		} else if (cd == CollisionDirection.LEFT) {
 			for (int i = 0; i < height; i+=50) {
-				g.drawImage(image, (int) (x + offsetX), (int) (y + offsetY + i));
+				g.drawImage(image, x + offsetX, y + offsetY + i);
 			}
 		} else if (cd == CollisionDirection.RIGHT) {
 			for (int i = 0; i < height; i+=50) {
-				g.drawImage(image, (int) (x + width + offsetX - 50), (int) (y + offsetY + i));
+				g.drawImage(image, x + width + offsetX - 50, y + offsetY + i);
 			}
 		}
 	}

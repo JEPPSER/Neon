@@ -107,7 +107,7 @@ public class PlayerOverworldController extends PlayerController {
 		for (int i = 0; i < input.getControllerCount(); i++) {
 			if (button >= 4 && input.isButtonPressed(button - 4, i)) {
 				return true;
-			} else if (button < 4) {
+			} else if (button < 4 && i == 3) {
 				if (action.equals("left")) {
 					if (input.isControllerLeft(i)) {
 						return true;

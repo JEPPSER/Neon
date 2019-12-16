@@ -41,8 +41,9 @@ public class BasicGame extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) {
-		float defaultZoom = (float) gc.getHeight() / 900f; // 1600 is the base width
+		float defaultZoom = (float) gc.getHeight() / 1080f; // 1080 is the base height.
 		defaultZoom *= (float) Display.getHeight() / (float) gc.getHeight();
+		defaultZoom = Math.round(defaultZoom * 10f) / 10f;
 		camera = new Camera(LevelManager.getLevel().getPlayer(), gc);
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
