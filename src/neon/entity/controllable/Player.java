@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -27,6 +28,7 @@ import neon.graphics.animation.Animation;
 import neon.graphics.animation.Animator;
 import neon.io.SpriteLoader;
 import neon.physics.Physics;
+import neon.time.TimeInfo;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 
@@ -38,6 +40,14 @@ public class Player extends ControllableEntity {
 	private float maxHealth;
 	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
+	
+	private ArrayList<Point> trail;
+	private int trailTimer = 0;
+	private final int TRAIL_TIME = 15;
+	private Image trailImage;
+	private boolean showTrail = true;
+	private Color trailColor = Color.magenta;
+	private ArrayList<String> trailActions;
 
 	public Player(float x, float y, Weapon weapon) {
 		name = "Player";
@@ -46,6 +56,8 @@ public class Player extends ControllableEntity {
 		this.collision = new Collision(new Rectangle(0, 0, 50, 100), 1.0f, 10f, true);
 		this.x = x;
 		this.y = y;
+		this.width = 50;
+		this.height = 100;
 		this.health = 10f;
 		this.maxHealth = 10f;
 		initGraphics();
@@ -56,6 +68,13 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
+		
+		trail = new ArrayList<Point>();
+		trailImage = SpriteLoader.getSprite("trail").getImage();
+		trailActions = new ArrayList<String>();
+		trailActions.add("jumping");
+		trailActions.add("running");
+		trailActions.add("dashing");
 	}
 
 	public Weapon getWeapon() {
@@ -131,9 +150,37 @@ public class Player extends ControllableEntity {
 		} else {
 			this.graphics.setColor(this.color);
 		}
+		drawTrail(g, offsetX, offsetY);
 		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
-		// drawHealthBar(g, screenWidth / 2 - 50, 50);
-		// drawAttackHitBox(g, offsetX, offsetY);
+	}
+	
+	private void drawTrail(Graphics g, float offsetX, float offsetY) {
+		for (int i = 0; i < trail.size(); i++) {
+			Point p = trail.get(i);
+			if (p.distanceTo(new Point(x, y)) > 0) {
+				float x = p.getX() + offsetX + width / 2f - trailImage.getWidth() / 2;
+				float y = p.getY() + offsetY + height / 2f - trailImage.getHeight() / 2;
+				Color c = trailColor;
+				c.a = 0.03f * i;
+				trailImage.draw(x, y, 1f, c);
+			}
+		}
+	}
+	
+	private void updateTrail() {
+		trailTimer += TimeInfo.getDelta();
+		if (trailTimer >= TRAIL_TIME) {
+			trailTimer = 0;
+			if (trailActions.contains(graphics.getAnimator().getState())){
+				Point p = new Point(x, y);
+				trail.add(p);
+				if (trail.size() >= 15) {
+					trail.remove(0);
+				}
+			} else if (trail.size() > 0) {
+				trail.remove(0);
+			}
+		}
 	}
 
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
@@ -151,6 +198,9 @@ public class Player extends ControllableEntity {
 	public void control(Input input) {
 		controller.control(input);
 		colDirections.clear();
+		if (showTrail) {
+			updateTrail();
+		}
 	}
 
 	@Override
