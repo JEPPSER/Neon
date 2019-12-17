@@ -10,7 +10,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import neon.overworld.entity.World;
-import neon.settings.InputSettings;
 
 public class WorldLoader {
 

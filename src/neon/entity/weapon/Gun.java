@@ -26,30 +26,32 @@ public class Gun extends Weapon {
 
 	private void initAnimator() {
 		// Glide animation
-		Sprite glide = SpriteLoader.getSprite("player_glide");
+		Sprite glide = SpriteLoader.getSprite("player_idle_1");
 		Animation gliding = new Animation(100, true);
 		gliding.getSprites().add(glide);
 
 		// Dash animation
-		Sprite dash = SpriteLoader.getSprite("player_dash");
+		Sprite dash1 = SpriteLoader.getSprite("player_dash_1");
+		Sprite dash2 = SpriteLoader.getSprite("player_dash_2");
 		Animation dashing = new Animation(100, true);
-		dashing.getSprites().add(dash);
+		dashing.getSprites().add(dash1);
+		dashing.getSprites().add(dash2);
 
 		// Jump animation
-		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
-		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
-		Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
+		Sprite jump1 = SpriteLoader.getSprite("player_idle_1");
+		// Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
+		// Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
 		Animation jumping = new Animation(80, false);
 		jumping.getSprites().add(jump1);
-		jumping.getSprites().add(jump2);
-		jumping.getSprites().add(jump3);
+		// jumping.getSprites().add(jump2);
+		// jumping.getSprites().add(jump3);
 
 		// Running animation
-		Sprite run1 = SpriteLoader.getSprite("player_run_1");
-		Sprite run2 = SpriteLoader.getSprite("player_run_2");
-		Sprite run3 = SpriteLoader.getSprite("player_run_3");
-		Sprite run4 = SpriteLoader.getSprite("player_run_4");
-		Sprite run5 = SpriteLoader.getSprite("player_run_5");
+		Sprite run1 = SpriteLoader.getSprite("player_run_11");
+		Sprite run2 = SpriteLoader.getSprite("player_run_22");
+		Sprite run3 = SpriteLoader.getSprite("player_run_33");
+		Sprite run4 = SpriteLoader.getSprite("player_run_44");
+		Sprite run5 = SpriteLoader.getSprite("player_run_55");
 		Animation running = new Animation(50, true);
 		running.getSprites().add(run1);
 		running.getSprites().add(run2);
@@ -58,9 +60,20 @@ public class Gun extends Weapon {
 		running.getSprites().add(run5);
 
 		// Idle animation
-		Sprite idleSprite = SpriteLoader.getSprite("gunman_idle");
-		Animation idle = new Animation(100, true);
-		idle.getSprites().add(idleSprite);
+		Sprite idle1 = SpriteLoader.getSprite("player_idle_1");
+		Sprite idle2 = SpriteLoader.getSprite("player_idle_2");
+		Sprite idle3 = SpriteLoader.getSprite("player_idle_3");
+		Sprite idle4 = SpriteLoader.getSprite("player_idle_4");
+		Sprite idle5 = SpriteLoader.getSprite("player_idle_5");
+		Animation idle = new Animation(150, true);
+		idle.getSprites().add(idle1);
+		idle.getSprites().add(idle2);
+		idle.getSprites().add(idle3);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle5);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle3);
+		idle.getSprites().add(idle2);
 
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
@@ -89,7 +102,7 @@ public class Gun extends Weapon {
 		spawn.getSprites().add(d3);
 		spawn.getSprites().add(d2);
 		spawn.getSprites().add(d1);
-		spawn.getSprites().add(idleSprite);
+		spawn.getSprites().add(idle1);
 
 		// Portal animation
 		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
@@ -124,7 +137,7 @@ public class Gun extends Weapon {
 		anim.addAnimation(death, "death");
 		anim.addAnimation(spawn, "spawn");
 		anim.addAnimation(portal, "portal");
-		
+
 		this.animator = anim;
 	}
 }
