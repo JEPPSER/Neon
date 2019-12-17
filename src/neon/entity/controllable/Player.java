@@ -327,8 +327,11 @@ public class Player extends ControllableEntity {
 
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
+		punch1.setOffsetX(-10);
 		Sprite punch2 = SpriteLoader.getSprite("player_punch_2");
+		punch2.setOffsetX(-10);
 		Sprite punch3 = SpriteLoader.getSprite("player_punch_3");
+		punch3.setOffsetX(-10);
 		Animation punch = new Animation(60, false);
 		punch.getSprites().add(punch1);
 		punch.getSprites().add(punch2);
