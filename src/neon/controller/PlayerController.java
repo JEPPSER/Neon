@@ -32,8 +32,8 @@ public class PlayerController implements Controller {
 	private CollisionDirection glideDirection;
 
 	private final int INVULNERABLE_TIME = 1000;
-	private final int COOLDOWN_TIME = 300;
-	private int cooldown = 300;
+	private final int COOLDOWN_TIME = 0;
+	private int cooldown = 0;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
 
@@ -301,11 +301,11 @@ public class PlayerController implements Controller {
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking() && cooldown > COOLDOWN_TIME) {
 			if (player.getWeapon() == null) {
-				if (direction == 0) {
-					ph.setXVelocity(0.5f);
-				} else if (direction == 1) {
-					ph.setXVelocity(-0.5f);
-				}
+//				if (direction == 0) {
+//					ph.setXVelocity(0.5f);
+//				} else if (direction == 1) {
+//					ph.setXVelocity(-0.5f);
+//				}
 				combat.startAttack("punch");
 				sm.activateState("punching");
 				cooldown = 0;

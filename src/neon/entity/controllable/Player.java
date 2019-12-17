@@ -46,7 +46,7 @@ public class Player extends ControllableEntity {
 	private final int TRAIL_TIME = 15;
 	private Image trailImage;
 	private boolean showTrail = true;
-	private Color trailColor = Color.magenta;
+	private Color trailColor;
 	private ArrayList<String> trailActions;
 
 	public Player(float x, float y, Weapon weapon) {
@@ -71,6 +71,7 @@ public class Player extends ControllableEntity {
 		
 		trail = new ArrayList<Point>();
 		trailImage = SpriteLoader.getSprite("trail").getImage();
+		trailColor = new Color(1f, 0f, 1f, 1f);
 		trailActions = new ArrayList<String>();
 		trailActions.add("jumping");
 		trailActions.add("running");
@@ -160,9 +161,8 @@ public class Player extends ControllableEntity {
 			if (p.distanceTo(new Point(x, y)) > 0) {
 				float x = p.getX() + offsetX + width / 2f - trailImage.getWidth() / 2;
 				float y = p.getY() + offsetY + height / 2f - trailImage.getHeight() / 2;
-				Color c = trailColor;
-				c.a = 0.03f * i;
-				trailImage.draw(x, y, 1f, c);
+				trailColor.a = 0.03f * i;
+				trailImage.draw(x, y, 1f, trailColor);
 			}
 		}
 	}
@@ -328,9 +328,14 @@ public class Player extends ControllableEntity {
 		// Punch animation
 		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
 		Sprite punch2 = SpriteLoader.getSprite("player_punch_2");
-		Animation punch = new Animation(100, false);
+		Sprite punch3 = SpriteLoader.getSprite("player_punch_3");
+		Animation punch = new Animation(60, false);
 		punch.getSprites().add(punch1);
 		punch.getSprites().add(punch2);
+		punch.getSprites().add(punch3);
+		punch.getSprites().add(punch3);
+		punch.getSprites().add(punch3);
+		punch.getSprites().add(punch1);
 
 		// Death animation
 		Sprite d1 = SpriteLoader.getSprite("player_death_1");
