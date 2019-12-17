@@ -1,5 +1,7 @@
 package neon.camera;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -126,15 +128,20 @@ public class Camera {
 			offsetY = focalY * -1 + gc.getHeight() / (2f * scale);
 		}
 
-		for (int i = 0; i < level.getObjects().size(); i++) {
-			Entity e = level.getObjects().get(i);
-			if (isInView(e)) {
-				if (e instanceof Trigger) {
-					((Trigger) e).setScale(scale);
+		for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < level.getObjects().size(); i++) {
+				Entity e = level.getObjects().get(i);
+				if (isInView(e) && e instanceof PhysicalEntity) {
+					PhysicalEntity pe = (PhysicalEntity) e;
+					if (pe.getLayer() == j) {
+						if (pe instanceof Trigger) {
+							((Trigger) pe).setScale(scale);
+						}
+						float eX = (float) (Math.round(scale * (cameraOffsetX + offsetX)) / scale);
+						float eY = (float) (Math.round(scale * (cameraOffsetY + offsetY)) / scale);
+						pe.render(g, eX, eY);
+					}
 				}
-				float eX = (float) (Math.round(scale * (cameraOffsetX + offsetX)) / scale);
-				float eY = (float) (Math.round(scale * (cameraOffsetY + offsetY)) / scale);
-				e.render(g, eX, eY);
 			}
 		}
 	}

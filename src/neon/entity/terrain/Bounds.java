@@ -19,6 +19,7 @@ public class Bounds extends TerrainEntity {
 	private Image gradient;
 
 	public Bounds(CollisionDirection cd) {
+		this.layer = 1;
 		this.cd = cd;
 		try {
 			gradient = new Image("res/images/gradient.png");

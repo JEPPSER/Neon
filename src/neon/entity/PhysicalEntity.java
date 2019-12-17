@@ -24,7 +24,15 @@ public abstract class PhysicalEntity implements Entity {
 	protected float width;
 	protected float height;
 	protected boolean mirrored;
+	protected int layer = 2;
 	
+	public void setLayer(int layer) {
+		this.layer = layer;
+	}
+	
+	public int getLayer() {
+		return layer;
+	}
 	
 	public EntityGraphics getGraphics() {
 		return graphics;

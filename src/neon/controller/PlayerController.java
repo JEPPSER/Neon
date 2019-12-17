@@ -293,6 +293,9 @@ public class PlayerController implements Controller {
 //		if (ph.getYVelocity() > 0 && state.equals("jumping")) {
 //			state = "falling";
 //		}
+		if (ph.getYVelocity() < 0 && state.equals("gliding")) {
+			state = "jumping";
+		}
 		if (!animator.getState().equals(state)) {
 			animator.setState(state);
 		}

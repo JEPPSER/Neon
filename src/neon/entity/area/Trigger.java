@@ -18,6 +18,7 @@ public abstract class Trigger extends PhysicalEntity {
 	public Trigger() {
 		this.name = "Trigger";
 		this.physics = new Physics(0f, 0f);
+		this.layer = 3;
 	}
 	
 	public abstract void triggered();
