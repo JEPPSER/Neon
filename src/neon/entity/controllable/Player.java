@@ -57,48 +57,49 @@ public class Player extends ControllableEntity {
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
 	}
-	
+
 	public Weapon getWeapon() {
 		return weapon;
 	}
-	
+
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 		this.graphics.setAnimator(weapon.getAnimator());
 	}
-	
+
 	public void activateAirJump() {
 		((PlayerController) controller).activateAirJump();
 	}
-	
+
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
-	
+
 	public void setEnterWorld(boolean enterWorld) {
 		((PlayerOverworldController) controller).setEnterWorld(enterWorld);
 	}
-	
+
 	public boolean enterWorld() {
 		return ((PlayerOverworldController) controller).enterWorld();
 	}
-	
+
 	public void setExitWorld(boolean exitWorld) {
 		this.exitWorld = exitWorld;
 	}
-	
+
 	public boolean exitWorld() {
 		return exitWorld;
 	}
-	
+
 	public void resetLevel() {
 		((PlayerController) controller).resetLevel();
 	}
-	
+
 	public void setState(String state) {
-		((PlayerController) controller).setState(state);;
+		((PlayerController) controller).setState(state);
+		;
 	}
-	
+
 	public void enterPortal() {
 		((PlayerController) controller).portal();
 	}
@@ -145,7 +146,7 @@ public class Player extends ControllableEntity {
 			}
 		}
 	}
-	
+
 	@Override
 	public void control(Input input) {
 		controller.control(input);
@@ -156,7 +157,7 @@ public class Player extends ControllableEntity {
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
-		
+
 		if (other instanceof Trigger) {
 			if (pe == other) {
 				((Trigger) other).triggered();
@@ -224,9 +225,9 @@ public class Player extends ControllableEntity {
 	private void initGraphics() {
 
 		// Glide animation
-		Sprite glide = SpriteLoader.getSprite("player_idle_1");
-		Animation gliding = new Animation(100, true);
-		gliding.getSprites().add(glide);
+		Sprite glide1 = SpriteLoader.getSprite("player_glide");
+		Animation gliding = new Animation(80, false);
+		gliding.getSprites().add(glide1);
 
 		// Dash animation
 		Sprite dash1 = SpriteLoader.getSprite("player_dash_1");
@@ -236,13 +237,14 @@ public class Player extends ControllableEntity {
 		dashing.getSprites().add(dash2);
 
 		// Jump animation
-		Sprite jump1 = SpriteLoader.getSprite("player_idle_1");
-//		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
-//		Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
-		Animation jumping = new Animation(80, false);
-		jumping.getSprites().add(jump1);
-//		jumping.getSprites().add(jump2);
-//		jumping.getSprites().add(jump3);
+		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
+		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
+		Animation jumping = new Animation(100, false);
+		jumping.getSprites().add(jump2);
+
+		// Falling animation
+		Animation falling = new Animation(100, true);
+		falling.getSprites().add(jump1);
 
 		// Running animation
 		Sprite run1 = SpriteLoader.getSprite("player_run_11");
@@ -279,7 +281,7 @@ public class Player extends ControllableEntity {
 		Animation punch = new Animation(100, false);
 		punch.getSprites().add(punch1);
 		punch.getSprites().add(punch2);
-		
+
 		// Death animation
 		Sprite d1 = SpriteLoader.getSprite("player_death_1");
 		Sprite d2 = SpriteLoader.getSprite("player_death_2");
@@ -292,7 +294,7 @@ public class Player extends ControllableEntity {
 		death.getSprites().add(d3);
 		death.getSprites().add(d4);
 		death.getSprites().add(d5);
-		
+
 		// Spawn animation
 		Animation spawn = new Animation(100, false);
 		spawn.getSprites().add(d5);
@@ -301,7 +303,7 @@ public class Player extends ControllableEntity {
 		spawn.getSprites().add(d2);
 		spawn.getSprites().add(d1);
 		spawn.getSprites().add(idle1);
-		
+
 		// Portal animation
 		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
 		Sprite p2 = SpriteLoader.getSprite("player_portal_2");
@@ -329,6 +331,7 @@ public class Player extends ControllableEntity {
 		anim.setState("idle");
 		anim.addAnimation(running, "running");
 		anim.addAnimation(jumping, "jumping");
+		anim.addAnimation(falling, "falling");
 		anim.addAnimation(dashing, "dashing");
 		anim.addAnimation(gliding, "gliding");
 		anim.addAnimation(punch, "punching");

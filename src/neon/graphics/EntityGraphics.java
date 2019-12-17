@@ -48,13 +48,15 @@ public class EntityGraphics {
 	
 	public void render(Graphics g, float x, float y, float angle, boolean mirrored) {
 		currentSprite = animator.getCurrentSprite();
-		float difX = 0;
 		Image image = currentSprite.getImage();
+		float offset = currentSprite.getOffsetX() + offsetX;
+		
 		if (mirrored) {
-			difX = currentSprite.getWidth() - entityWidth;
 			image = currentSprite.getImage().getFlippedCopy(true, false);
+			offset = -1 * (currentSprite.getWidth() - (entityWidth - offset));
 		}
-		g.drawImage(image, x + offsetX - difX + currentSprite.getOffsetX(), y + offsetY + currentSprite.getOffsetY(), this.color);
+		
+		g.drawImage(image, x + offset, y + offsetY + currentSprite.getOffsetY(), this.color);
 	}
 	
 	public ArrayList<Point> mirrorPoints(ArrayList<Point> points) {

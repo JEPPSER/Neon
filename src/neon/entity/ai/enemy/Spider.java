@@ -24,9 +24,9 @@ public class Spider extends Enemy {
 		name = "Spider";
 		health = 4f;
 		maxHealth = 4f;
-		initGraphics();
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 35), 1.0f, 10f, true);
+		initGraphics();
 		this.x = x;
 		this.y = y;
 		this.ai = new SpiderController(this);
@@ -111,7 +111,7 @@ public class Spider extends Enemy {
 		anim.addAnimation(death, "death");
 		anim.setState("idle");
 
-		this.graphics = new EntityGraphics(one.getWidth());
+		this.graphics = new EntityGraphics(getWidth());
 		this.graphics.setAnimator(anim);
 		this.color = Color.gray;
 		this.graphics.setOffset(-10, 0);

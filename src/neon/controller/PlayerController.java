@@ -289,8 +289,12 @@ public class PlayerController implements Controller {
 
 	private void updateAnimationState() {
 		this.animator = player.getGraphics().getAnimator();
-		if (!animator.getState().equals(sm.getCurrentState())) {
-			animator.setState(sm.getCurrentState());
+		String state = sm.getCurrentState();
+//		if (ph.getYVelocity() > 0 && state.equals("jumping")) {
+//			state = "falling";
+//		}
+		if (!animator.getState().equals(state)) {
+			animator.setState(state);
 		}
 	}
 
