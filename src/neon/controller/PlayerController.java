@@ -77,15 +77,16 @@ public class PlayerController implements Controller {
 			input.clearControlPressedRecord();
 			return;
 		}
-		
+
 		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || isButtonDown(input, "left")) {
 			left();
 		}
 		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || isButtonDown(input, "right")) {
 			right();
 		}
-		if (!input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) && !input.isKeyDown(InputSettings.getKeyboardBinds().get("right"))
-				&& !isButtonDown(input, "left") && !isButtonDown(input, "right")) {
+		if (!input.isKeyDown(InputSettings.getKeyboardBinds().get("left"))
+				&& !input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) && !isButtonDown(input, "left")
+				&& !isButtonDown(input, "right")) {
 			stop();
 		}
 		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("jump")) || isButtonPressed(input, "jump")) {
@@ -103,13 +104,13 @@ public class PlayerController implements Controller {
 		updateInvulnerability();
 		updateCombat();
 	}
-	
+
 	public void activateAirJump() {
 		this.airJump = true;
 		this.canDash = true;
 		this.dashTime = 0;
 	}
-	
+
 	public void setState(String state) {
 		sm.activateState(state);
 	}
@@ -123,7 +124,7 @@ public class PlayerController implements Controller {
 		}
 		return false;
 	}
-	
+
 	private boolean isButtonDown(Input input, String action) {
 		int button = InputSettings.getControllerBinds().get(action);
 		for (int i = 0; i < input.getControllerCount(); i++) {
@@ -187,7 +188,7 @@ public class PlayerController implements Controller {
 			resetLevel();
 		}
 	}
-	
+
 	public void resetLevel() {
 		if (LevelManager.getCheckpoint() != null) {
 			LevelManager.resetFromCheckpoint();
@@ -253,12 +254,12 @@ public class PlayerController implements Controller {
 				return;
 			}
 		}
-		
+
 		if (cooldown <= COOLDOWN_TIME) {
 			cooldown += TimeInfo.getDelta();
 		}
 
-		if (player.getCollisionDirection() == CollisionDirection.DOWN || ph.getYVelocity() == 0) { // Detect idle or running
+		if (player.getCollisionDirections().contains(CollisionDirection.DOWN)) { // Detect running or idle
 			if (ph.getXVelocity() == 0) {
 				sm.activateState("idle");
 			} else if (!sm.getCurrentState().equals("dashing")) {
@@ -290,9 +291,9 @@ public class PlayerController implements Controller {
 	private void updateAnimationState() {
 		this.animator = player.getGraphics().getAnimator();
 		String state = sm.getCurrentState();
-//		if (ph.getYVelocity() > 0 && state.equals("jumping")) {
-//			state = "falling";
-//		}
+		// if (ph.getYVelocity() > 0 && state.equals("jumping")) {
+		// state = "falling";
+		// }
 		if (ph.getYVelocity() < 0 && state.equals("gliding")) {
 			state = "jumping";
 		}
@@ -304,11 +305,11 @@ public class PlayerController implements Controller {
 	private void punch() {
 		if (sm.canActivateState("punching") && !combat.isAttacking() && cooldown > COOLDOWN_TIME) {
 			if (player.getWeapon() == null) {
-//				if (direction == 0) {
-//					ph.setXVelocity(0.5f);
-//				} else if (direction == 1) {
-//					ph.setXVelocity(-0.5f);
-//				}
+				// if (direction == 0) {
+				// ph.setXVelocity(0.5f);
+				// } else if (direction == 1) {
+				// ph.setXVelocity(-0.5f);
+				// }
 				combat.startAttack("punch");
 				sm.activateState("punching");
 				cooldown = 0;
@@ -332,8 +333,8 @@ public class PlayerController implements Controller {
 	}
 
 	private void jump() {
-		if (!sm.getCurrentState().equals("gliding") && sm.canActivateState("jumping") ||
-				!sm.getCurrentState().equals("gliding") && airJump) {
+		if (!sm.getCurrentState().equals("gliding") && sm.canActivateState("jumping")
+				|| !sm.getCurrentState().equals("gliding") && airJump) {
 			sm.activateState("jumping");
 			ph.setYVelocity(-2f);
 			airJump = false;

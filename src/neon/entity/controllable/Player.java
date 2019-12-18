@@ -77,6 +77,10 @@ public class Player extends ControllableEntity {
 		trailActions.add("running");
 		trailActions.add("dashing");
 	}
+	
+	public ArrayList<CollisionDirection> getCollisionDirections() {
+		return colDirections;
+	}
 
 	public Weapon getWeapon() {
 		return weapon;

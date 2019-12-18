@@ -1,7 +1,8 @@
 res/images/world_1.png
 300,300
-res/levels/level_1.nlvl
+res/temp.nlvl
 res/levels/level_2.nlvl
+res/levels/level_1.nlvl
 res/levels/level_3.nlvl
 res/levels/level_4.nlvl
 res/levels/level_5.nlvl
