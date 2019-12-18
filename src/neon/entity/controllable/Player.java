@@ -22,6 +22,7 @@ import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
 import neon.entity.weapon.Weapon;
 import neon.graphics.EntityGraphics;
+import neon.graphics.GraphicsUtil;
 import neon.graphics.Point;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;
@@ -42,6 +43,8 @@ public class Player extends ControllableEntity {
 	private ArrayList<CollisionDirection> colDirections;
 	
 	private ArrayList<Point> trail;
+	private int shiftTimer = 0;
+	private final int SHIFT_TIME = 3000;
 	private int trailTimer = 0;
 	private final int TRAIL_TIME = 15;
 	private Image trailImage;
@@ -173,6 +176,12 @@ public class Player extends ControllableEntity {
 	
 	private void updateTrail() {
 		trailTimer += TimeInfo.getDelta();
+		if (shiftTimer < SHIFT_TIME) {
+			shiftTimer += TimeInfo.getDelta();
+		} else {
+			shiftTimer = -SHIFT_TIME;
+		}
+		GraphicsUtil.setColorHue(trailColor, ((float) Math.abs(shiftTimer) / (float) SHIFT_TIME) * 360f);
 		if (trailTimer >= TRAIL_TIME) {
 			trailTimer = 0;
 			if (trailActions.contains(graphics.getAnimator().getState())){
