@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.editor.Editor;
+import neon.menu.StartMenu;
 import neon.overworld.Overworld;
 import neon.settings.InputSettings;
 
@@ -23,7 +24,7 @@ public class Neon extends StateBasedGame {
 			//agc.setDisplayMode(1280, 720, false);
 			agc.setDisplayMode(1600, 900, false);
 			//agc.setDisplayMode(1900, 200, false);
-			//agc.setDisplayMode(800, 600, false);
+			//agc.setDisplayMode(800, 600, true);
 			agc.setAlwaysRender(true);
 			agc.start();
 		} catch (SlickException e) {
@@ -33,9 +34,10 @@ public class Neon extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		addState(new StartMenu());
 		addState(new Overworld());
 		addState(new BasicGame());
 		addState(new Editor());
-		enterState(3);
+		enterState(4);
 	}
 }
