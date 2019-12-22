@@ -3,14 +3,14 @@ package neon.graphics.gui;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
-public class HBox extends GUIElement {
+public class VBox extends GUIElement {
 	
-	public HBox() {
+	public VBox() {
 		super();
 		width = 200;
 		height = 50;
 	}
-
+	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(color);
@@ -20,7 +20,7 @@ public class HBox extends GUIElement {
 			e.render(g, offsetX, offsetY);
 		}
 	}
-
+	
 	@Override
 	public void update(Input input, float offsetX, float offsetY) {
 		for (GUIElement e : children) {
@@ -37,11 +37,11 @@ public class HBox extends GUIElement {
 			for (int i = 1; i < children.size(); i++) {
 				GUIElement prev = children.get(i - 1);
 				GUIElement curr = children.get(i);
-				curr.setX(prev.x + prev.width + spacing);
-				curr.setY(y + paddingY);
-				width += curr.width + spacing;
-				if (curr.height + 2 * paddingY > height) {
-					height = curr.height + paddingY * 2;
+				curr.setX(x + paddingX);
+				curr.setY(prev.y + prev.height + spacing);
+				height += curr.height + spacing;
+				if (curr.width + 2 * paddingX > width) {
+					width = curr.width + paddingX * 2;
 				}
 			}
 		}
