@@ -14,12 +14,12 @@ public class Button extends GUIElement {
 	private float textY;
 	private TrueTypeFont font;
 	
-	public Button(String text, float width, float height) {
+	public Button(String text, int fontSize, float width, float height) {
 		this.width = width;
 		this.height = height;
 		this.text = text;
 		this.color = Color.gray;
-		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, 18), true);
+		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, fontSize), true);
 		textX = width / 2f - font.getWidth(text) / 2f;
 		textY = height / 2f - font.getHeight(text) / 2f;
 	}
