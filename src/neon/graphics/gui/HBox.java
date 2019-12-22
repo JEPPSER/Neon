@@ -25,19 +25,19 @@ public class HBox extends GUIElement {
 	public void update(Input input, float offsetX, float offsetY) {
 		if (!children.isEmpty()) {
 			GUIElement elem = children.get(0);
-			width = elem.width;
-			height = elem.height;
-			elem.x = x;
-			elem.y = y;
+			width = elem.width + paddingX * 2;
+			height = elem.height + paddingY;
+			elem.x = x + paddingX;
+			elem.y = y + paddingY;
 			
 			for (int i = 1; i < children.size(); i++) {
 				GUIElement prev = children.get(i - 1);
 				GUIElement curr = children.get(i);
-				curr.setX(prev.x + prev.width);
-				curr.setY(y);
-				width += curr.width;
-				if (curr.height > height) {
-					height = curr.height;
+				curr.setX(prev.x + prev.width + spacing);
+				curr.setY(y + paddingY);
+				width += curr.width + spacing;
+				if (curr.height + 2 * paddingX > height) {
+					height = curr.height + paddingY * 2;
 				}
 			}
 			

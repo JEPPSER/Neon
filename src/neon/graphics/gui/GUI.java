@@ -34,6 +34,12 @@ public class GUI {
 	public void update(Input input) {
 		for (GUIElement e : elements) {
 			e.update(input, x, y);
+			if (e.getWidth() > width) {
+				width = e.getWidth();
+			}
+			if (e.getHeight() > height) {
+				height = e.getHeight();
+			}
 		}
 	}
 

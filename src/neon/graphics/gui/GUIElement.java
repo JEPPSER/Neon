@@ -15,7 +15,10 @@ public abstract class GUIElement {
 	protected float y;
 	protected float width;
 	protected float height;
-	
+	protected float spacing;
+	protected float paddingY;
+	protected float paddingX;
+
 	protected boolean isMouseOver;
 	protected boolean wasClicked;
 	
@@ -41,6 +44,30 @@ public abstract class GUIElement {
 			isMouseOver = false;
 			wasClicked = false;
 		}
+	}
+
+	public float getPaddingY() {
+		return paddingY;
+	}
+
+	public void setPaddingY(float paddingY) {
+		this.paddingY = paddingY;
+	}
+
+	public float getPaddingX() {
+		return paddingX;
+	}
+
+	public void setPaddingX(float paddingX) {
+		this.paddingX = paddingX;
+	}
+
+	public float getSpacing() {
+		return spacing;
+	}
+
+	public void setSpacing(float spacing) {
+		this.spacing = spacing;
 	}
 	
 	public void setColor(Color color) {

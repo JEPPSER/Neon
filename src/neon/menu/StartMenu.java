@@ -28,6 +28,9 @@ public class StartMenu extends BasicGameState {
 		three = new HBox();
 		four = new HBox();
 		
+		one.setSpacing(10);
+		one.setPaddingX(10);
+		one.setPaddingY(10);
 		two.setWidth(50);
 		two.setHeight(60);
 		four.setWidth(300);
