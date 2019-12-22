@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import neon.graphics.gui.Button;
 import neon.graphics.gui.GUI;
 import neon.graphics.gui.HBox;
 import neon.graphics.gui.VBox;
@@ -22,6 +23,7 @@ public class StartMenu extends BasicGameState {
 	private HBox three ;
 	private HBox four;
 	private HBox five;
+	private Button button;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
@@ -33,6 +35,7 @@ public class StartMenu extends BasicGameState {
 		root.setSpacing(20);
 		root.setColor(Color.pink);
 		
+		button = new Button("Close", 100, 50);
 		one = new HBox();
 		two = new HBox();
 		three = new HBox();
@@ -52,6 +55,8 @@ public class StartMenu extends BasicGameState {
 		four.setWidth(300);
 		four.setHeight(20);
 		five.getChildren().add(four);
+		five.getChildren().add(button);
+		five.setSpacing(10);
 		
 		root.getChildren().add(one);
 		root.getChildren().add(five);
