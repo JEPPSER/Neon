@@ -31,8 +31,8 @@ public abstract class GUIElement {
 	
 	public abstract void render(Graphics g, float offsetX, float offsetY);
 	
-	public void update(Input input, float offsetX, float offsetY) {
-		Rectangle r = new Rectangle(offsetX + x, offsetY + y, width, height);
+	public void update(Input input, float offsetX, float offsetY, float scale) {
+		Rectangle r = new Rectangle(scale * (offsetX + x), scale * (offsetY + y), scale * width, scale * height);
 		if (r.contains(input.getMouseX(), input.getMouseY())) {
 			isMouseOver = true;
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {

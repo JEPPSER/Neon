@@ -1,81 +1,26 @@
 package neon.graphics.gui;
 
-import java.util.ArrayList;
+import java.awt.Font;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.TrueTypeFont;
+
+import neon.menu.SettingsMenu;
 
 public class GUI {
 	
-	private float x;
-	private float y;
-	private float width;
-	private float height;
+	private static SettingsMenu settingsMenu;
+	private static TrueTypeFont font;
 	
-	private ArrayList<GUIElement> elements;
-	
-	public GUI(float x, float y, float width, float height) {
-		elements = new ArrayList<GUIElement>();
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public static void init() {
+		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, 20), true);
+		settingsMenu = new SettingsMenu();
 	}
 	
-	public void render(Graphics g) {
-		g.setColor(Color.green);
-		g.drawRect(x, y, width, height);
-		for (GUIElement e : elements) {
-			e.render(g, x, y);
-		}
+	public static TrueTypeFont getFont() {
+		return font;
 	}
 	
-	public void update(Input input) {
-		for (GUIElement e : elements) {
-			e.update(input, x, y);
-			if (e.getWidth() > width) {
-				width = e.getWidth();
-			}
-			if (e.getHeight() > height) {
-				height = e.getHeight();
-			}
-		}
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getWidth() {
-		return width;
-	}
-
-	public void setWidth(float width) {
-		this.width = width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
-	public void setHeight(float height) {
-		this.height = height;
-	}
-
-	public ArrayList<GUIElement> getElements() {
-		return elements;
+	public static SettingsMenu getSettingsMenu() {
+		return settingsMenu;
 	}
 }

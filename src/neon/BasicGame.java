@@ -21,9 +21,11 @@ import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.entity.weapon.Gun;
 import neon.graphics.animation.Animator;
+import neon.graphics.gui.GUI;
 import neon.io.LevelLoader;
 import neon.io.SpriteLoader;
 import neon.level.LevelManager;
+import neon.menu.SettingsMenu;
 import neon.physics.PhysicsEngine;
 import neon.time.TimeInfo;
 import neon.camera.Camera;
@@ -39,6 +41,9 @@ public class BasicGame extends BasicGameState {
 	private CombatEngine combat;
 	private Camera camera;
 	
+	private boolean paused = false;
+	private SettingsMenu settings;
+	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) {
 		float defaultZoom = (float) gc.getHeight() / 1080f; // 1080 is the base height.
@@ -48,6 +53,7 @@ public class BasicGame extends BasicGameState {
 		LevelManager.getLevel().setCamera(camera);
 		camera.zoom(defaultZoom);
 		camera.pan(0, gc.getHeight() - Display.getHeight());
+		settings = GUI.getSettingsMenu();
 	}
 
 	@Override
@@ -79,17 +85,40 @@ public class BasicGame extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		camera.renderPlayField(LevelManager.getLevel(), g);
 		camera.renderStaticElements(gc, g);
+		if (paused) {
+			float x = gc.getWidth() / camera.getScale() / 2 - settings.getWidth() / 2;
+			float y = gc.getHeight() / camera.getScale() / 2 - settings.getHeight() / 2;
+			settings.render(g, x, y);
+		}
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		Input input = gc.getInput();
+		
 		if (delta > 50) {
 			delta = 0;
 		}
+		
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+			delta = 0;
+			if (gc.isPaused()) {
+				paused = false;
+			} else {
+				paused = true;
+			}
+			gc.setPaused(paused);
+		}
+		
+		if (paused) {
+			float x = gc.getWidth() / camera.getScale() / 2 - settings.getWidth() / 2;
+			float y = gc.getHeight() / camera.getScale() / 2 - settings.getHeight() / 2;
+			settings.update(input, x, y, camera.getScale());
+		}
+		
 		TimeInfo.setDelta(delta);
 		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
 		Player p = LevelManager.getLevel().getPlayer();
-		Input input = gc.getInput();
 		physics.applyPhysics(objects);
 		cutsceneManager.updateCutScenes(camera);
 		if (!cutsceneManager.isCutsceneRunnging()) {
@@ -121,13 +150,6 @@ public class BasicGame extends BasicGameState {
 				}
 			}
 		}
-
-//		try {
-//			Thread.sleep(4);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	@Override

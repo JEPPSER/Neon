@@ -1,7 +1,5 @@
 package neon.graphics.gui;
 
-import java.awt.Font;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,7 +17,7 @@ public class Button extends GUIElement {
 		this.height = height;
 		this.text = text;
 		this.color = Color.gray;
-		font = new TrueTypeFont(new Font("Helvetica", Font.BOLD, fontSize), true);
+		font = GUI.getFont();
 		textX = width / 2f - font.getWidth(text) / 2f;
 		textY = height / 2f - font.getHeight(text) / 2f;
 	}
@@ -34,12 +32,44 @@ public class Button extends GUIElement {
 	}
 	
 	@Override
-	public void update(Input input, float offsetX, float offsetY) {
+	public void update(Input input, float offsetX, float offsetY, float scale) {
 		if (isMouseOver) {
 			color = Color.white;
 		} else {
 			color = Color.gray;
 		}
-		super.update(input, offsetX, offsetY);
+		super.update(input, offsetX, offsetY, scale);
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public float getTextX() {
+		return textX;
+	}
+
+	public void setTextX(float textX) {
+		this.textX = textX;
+	}
+
+	public float getTextY() {
+		return textY;
+	}
+
+	public void setTextY(float textY) {
+		this.textY = textY;
+	}
+
+	public TrueTypeFont getFont() {
+		return font;
+	}
+
+	public void setFont(TrueTypeFont font) {
+		this.font = font;
 	}
 }

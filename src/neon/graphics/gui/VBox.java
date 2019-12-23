@@ -13,8 +13,8 @@ public class VBox extends GUIElement {
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(color);
-		g.drawRect(offsetX + x, offsetY + y, width, height);
+//		g.setColor(color);
+//		g.drawRect(offsetX + x, offsetY + y, width, height);
 		
 		for (GUIElement e : children) {
 			e.render(g, offsetX, offsetY);
@@ -22,9 +22,9 @@ public class VBox extends GUIElement {
 	}
 	
 	@Override
-	public void update(Input input, float offsetX, float offsetY) {
+	public void update(Input input, float offsetX, float offsetY, float scale) {
 		for (GUIElement e : children) {
-			e.update(input, offsetX, offsetY);
+			e.update(input, offsetX, offsetY, scale);
 		}
 		
 		if (!children.isEmpty()) {
@@ -45,6 +45,6 @@ public class VBox extends GUIElement {
 				}
 			}
 		}
-		super.update(input, offsetX, offsetY);
+		super.update(input, offsetX, offsetY, scale);
 	}
 }

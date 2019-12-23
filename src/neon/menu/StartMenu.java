@@ -7,6 +7,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.graphics.gui.Button;
+import neon.graphics.gui.GUI;
 import neon.graphics.gui.VBox;
 
 public class StartMenu extends BasicGameState {
@@ -20,6 +21,7 @@ public class StartMenu extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame arg1) throws SlickException {
+		GUI.init();
 		root = new VBox();
 		root.setPaddingX(50);
 		root.setPaddingY(50);
@@ -41,7 +43,7 @@ public class StartMenu extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		root.update(gc.getInput(), gc.getWidth() / 2f - root.getWidth() / 2f, 100);
+		root.update(gc.getInput(), gc.getWidth() / 2f - root.getWidth() / 2f, 100, 1f);
 		
 		if (newBtn.wasClicked()) {
 			sbg.enterState(3);

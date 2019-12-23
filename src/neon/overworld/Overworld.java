@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import neon.camera.Camera;
 import neon.controller.PlayerOverworldController;
 import neon.entity.controllable.Player;
+import neon.graphics.gui.GUI;
 import neon.io.OverworldLoader;
 import neon.level.LevelManager;
 import neon.overworld.entity.World;

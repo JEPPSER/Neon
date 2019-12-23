@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.editor.Editor;
+import neon.graphics.gui.GUI;
 import neon.menu.StartMenu;
 import neon.overworld.Overworld;
 import neon.settings.InputSettings;

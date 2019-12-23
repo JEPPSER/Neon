@@ -4,6 +4,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 public class GraphicsUtil {
+	
+	public final static Color darkGray = new Color(0.2f, 0.2f, 0.2f);
 
 	public static void drawImageMatrix(Image[][] matrix, float x, float y, float scale) {
 		for (int i = 0; i < matrix.length; i++) {
