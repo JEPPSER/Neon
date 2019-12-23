@@ -24,14 +24,21 @@ public class Checkbox extends GUIElement {
 		if (isChecked) {
 			g.setColor(Color.black);
 			g.setLineWidth(4f);
-			g.drawLine(x + offsetX + width / 4, y + offsetY + height / 2, x + offsetX + width / 2, y + offsetY + 3 * height / 4);
-			g.drawLine(x + offsetX + width / 2, y + offsetY + height, x + offsetX + width, y + offsetY);
+			g.drawLine(x + offsetX + width / 6, y + offsetY + height / 2, x + offsetX + width / 3, y + offsetY + 3 * height / 4);
+			g.drawLine(x + offsetX + width / 3, y + offsetY + 3 * height / 4, x + offsetX + 3 * width / 4, y + offsetY + height / 4);
 		}
 	}
 	
 	@Override
 	public void update(Input input, float offsetX, float offsetY, float scale) {
-		
+		if (wasClicked) {
+			if (isChecked) {
+				isChecked = false;
+			} else {
+				isChecked = true;
+			}
+		}
+		super.update(input, offsetX, offsetY, scale);
 	}
 	
 	public String getText() {
