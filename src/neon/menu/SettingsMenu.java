@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 import neon.graphics.GraphicsUtil;
 import neon.graphics.gui.Button;
 import neon.graphics.gui.Checkbox;
+import neon.graphics.gui.ColorPicker;
 import neon.graphics.gui.DropDown;
 import neon.graphics.gui.GUIElement;
 import neon.graphics.gui.TabPane;
@@ -16,6 +17,7 @@ public class SettingsMenu extends GUIElement {
 	private TabPane root;
 	private Checkbox fsCheckbox;
 	private DropDown dropDown;
+	private ColorPicker colorPicker;
 	
 	public SettingsMenu() {
 		root = new TabPane(1000, 1000);
@@ -31,8 +33,9 @@ public class SettingsMenu extends GUIElement {
 		dropDown.addItem("1920x1080");
 		dropDown.addItem("1600x900");
 		dropDown.addItem("1280x720");
-		
 		grTab.getChildren().add(dropDown);
+		colorPicker = new ColorPicker();
+		grTab.getChildren().add(colorPicker);
 		
 		VBox iTab = new VBox();
 		VBox gaTab = new VBox();
