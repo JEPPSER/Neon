@@ -2,6 +2,7 @@
 3200.0,2250.0
 200,1350
 ground_down,ground_side,ground_up,ground_side
+18,2300,500
 14,550,750,100,100
 8,50,150,one,false,false,true,0.4,1500,600,600,100,1500,600
 12,1500,600,50,150,one,true

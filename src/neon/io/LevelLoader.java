@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
+import neon.entity.ai.enemy.Serpent;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.ActivateMovableTrigger;
@@ -150,8 +151,15 @@ public class LevelLoader {
 			return createGunCollector(parts);
 		} else if (id == 17) {
 			return createJumpItem(parts);
+		} else if (id == 18) {
+			return createSerpent(parts);
 		}
 		return null;
+	}
+	
+	private static Serpent createSerpent(String[] parts) {
+		Serpent s = new Serpent(Float.parseFloat(parts[1]), Float.parseFloat((parts[2])));
+		return s;
 	}
 	
 	private static JumpItem createJumpItem(String[] parts) {

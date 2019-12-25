@@ -13,16 +13,16 @@ public class SerpentVenom extends ProjectileEntity {
 	public SerpentVenom(float x, float y, float angle, String sourceEntity) {
 		this.x = x;
 		this.y = y;
-		this.damage = 2;
+		this.damage = 4;
 		this.angle = angle;
-		this.speed = 1f;
+		this.speed = 0.5f;
 		this.weight = 0;
 		this.sourceEntity = sourceEntity;
-		this.collision = new Collision(new Rectangle(0, 0, 20, 20), 1, 10, true);
+		this.collision = new Collision(new Rectangle(0, 0, 15, 15), 1, 10, true);
 		float velX = (float) (Math.cos(angle) * speed);
 		float velY = (float) (Math.sin(angle) * speed);
 		this.physics = new Physics(velX, velY);
-		this.graphics = new EntityGraphics(20);
+		this.graphics = new EntityGraphics(15);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class SerpentVenom extends ProjectileEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.magenta);
-		g.fillOval(x + offsetX, y + offsetY, 20, 20);
+		g.fillOval(x + offsetX, y + offsetY, 15, 15);
 	}
 
 	@Override

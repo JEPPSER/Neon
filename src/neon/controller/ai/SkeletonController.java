@@ -19,7 +19,7 @@ public class SkeletonController implements AIController {
 	
 	private CollisionDirection damageDirection;
 
-	private float speed = 0.5f;
+	private float speed = 0.3f;
 	private float dmg = 3.0f;
 	private int timer = 0;
 	private boolean mirrored = false;
@@ -106,7 +106,9 @@ public class SkeletonController implements AIController {
 	}
 
 	public void hurtPlayer(Player player) {
-		player.takeDamage(dmg);
+		if (!isInvulnerable) {
+			player.takeDamage(dmg);
+		}
 	}
 
 	@Override

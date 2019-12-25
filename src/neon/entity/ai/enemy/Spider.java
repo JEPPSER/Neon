@@ -39,7 +39,7 @@ public class Spider extends Enemy {
 			((SpiderController) ai).hurtPlayer((Player) other);
 		} else if (other instanceof CollectableEntity) {
 			
-		} else if (!(other instanceof Enemy) && !(other instanceof Player)){
+		} else if (/*!(other instanceof Enemy) && */!(other instanceof Player)){
 			super.handleCollision(other);
 		}
 	}

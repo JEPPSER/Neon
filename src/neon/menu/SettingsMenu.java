@@ -23,9 +23,9 @@ public class SettingsMenu extends GUIElement {
 		root = new TabPane(1000, 1000);
 		
 		VBox grTab = new VBox();
-		grTab.setPaddingX(10);
-		grTab.setPaddingY(10);
-		grTab.setSpacing(10);
+		grTab.setPaddingX(20);
+		grTab.setPaddingY(20);
+		grTab.setSpacing(20);
 		fsCheckbox = new Checkbox("Fullscreen", true);
 		grTab.getChildren().add(new Button("test", 14, 100, 50));
 		grTab.getChildren().add(fsCheckbox);

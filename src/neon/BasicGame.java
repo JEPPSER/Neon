@@ -65,9 +65,6 @@ public class BasicGame extends BasicGameState {
 		
 		physics = new PhysicsEngine();
 		combat = new CombatEngine();
-		
-		//Serpent s = new Serpent(500, 500);
-		//LevelManager.addEntity(s);
 
 		cutsceneManager = new CutsceneManager();
 		/*
