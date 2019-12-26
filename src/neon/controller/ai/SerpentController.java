@@ -37,6 +37,9 @@ public class SerpentController implements AIController {
 
 	@Override
 	public void control(Player player) {
+		if (serpent.isDead()) {
+			return;
+		}
 		time += TimeInfo.getDelta();
 		
 		if (!combat.isAttacking() && !isFiring) {

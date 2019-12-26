@@ -109,6 +109,11 @@ public class PlayerController implements Controller {
 		this.airJump = true;
 		this.canDash = true;
 		this.dashTime = 0;
+		if (ph.getXVelocity() > runningSpeed) {
+			ph.setXVelocity(runningSpeed);
+		} else if (ph.getXVelocity() < -runningSpeed) {
+			ph.setXVelocity(-runningSpeed);
+		}
 	}
 
 	public void setState(String state) {

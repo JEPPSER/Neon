@@ -11,6 +11,7 @@ import neon.physics.Physics;
 public class SerpentVenom extends ProjectileEntity {
 	
 	public SerpentVenom(float x, float y, float angle, String sourceEntity) {
+		this.name = "SerpentVenom";
 		this.x = x;
 		this.y = y;
 		this.damage = 4;

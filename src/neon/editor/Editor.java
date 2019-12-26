@@ -89,7 +89,7 @@ public class Editor extends BasicGameState {
 		g.setColor(Color.green);
 		g.drawRect(x + cursor.getX() - 5, y + cursor.getY() - 5, 10, 10);
 		
-		// Ground
+		// Objects
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
 			if (!(e instanceof Bounds)) {
@@ -225,6 +225,7 @@ public class Editor extends BasicGameState {
 			placing.setY(placing.getY() + placing.getHeight());
 			placing.setHeight(placing.getHeight() * -1);
 		}
+		placing.setSize(placing.getWidth(), placing.getHeight());
 		placing = null;
 	}
 	
@@ -254,6 +255,7 @@ public class Editor extends BasicGameState {
 		lines.add("0,0,0");
 		lines.add(width + "," + height);
 		lines.add("100,100");
+		lines.add("ground_down,ground_side,ground_up,ground_side");
 		
 		if (levelPath != null) {
 			try {

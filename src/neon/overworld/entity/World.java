@@ -2,6 +2,7 @@ package neon.overworld.entity;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -33,6 +34,7 @@ public class World extends InputPromptTrigger {
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.drawImage(this.image, x + offsetX, y + offsetY);
 		if (isTriggered) {
+			g.setColor(Color.white);
 			g.drawString(this.text, offsetX + x, offsetY + y - 50);
 		}
 	}

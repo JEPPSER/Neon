@@ -14,7 +14,7 @@ import neon.physics.Collision;
 
 public class JumpItem extends CollectableEntity {
 	
-	private final int SPAWN_TIME = 4000;
+	private final int SPAWN_TIME = 3000;
 	private int timer = 0;
 	
 	public JumpItem(float x, float y) {

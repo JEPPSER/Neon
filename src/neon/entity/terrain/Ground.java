@@ -69,9 +69,18 @@ public class Ground extends TerrainEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
+		if (this.graphics == null) {
+			g.setColor(Color.green);
+			g.drawRect(x + offsetX, y + offsetY, width, height);
+			return;
+		}
 		g.setColor(Color.white);
 		
-		float scale = LevelManager.getLevel().getCamera().getScale();
+		float scale = 1f;
+		if (LevelManager.getLevel() != null) {
+			scale = LevelManager.getLevel().getCamera().getScale();
+		}
+
 		int x = (int) ((this.x + offsetX) * scale);
 		int y = (int) ((this.y + offsetY) * scale);
 		

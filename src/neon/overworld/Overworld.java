@@ -47,12 +47,17 @@ public class Overworld extends BasicGameState {
 		TimeInfo.setDelta(delta);
 		player.control(gc.getInput());
 		player.getGraphics().getAnimator().updateAnimations();
-		
+
+		World colliding = null;
 		for (int i = 0; i < owm.getWorlds().size(); i++) {
 			World w = owm.getWorlds().get(i);
 			player.checkCollision(w);
 			player.handleCollision(w);
+			if (player.getCollidingEntity() != null) {
+				colliding = (World) player.getCollidingEntity();
+			}
 		}
+		player.setCollidingEntity(colliding);
 		
 		if (player.enterWorld()) {
 			player.setEnterWorld(false);
