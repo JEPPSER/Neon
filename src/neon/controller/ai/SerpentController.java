@@ -111,7 +111,7 @@ public class SerpentController implements AIController {
 
 	@Override
 	public void death() {
-		Portal portal = new Portal(serpent.getX(), serpent.getY());
+		Portal portal = new Portal(serpent.getX(), serpent.getY(), true);
 		LevelManager.addEntity(portal);
 	}
 

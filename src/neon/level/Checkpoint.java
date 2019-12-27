@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import neon.entity.Entity;
 import neon.entity.area.Trigger;
+import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
 import neon.entity.terrain.TerrainEntity;

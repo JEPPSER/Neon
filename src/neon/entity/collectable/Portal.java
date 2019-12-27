@@ -16,13 +16,15 @@ import neon.time.TimeInfo;
 
 public class Portal extends CollectableEntity {
 	
-	public int dir = -1;
-	public int bobTime = 0;
+	private int dir = -1;
+	private int bobTime = 0;
+	private Color lowOpacity;
 	
-	public Portal(float x, float y) {
+	public Portal(float x, float y, boolean canCollect) {
 		name = "Portal";
 		color = Color.white;
-		canCollect = true;
+		this.canCollect = canCollect;
+		lowOpacity = new Color(1f, 1f, 1f, 0.3f);
 		this.physics = new Physics(0f, 0f);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 50), 1.0f, 10f, true);
 		this.x = x;
@@ -68,6 +70,11 @@ public class Portal extends CollectableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
+		if (!canCollect) {
+			graphics.setColor(lowOpacity);
+		} else {
+			graphics.setColor(Color.white);
+		}
 		graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
 
@@ -78,7 +85,9 @@ public class Portal extends CollectableEntity {
 
 	@Override
 	public void collect(Player player) {
-		player.enterPortal();
+		if (canCollect) {
+			player.enterPortal();
+		}
 	}
 	
 	private void initGraphics() {

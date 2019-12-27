@@ -255,7 +255,6 @@ public class Editor extends BasicGameState {
 		lines.add("0,0,0");
 		lines.add(width + "," + height);
 		lines.add("100,100");
-		lines.add("ground_down,ground_side,ground_up,ground_side");
 		
 		if (levelPath != null) {
 			try {

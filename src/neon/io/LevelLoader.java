@@ -20,6 +20,7 @@ import neon.entity.area.ActivateMovableTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
+import neon.entity.collectable.ActivateItem;
 import neon.entity.collectable.GunCollector;
 import neon.entity.collectable.Heart;
 import neon.entity.collectable.JumpItem;
@@ -153,8 +154,15 @@ public class LevelLoader {
 			return createJumpItem(parts);
 		} else if (id == 18) {
 			return createSerpent(parts);
+		} else if (id == 19) {
+			return createActivateItem(parts);
 		}
 		return null;
+	}
+	
+	private static ActivateItem createActivateItem(String[] parts) {
+		ActivateItem ai = new ActivateItem(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), parts[3]);
+		return ai;
 	}
 	
 	private static Serpent createSerpent(String[] parts) {
@@ -265,7 +273,11 @@ public class LevelLoader {
 	}
 	
 	private static Portal createPortal(String[] parts) {
-		Portal p = new Portal(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		boolean canCollect = true;
+		if (parts.length == 4 && parts[3].equals("false")) {
+			canCollect = false;
+		}
+		Portal p = new Portal(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), canCollect);
 		return p;
 	}
 	
@@ -333,6 +345,22 @@ public class LevelLoader {
 				sb.append(",");
 				sb.append(g.getPath().get(i).getY());
 			}
+		} else if (e instanceof Portal) {
+			sb.append(e.getID());
+			sb.append(",");
+			sb.append(e.getX());
+			sb.append(",");
+			sb.append(e.getY());
+			sb.append(",");
+			sb.append(((Portal) e).canCollect());
+		} else if (e instanceof ActivateItem) {
+			sb.append(e.getID());
+			sb.append(",");
+			sb.append(e.getX());
+			sb.append(",");
+			sb.append(e.getY());
+			sb.append(",");
+			sb.append(((ActivateItem) e).getActivateName());
 		} else {
 			sb.append(e.getID());
 			sb.append(",");
