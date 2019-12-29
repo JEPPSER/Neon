@@ -34,6 +34,10 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 		y = path.get(0).getY();
 	}
 	
+	public ArrayList<Point> getPath() {
+		return path;
+	}
+	
 	@Override
 	public void resetWhenDone() {
 		resetWhenDone = true;
@@ -84,6 +88,15 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 		} else if (active && resetWhenDone) {
 			reset();
 		}
+	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + getWidth() + "," + getHeight() + "," + direction + "," + name + "," + active + "," + looping + "," + canReset + "," + speed;
+		for (Point p : path) {
+			str += "," + p.getX() + "," + p.getY();
+		}
+		return str;
 	}
 
 	@Override

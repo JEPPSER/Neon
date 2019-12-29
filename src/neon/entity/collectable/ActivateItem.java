@@ -60,6 +60,12 @@ public class ActivateItem extends CollectableEntity {
 		g.setColor(this.color);
 		g.drawOval(x + offsetX, y + offsetY, width, height);
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + activateName;
+		return str;
+	}
 
 	@Override
 	public int getID() {

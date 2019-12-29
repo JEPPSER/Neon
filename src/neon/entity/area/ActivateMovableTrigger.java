@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 
 import neon.entity.Entity;
 import neon.entity.terrain.movable.MovableTerrain;
+import neon.graphics.Point;
 import neon.level.LevelManager;
 
 public class ActivateMovableTrigger extends Trigger {
@@ -29,6 +30,12 @@ public class ActivateMovableTrigger extends Trigger {
 	@Override
 	public int getID() {
 		return 12;
+	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight() + "," + activateName + "," + resetWhenDone;
+		return str;
 	}
 
 	@Override

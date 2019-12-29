@@ -88,10 +88,15 @@ public class Spikes extends TerrainEntity {
 		}
 		
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight() + "," + direction;
+		return str;
+	}
 
 	@Override
 	public int getID() {
-		return 0;
+		return 7;
 	}
-
 }

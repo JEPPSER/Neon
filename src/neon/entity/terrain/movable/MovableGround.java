@@ -123,6 +123,15 @@ public class MovableGround extends Ground implements MovableTerrain {
 	}
 	
 	@Override
+	public String toString() {
+		String str = getID() + "," + getWidth() + "," + getHeight() + "," + name + "," + active + "," + looping + "," + canReset + "," + speed;
+		for (Point p : path) {
+			str += "," + p.getX() + "," + p.getY();
+		}
+		return str;
+	}
+	
+	@Override
 	public int getID() {
 		return 8;
 	}

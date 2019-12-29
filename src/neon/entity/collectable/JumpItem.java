@@ -84,6 +84,12 @@ public class JumpItem extends CollectableEntity {
 			g.drawRect(x + offsetX, y + offsetY, width, height);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y;
+		return str;
+	}
 
 	@Override
 	public int getID() {

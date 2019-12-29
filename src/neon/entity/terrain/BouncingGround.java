@@ -47,4 +47,10 @@ public class BouncingGround extends Ground {
 	public int getID() {
 		return 14;
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight();
+		return str;
+	}
 }

@@ -26,6 +26,12 @@ public class ActivateMovableEvent implements Event {
 	public int getID() {
 		return 10;
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + activateName + "," + conditionName + "," + conditionType;
+		return str;
+	}
 
 	@Override
 	public boolean meetsCondition() {

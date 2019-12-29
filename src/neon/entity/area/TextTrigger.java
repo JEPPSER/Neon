@@ -51,6 +51,12 @@ public class TextTrigger extends Trigger {
 		//g.drawRect(offsetX + x, offsetY + y, width, height);
 		//graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight() + "," + text;
+		return str;
+	}
 
 	@Override
 	public int getID() {

@@ -29,6 +29,12 @@ public class RandomActivateTrigger extends ActivateMovableTrigger {
 	}
 	
 	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight() + "," + activateName + "," + timeBetweenActivate;
+		return str;
+	}
+	
+	@Override
 	public void triggered() {
 		if (!isTriggered) {
 			isTriggered = true;

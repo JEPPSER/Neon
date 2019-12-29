@@ -16,10 +16,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import neon.entity.Entity;
+import neon.entity.controllable.Player;
 import neon.entity.terrain.BouncingGround;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.movable.MovableGround;
+import neon.entity.terrain.movable.MovableSpikes;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
 import neon.level.Level;
@@ -170,6 +172,19 @@ public class Editor extends BasicGameState {
 		float difY = y + height - corners[3].getY();
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
+			if (e instanceof MovableGround) {
+				MovableGround mg = (MovableGround) e;
+				for (Point p : mg.getPath()) {
+					p.setX(p.getX() + difX);
+					p.setY(p.getY() + difY);
+				}
+			} else if (e instanceof MovableSpikes) {
+				MovableSpikes ms = (MovableSpikes) e;
+				for (Point p : ms.getPath()) {
+					p.setX(p.getX() + difX);
+					p.setY(p.getY() + difY);
+				}
+			}
 			e.setX(e.getX() + difX);
 			e.setY(e.getY() + difY);
 		}
@@ -255,28 +270,36 @@ public class Editor extends BasicGameState {
 		lines.add("0,0,0");
 		lines.add(width + "," + height);
 		lines.add("100,100");
-		
-		if (levelPath != null) {
-			try {
-				String str = new String(Files.readAllBytes(Paths.get(levelPath)));
-				str = str.replaceAll("\r", "");
-				String[] parts = str.split("\n");
-				for (int i = 3; i < parts.length; i++) {
-					if (!parts[i].startsWith("0")) {
-						lines.add(parts[i]);
-					}
-				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
+		lines.add("ground_down,ground_side,ground_up,ground_side");
 		
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
-			if (e instanceof Ground && !(e instanceof MovableGround) && !(e instanceof BouncingGround)) {
-				lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
+			if (!(e instanceof Bounds) && !(e instanceof Player)) {
+				lines.add(e.toString());
 			}
 		}
+		
+//		if (levelPath != null) {
+//			try {
+//				String str = new String(Files.readAllBytes(Paths.get(levelPath)));
+//				str = str.replaceAll("\r", "");
+//				String[] parts = str.split("\n");
+//				for (int i = 3; i < parts.length; i++) {
+//					if (!parts[i].startsWith("0")) {
+//						lines.add(parts[i]);
+//					}
+//				}
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
+//		
+//		for (int i = 0; i < level.getObjects().size(); i++) {
+//			Entity e = level.getObjects().get(i);
+//			if (e instanceof Ground && !(e instanceof MovableGround) && !(e instanceof BouncingGround)) {
+//				lines.add("0," + e.getX() + "," + e.getY() + "," + e.getWidth() + "," + e.getHeight());
+//			}
+//		}
 		try {
 			Files.write(Paths.get("res/temp.nlvl"), lines, StandardCharsets.UTF_8);
 		} catch (IOException e1) {

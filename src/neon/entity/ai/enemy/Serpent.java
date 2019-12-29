@@ -138,6 +138,12 @@ public class Serpent extends Enemy {
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y;
+		return str;
+	}
 
 	@Override
 	public int getID() {

@@ -90,6 +90,12 @@ public class Portal extends CollectableEntity {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y;
+		return str;
+	}
+	
 	private void initGraphics() {
 		this.graphics = new EntityGraphics(width);
 		graphics.setColor(this.color);

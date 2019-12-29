@@ -136,6 +136,12 @@ public class Ground extends TerrainEntity {
 	public int getID() {
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight();
+		return str;
+	}
 
 	@Override
 	public void setSize(float width, float height) {

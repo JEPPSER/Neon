@@ -96,6 +96,12 @@ public class Heart extends CollectableEntity {
 		this.graphics.setAnimator(anim);
 		this.graphics.setColor(color);
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y;
+		return str;
+	}
 
 	@Override
 	public int getID() {

@@ -58,6 +58,12 @@ public class CheckpointTrigger extends Trigger {
 	}
 	
 	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight();
+		return str;
+	}
+	
+	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 //		g.setColor(Color.red);
 //		g.drawRect(x + offsetX, y + offsetY, width, height);

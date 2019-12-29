@@ -76,6 +76,12 @@ public class GunCollector extends CollectableEntity {
 		g.drawRect(x + offsetX, y + offsetY, width, height);
 		graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y;
+		return str;
+	}
 
 	@Override
 	public int getID() {
