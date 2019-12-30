@@ -42,6 +42,11 @@ public class Camera {
 		cameraOffsetY += y;
 	}
 
+	public void setPan(float x, float y) {
+		cameraOffsetX = x;
+		cameraOffsetY = y;
+	}
+
 	public void setFocusedEntity(PhysicalEntity focusedEntity) {
 		this.focusedEntity = focusedEntity;
 	}
@@ -100,7 +105,7 @@ public class Camera {
 		if (focusedEntity == null) {
 			focusedEntity = LevelManager.getLevel().getPlayer();
 		}
-		
+
 		g.scale(scale, scale);
 
 		float focalX;
@@ -162,7 +167,7 @@ public class Camera {
 	public void zoom(float scale) {
 		this.scale = scale;
 	}
-	
+
 	public float getScale() {
 		return scale;
 	}
@@ -172,9 +177,10 @@ public class Camera {
 	}
 
 	private boolean isInView(Entity entity) {
-		if (entity.getX() + offsetX + entity.getWidth() > 0 && entity.getX() + offsetX < gc.getWidth() / scale
-				&& entity.getY() + offsetY + entity.getHeight() > 0
-				&& entity.getY() + offsetY < gc.getHeight() / scale) {
+		if (entity.getX() + offsetX + cameraOffsetX + entity.getWidth() > 0
+				&& entity.getX() + offsetX + cameraOffsetX < gc.getWidth() / scale
+				&& entity.getY() + offsetY + cameraOffsetY + entity.getHeight() > 0
+				&& entity.getY() + offsetY + cameraOffsetY < gc.getHeight() / scale) {
 			return true;
 		}
 		return false;

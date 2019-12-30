@@ -17,6 +17,7 @@ import neon.entity.ai.enemy.Serpent;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.ActivateMovableTrigger;
+import neon.entity.area.CameraChangeTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
@@ -156,8 +157,18 @@ public class LevelLoader {
 			return createSerpent(parts);
 		} else if (id == 19) {
 			return createActivateItem(parts);
+		} else if (id == 20) {
+			return createCameraChangeTrigger(parts);
 		}
 		return null;
+	}
+	
+	private static CameraChangeTrigger createCameraChangeTrigger(String[] parts) {
+		CameraChangeTrigger t = new CameraChangeTrigger(Float.parseFloat(parts[5]), Float.parseFloat(parts[6]));
+		t.setX(Float.parseFloat(parts[1]));
+		t.setY(Float.parseFloat(parts[2]));
+		t.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		return t;
 	}
 	
 	private static ActivateItem createActivateItem(String[] parts) {
