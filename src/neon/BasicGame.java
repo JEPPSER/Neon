@@ -107,6 +107,11 @@ public class BasicGame extends BasicGameState {
 			gc.setPaused(paused);
 		}
 		
+		// Temporary!!
+		if (input.isKeyPressed(Input.KEY_E)) {
+			sbg.enterState(2);
+		}
+		
 		if (paused) {
 			float x = gc.getWidth() / camera.getScale() / 2 - settings.getWidth() / 2;
 			float y = gc.getHeight() / camera.getScale() / 2 - settings.getHeight() / 2;

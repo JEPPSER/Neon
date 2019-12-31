@@ -92,7 +92,7 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 	
 	@Override
 	public String toString() {
-		String str = getID() + "," + getWidth() + "," + getHeight() + "," + direction + "," + name + "," + active + "," + looping + "," + canReset + "," + speed;
+		String str = getID() + "," + getWidth() + "," + getHeight() + "," + super.direction + "," + name + "," + active + "," + looping + "," + canReset + "," + speed;
 		for (Point p : path) {
 			str += "," + p.getX() + "," + p.getY();
 		}
@@ -101,7 +101,7 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 
 	@Override
 	public int getID() {
-		return 12;
+		return 13;
 	}
 
 	@Override

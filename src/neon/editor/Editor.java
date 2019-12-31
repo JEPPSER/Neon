@@ -104,7 +104,7 @@ public class Editor extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame arg1, int arg2) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int arg2) throws SlickException {
 		Input input = gc.getInput();
 		prevMousePos = mousePos;
 		mousePos = new Point(input.getMouseX(), input.getMouseY());
@@ -115,6 +115,10 @@ public class Editor extends BasicGameState {
 		if (getCorner() != -1 || isChangingSize) {
 			changeSize(input);
 			return;
+		}
+		
+		if (input.isKeyDown(Input.KEY_P)) {
+			sbg.enterState(4);
 		}
 		
 		if (input.isKeyDown(Input.KEY_LCONTROL)) {

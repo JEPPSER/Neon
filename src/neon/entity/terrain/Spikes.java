@@ -13,7 +13,7 @@ import neon.physics.Physics;
 
 public class Spikes extends TerrainEntity {
 	
-	private CollisionDirection direction;
+	protected CollisionDirection direction;
 	private Sprite sprite;
 	
 	public Spikes(CollisionDirection direction) {
