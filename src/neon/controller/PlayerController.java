@@ -36,6 +36,7 @@ public class PlayerController implements Controller {
 	private int cooldown = 0;
 	private int dmgTimer = 0;
 	private boolean isInvulnerable = false;
+	private CollisionDirection aimDirection;
 
 	private int deathTimer = 0;
 	private final int DEATH_TIME = 500;
@@ -51,6 +52,7 @@ public class PlayerController implements Controller {
 		this.ph = player.getPhysics();
 		this.combat = player.getCombat();
 		this.glideDirection = CollisionDirection.NONE;
+		this.aimDirection = CollisionDirection.RIGHT;
 		initStateManager();
 	}
 
@@ -103,6 +105,21 @@ public class PlayerController implements Controller {
 		updateActions();
 		updateInvulnerability();
 		updateCombat();
+		updateAimDirection(input);
+	}
+	
+	private void updateAimDirection(Input input) {
+		if (direction == 0) {
+			aimDirection = CollisionDirection.RIGHT;
+		} else {
+			aimDirection = CollisionDirection.LEFT;
+		}
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up")) || isButtonDown(input, "up")) {
+			this.aimDirection = CollisionDirection.UP;
+		}
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down")) || isButtonDown(input, "down")) {
+			this.aimDirection = CollisionDirection.DOWN;
+		}
 	}
 
 	public void activateAirJump() {
@@ -319,7 +336,7 @@ public class PlayerController implements Controller {
 				sm.activateState("punching");
 				cooldown = 0;
 			} else {
-				player.getWeapon().attack(player);
+				player.getWeapon().attack(player, aimDirection);
 				sm.activateState("punching");
 			}
 		}

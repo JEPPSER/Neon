@@ -7,6 +7,7 @@ import neon.graphics.animation.Animation;
 import neon.graphics.animation.Animator;
 import neon.io.SpriteLoader;
 import neon.level.LevelManager;
+import neon.physics.CollisionDirection;
 
 public class Gun extends Weapon {
 
@@ -15,10 +16,14 @@ public class Gun extends Weapon {
 	}
 
 	@Override
-	public void attack(Player player) {
+	public void attack(Player player, CollisionDirection aimDirection) {
 		float ang = 0;
-		if (player.isMirrored()) {
+		if (aimDirection == CollisionDirection.LEFT) {
 			ang = (float) Math.PI;
+		} else if (aimDirection == CollisionDirection.UP) {
+			ang = (float) (3 * Math.PI) / 2f;
+		} else if (aimDirection == CollisionDirection.DOWN) {
+			ang = (float) (Math.PI / 2f);
 		}
 		Bullet b = new Bullet(player.getX(), player.getY(), ang, player.getName());
 		LevelManager.addEntity(b);
