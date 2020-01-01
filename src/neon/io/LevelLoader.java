@@ -14,6 +14,7 @@ import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
 import neon.entity.ai.enemy.Serpent;
+import neon.entity.ai.enemy.ShootableButton;
 import neon.entity.ai.enemy.Skeleton;
 import neon.entity.ai.enemy.Spider;
 import neon.entity.area.ActivateMovableTrigger;
@@ -159,8 +160,17 @@ public class LevelLoader {
 			return createActivateItem(parts);
 		} else if (id == 20) {
 			return createCameraChangeTrigger(parts);
+		} else if (id == 21) {
+			return createShootableButton(parts);
 		}
 		return null;
+	}
+	
+	private static ShootableButton createShootableButton(String[] parts) {
+		ShootableButton sb = new ShootableButton(CollisionDirection.valueOf(parts[3]), parts[4], Boolean.valueOf(parts[5]));
+		sb.setX(Float.parseFloat(parts[1]));
+		sb.setY(Float.parseFloat(parts[2]));
+		return sb;
 	}
 	
 	private static CameraChangeTrigger createCameraChangeTrigger(String[] parts) {

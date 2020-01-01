@@ -54,7 +54,7 @@ public class CombatEngine {
 		for (int i = 0; i < objects.size(); i++) {
 			if (objects.get(i) instanceof Enemy) {
 				Enemy e = (Enemy) objects.get(i);
-				if (e.getCombat().isAttacking()) {
+				if (e.getCombat() != null && e.getCombat().isAttacking()) {
 					Attack attack = e.getCombat().getCurrentAttack();
 					Rectangle attackHitbox = attack.getHitBox(e);
 					Rectangle tempR = p.getCollision().getHitbox();

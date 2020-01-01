@@ -135,7 +135,7 @@ public class BasicGame extends BasicGameState {
 
 		// Updates timing for all animations
 		for (int i = 0; i < objects.size(); i++) {
-			if (objects.get(i) instanceof PhysicalEntity) {
+			if (objects.get(i) instanceof PhysicalEntity && objects.get(i).getGraphics() != null) {
 				Animator anim = ((PhysicalEntity) objects.get(i)).getGraphics().getAnimator();
 				if (anim != null) {
 					anim.updateAnimations();

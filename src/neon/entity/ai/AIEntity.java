@@ -9,6 +9,8 @@ public abstract class AIEntity extends PhysicalEntity {
 	protected AIController ai;
 	
 	public void control(Player player) {
-		ai.control(player);
+		if (ai != null) {
+			ai.control(player);
+		}
 	}
 }
