@@ -344,61 +344,61 @@ public class LevelLoader {
 	}
 	
 	public static Entity copyEntity(Entity e) {
-		StringBuilder sb = new StringBuilder();
-		if (e instanceof MovableGround) {
-			MovableGround g = (MovableGround) e;
-			sb.append(e.getID());
-			sb.append(",");
-			sb.append(e.getWidth());
-			sb.append(",");
-			sb.append(e.getHeight());
-			sb.append(",");
-			sb.append(e.getName());
-			sb.append(",");
-			sb.append(g.isActive());
-			sb.append(",");
-			sb.append(g.isLooping());
-			sb.append(",");
-			sb.append(g.getSpeed());
-			for (int i = 0; i < g.getPath().size(); i++) {
-				sb.append(",");
-				sb.append(g.getPath().get(i).getX());
-				sb.append(",");
-				sb.append(g.getPath().get(i).getY());
-			}
-		} else if (e instanceof Portal) {
-			sb.append(e.getID());
-			sb.append(",");
-			sb.append(e.getX());
-			sb.append(",");
-			sb.append(e.getY());
-			sb.append(",");
-			sb.append(((Portal) e).canCollect());
-		} else if (e instanceof ActivateItem) {
-			sb.append(e.getID());
-			sb.append(",");
-			sb.append(e.getX());
-			sb.append(",");
-			sb.append(e.getY());
-			sb.append(",");
-			sb.append(((ActivateItem) e).getActivateName());
-		} else {
-			sb.append(e.getID());
-			sb.append(",");
-			sb.append(e.getX());
-			sb.append(",");
-			sb.append(e.getY());
-			sb.append(",");
-			sb.append(e.getWidth());
-			sb.append(",");
-			sb.append(e.getHeight());
-			if (e.getID() == 1) {
-				sb.append(",");
-				sb.append(((TextTrigger) e).getText());
-			}
-		}
-		
-		String line = sb.toString();
-		return getEntity(line.split(","));
+//		StringBuilder sb = new StringBuilder();
+//		if (e instanceof MovableGround) {
+//			MovableGround g = (MovableGround) e;
+//			sb.append(e.getID());
+//			sb.append(",");
+//			sb.append(e.getWidth());
+//			sb.append(",");
+//			sb.append(e.getHeight());
+//			sb.append(",");
+//			sb.append(e.getName());
+//			sb.append(",");
+//			sb.append(g.isActive());
+//			sb.append(",");
+//			sb.append(g.isLooping());
+//			sb.append(",");
+//			sb.append(g.getSpeed());
+//			for (int i = 0; i < g.getPath().size(); i++) {
+//				sb.append(",");
+//				sb.append(g.getPath().get(i).getX());
+//				sb.append(",");
+//				sb.append(g.getPath().get(i).getY());
+//			}
+//		} else if (e instanceof Portal) {
+//			sb.append(e.getID());
+//			sb.append(",");
+//			sb.append(e.getX());
+//			sb.append(",");
+//			sb.append(e.getY());
+//			sb.append(",");
+//			sb.append(((Portal) e).canCollect());
+//		} else if (e instanceof ActivateItem) {
+//			sb.append(e.getID());
+//			sb.append(",");
+//			sb.append(e.getX());
+//			sb.append(",");
+//			sb.append(e.getY());
+//			sb.append(",");
+//			sb.append(((ActivateItem) e).getActivateName());
+//		} else {
+//			sb.append(e.getID());
+//			sb.append(",");
+//			sb.append(e.getX());
+//			sb.append(",");
+//			sb.append(e.getY());
+//			sb.append(",");
+//			sb.append(e.getWidth());
+//			sb.append(",");
+//			sb.append(e.getHeight());
+//			if (e.getID() == 1) {
+//				sb.append(",");
+//				sb.append(((TextTrigger) e).getText());
+//			}
+//		}
+//		
+//		String line = sb.toString();
+		return getEntity(e.toString().split(","));
 	}
 }

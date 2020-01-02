@@ -43,6 +43,7 @@ public class Editor extends BasicGameState {
 	private float width = 1000;
 	private float height = 500;
 	private float gridSize = 50;
+	private float scale = 1f;
 	
 	private Point[] corners;
 	private int changingCorner = -1;
@@ -59,6 +60,7 @@ public class Editor extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics g) throws SlickException {
+		g.scale(scale, scale);
 		g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.1f));
 		g.setLineWidth(1);
 		for (int i = 0; i < width / gridSize; i++) {
@@ -101,6 +103,7 @@ public class Editor extends BasicGameState {
 		
 		g.setColor(Color.green);
 		g.drawString("cursor: " + cursor.getX() + ", " + cursor.getY(), 50, 50);
+		g.scale(1 / scale, 1 / scale);
 	}
 
 	@Override
@@ -125,6 +128,14 @@ public class Editor extends BasicGameState {
 			x += mousePos.getX() - prevMousePos.getX();
 			y += mousePos.getY() - prevMousePos.getY();
 			corners = new Point[] { new Point(x, y), new Point(x + width, y), new Point(x + width, y + height), new Point(x, y + height) };
+		}
+		
+		if (input.isKeyPressed(Input.KEY_1)) {
+			scale += 0.1f;
+		}
+		
+		if (input.isKeyPressed(Input.KEY_2)) {
+			scale -= 0.1f;
 		}
 		
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
