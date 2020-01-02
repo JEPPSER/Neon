@@ -1,6 +1,6 @@
 0,0,0
 9450.0,850.0
-100,100
+100,700
 ground_down,ground_side,ground_up,ground_side
 16,300.0,750.0
 21,1400.0,725.0,RIGHT,one,false
@@ -54,7 +54,7 @@ ground_down,ground_side,ground_up,ground_side
 21,8500.0,750.0,RIGHT,eleven,true
 14,8850.0,300.0,100.0,100.0
 0,7300.0,0.0,50.0,400.0
-13,30.0,380.0,RIGHT,twelve,false,false,true,0.4,6850.0,450.0,9100.0,450.0
+13,30.0,380.0,RIGHT,twelve,false,false,true,0.4,6850.0,460.0,9100.0,460.0
 12,6900.0,800.0,400.0,50.0,twelve,false
 13,30.0,830.0,LEFT,twelve,false,false,true,0.4,7270.0,0.0,9520.0,0.0
 7,7950.0,370.0,660.0,30.0,UP

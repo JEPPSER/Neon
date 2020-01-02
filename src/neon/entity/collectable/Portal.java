@@ -92,7 +92,7 @@ public class Portal extends CollectableEntity {
 	
 	@Override
 	public String toString() {
-		String str = getID() + "," + x + "," + y;
+		String str = getID() + "," + x + "," + y + "," + canCollect;
 		return str;
 	}
 	
