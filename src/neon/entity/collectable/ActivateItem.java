@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.Entity;
 import neon.entity.controllable.Player;
+import neon.entity.terrain.movable.MovableTerrain;
 import neon.graphics.EntityGraphics;
 import neon.level.LevelManager;
 import neon.physics.Collision;
@@ -77,6 +78,8 @@ public class ActivateItem extends CollectableEntity {
 		for (Entity e : LevelManager.getLevel().getObjects()) {
 			if (e instanceof CollectableEntity && e.getName().equals(activateName)) {
 				((CollectableEntity) e).canCollect = true;
+			} else if (e instanceof MovableTerrain && e.getName().equals(activateName)) {
+				((MovableTerrain) e).activate();
 			}
 		}
 		LevelManager.removeEntity(this);
