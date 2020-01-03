@@ -284,7 +284,7 @@ public class Editor extends BasicGameState {
 		ArrayList<String> lines = new ArrayList<String>();
 		lines.add("0,0,0");
 		lines.add(width + "," + height);
-		lines.add("100,100");
+		lines.add(level.getSpawnPoint().getX() + "," + level.getSpawnPoint().getY());
 		lines.add("ground_down,ground_side,ground_up,ground_side");
 		
 		for (int i = 0; i < level.getObjects().size(); i++) {
