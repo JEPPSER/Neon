@@ -17,6 +17,7 @@ import neon.controller.PlayerOverworldController;
 import neon.entity.PhysicalEntity;
 import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
+import neon.entity.area.minigame.MinigameArea;
 import neon.entity.collectable.CollectableEntity;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
@@ -36,6 +37,7 @@ import neon.physics.CollisionDirection;
 public class Player extends ControllableEntity {
 
 	private Weapon weapon;
+	private MinigameArea minigame;
 	private Combat combat;
 	private float health;
 	private float maxHealth;
@@ -79,6 +81,10 @@ public class Player extends ControllableEntity {
 		trailActions.add("jumping");
 		trailActions.add("running");
 		trailActions.add("dashing");
+	}
+	
+	public void setMinigame(MinigameArea minigame) {
+		this.minigame = minigame;
 	}
 	
 	public ArrayList<CollisionDirection> getCollisionDirections() {
@@ -209,10 +215,14 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public void control(Input input) {
-		controller.control(input);
-		colDirections.clear();
-		if (showTrail) {
-			updateTrail();
+		if (minigame == null) {
+			controller.control(input);
+			colDirections.clear();
+			if (showTrail) {
+				updateTrail();
+			}
+		} else {
+			minigame.update(input, this);
 		}
 	}
 
