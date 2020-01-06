@@ -159,13 +159,15 @@ public class Player extends ControllableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		if (((PlayerController) controller).isInvulnerable()) {
-			this.graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 0.4f));
-		} else {
-			this.graphics.setColor(this.color);
+		if (minigame == null) {
+			if (((PlayerController) controller).isInvulnerable()) {
+				this.graphics.setColor(new Color(1.0f, 1.0f, 1.0f, 0.4f));
+			} else {
+				this.graphics.setColor(this.color);
+			}
+			drawTrail(g, offsetX, offsetY);
+			graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
 		}
-		drawTrail(g, offsetX, offsetY);
-		graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
 	}
 	
 	private void drawTrail(Graphics g, float offsetX, float offsetY) {

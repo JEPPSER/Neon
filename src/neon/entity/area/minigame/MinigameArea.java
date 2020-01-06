@@ -17,6 +17,8 @@ public abstract class MinigameArea extends Trigger {
 			player.setMinigame(this);
 			player.getPhysics().setXVelocity(0);
 			player.getPhysics().setYVelocity(0);
+			player.setX(x + player.getWidth());
+			player.setY(y);
 			start();
 			isTriggered = true;
 		}

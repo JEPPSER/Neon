@@ -6,8 +6,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import neon.entity.Entity;
 import neon.entity.controllable.Player;
+import neon.entity.terrain.movable.MovableTerrain;
 import neon.graphics.Point;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.settings.InputSettings;
@@ -22,7 +25,7 @@ public class SnakeArea extends MinigameArea {
 	private Point fruit;
 	private CollisionDirection direction;
 	private CollisionDirection lastDir;
-	private final int DELTA = 100;
+	private final int DELTA = 80;
 	private int timer = 0;
 	
 	public SnakeArea(float x, float y, float width, float height, String activateName) {
@@ -68,11 +71,34 @@ public class SnakeArea extends MinigameArea {
 
 	@Override
 	public void end() {
-
+		Player p = LevelManager.getLevel().getPlayer();
+		p.setX(x + width + 50);
+		p.setY(y);
 	}
 
 	@Override
 	public void update(Input input, Player player) {
+		
+		// Check death
+		for (int i = 1; i < snake.size(); i++) {
+			if (snake.get(0).getX() == snake.get(i).getX() && snake.get(0).getY() == snake.get(i).getY()) {
+				player.takeDamage(player.getMaxHealth());
+				player.setMinigame(null);
+			}
+		}
+		if (snake.get(0).getX() >= grid.length || snake.get(0).getX() < 0
+				|| snake.get(0).getY() >= grid[0].length || snake.get(0).getY() < 0) {
+			player.takeDamage(player.getMaxHealth());
+			player.setMinigame(null);
+		}
+		
+		// Check fruit
+		if (snake.get(0).getX() == fruit.getX() && snake.get(0).getY() == fruit.getY()) {
+			Point last = snake.get(snake.size() - 1);
+			snake.add(new Point(last.getX(), last.getY()));
+			placeFruit();
+			activate();
+		}
 		
 		// Movement
 		timer += TimeInfo.getDelta();
@@ -143,6 +169,23 @@ public class SnakeArea extends MinigameArea {
 			}
 		}
 		return false;
+	}
+	
+	private void activate() {
+		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
+		int count = 0;
+		for (Entity e : objects) {
+			if (e instanceof MovableTerrain && !((MovableTerrain) e).isActive() 
+					&& e.getName().equals(activateName)) {
+				if (count == 0) {
+					((MovableTerrain) e).activate();
+				}
+				count++;
+			}
+		}
+		if (count < 2) {
+			end();
+		}
 	}
 	
 	private void placeFruit() {
