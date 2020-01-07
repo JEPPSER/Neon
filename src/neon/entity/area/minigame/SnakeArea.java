@@ -19,7 +19,8 @@ import neon.time.TimeInfo;
 public class SnakeArea extends MinigameArea {
 	
 	private String activateName;
-	private boolean[][] grid;
+	private int gridWidth;
+	private int gridHeight;
 	private float gridSize = 15;
 	private ArrayList<Point> snake;
 	private Point fruit;
@@ -35,7 +36,9 @@ public class SnakeArea extends MinigameArea {
 		this.y = y;
 		this.setSize(width, height);
 		this.activateName = activateName;
-		grid = new boolean[(int) (width / gridSize)][(int) (height / gridSize)];
+		gridWidth = (int) (width / gridSize);
+		gridHeight = (int) (height / gridSize);
+		this.layer = 2;
 	}
 
 	@Override
@@ -67,9 +70,9 @@ public class SnakeArea extends MinigameArea {
 	@Override
 	public void start() {
 		snake = new ArrayList<Point>();
-		snake.add(new Point(3, grid.length / 2f));
-		snake.add(new Point(2, grid.length / 2f));
-		snake.add(new Point(1, grid.length / 2f));
+		snake.add(new Point(3, gridWidth / 2f));
+		snake.add(new Point(2, gridWidth / 2f));
+		snake.add(new Point(1, gridWidth / 2f));
 		placeFruit();
 		direction = CollisionDirection.RIGHT;
 		lastDir = CollisionDirection.RIGHT;
@@ -79,7 +82,7 @@ public class SnakeArea extends MinigameArea {
 	public void end() {
 		Player p = LevelManager.getLevel().getPlayer();
 		p.setX(x + width + 50);
-		p.setY(y);
+		p.setY(y + height / 2 - p.getHeight() / 2);
 		isDone = true;
 	}
 
@@ -93,8 +96,8 @@ public class SnakeArea extends MinigameArea {
 				player.setMinigame(null);
 			}
 		}
-		if (snake.get(0).getX() >= grid.length || snake.get(0).getX() < 0
-				|| snake.get(0).getY() >= grid[0].length || snake.get(0).getY() < 0) {
+		if (snake.get(0).getX() >= gridWidth || snake.get(0).getX() < 0
+				|| snake.get(0).getY() >= gridHeight || snake.get(0).getY() < 0) {
 			player.takeDamage(player.getMaxHealth());
 			player.setMinigame(null);
 		}
@@ -197,8 +200,8 @@ public class SnakeArea extends MinigameArea {
 	
 	private void placeFruit() {
 		while (fruit == null || fruitOnSnake()) {
-			int x = (int) (Math.random() * grid.length);
-			int y = (int) (Math.random() * grid[0].length);
+			int x = (int) (Math.random() * gridWidth);
+			int y = (int) (Math.random() * gridHeight);
 			fruit = new Point(x, y);
 		}
 	}
