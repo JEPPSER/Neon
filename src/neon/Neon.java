@@ -39,6 +39,6 @@ public class Neon extends StateBasedGame {
 		addState(new Overworld());
 		addState(new BasicGame());
 		addState(new Editor());
-		enterState(4);
+		enterState(2);
 	}
 }

@@ -25,7 +25,7 @@ public class SnakeArea extends MinigameArea {
 	private Point fruit;
 	private CollisionDirection direction;
 	private CollisionDirection lastDir;
-	private final int DELTA = 80;
+	private final int DELTA = 70;
 	private int timer = 0;
 	
 	public SnakeArea(float x, float y, float width, float height, String activateName) {
@@ -52,6 +52,12 @@ public class SnakeArea extends MinigameArea {
 			g.fillRect(offsetX + x + fruit.getX() * gridSize, offsetY + y + fruit.getY() * gridSize, gridSize, gridSize);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String str = getID() + "," + x + "," + y + "," + width + "," + height + "," + activateName;
+		return str;
+	}
 
 	@Override
 	public int getID() {
@@ -74,6 +80,7 @@ public class SnakeArea extends MinigameArea {
 		Player p = LevelManager.getLevel().getPlayer();
 		p.setX(x + width + 50);
 		p.setY(y);
+		isDone = true;
 	}
 
 	@Override

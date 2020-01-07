@@ -8,17 +8,17 @@ import neon.level.LevelManager;
 
 public abstract class MinigameArea extends Trigger {
 	
-	protected boolean isRunning;
+	protected boolean isDone = false;
 
 	@Override
 	public void triggered() {
-		if (!isTriggered) {
+		if (!isTriggered && !isDone) {
 			Player player = LevelManager.getLevel().getPlayer();
 			player.setMinigame(this);
 			player.getPhysics().setXVelocity(0);
 			player.getPhysics().setYVelocity(0);
 			player.setX(x + player.getWidth());
-			player.setY(y);
+			player.setY(y + 20);
 			start();
 			isTriggered = true;
 		}
