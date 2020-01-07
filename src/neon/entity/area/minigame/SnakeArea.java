@@ -131,54 +131,26 @@ public class SnakeArea extends MinigameArea {
 		}
 		
 		// Controls
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || isButtonDown(input, "left")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || InputSettings.isButtonDown(input, "left")) {
 			if (lastDir != CollisionDirection.RIGHT) {
 				direction = CollisionDirection.LEFT;
 			}
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || isButtonDown(input, "right")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || InputSettings.isButtonDown(input, "right")) {
 			if (lastDir != CollisionDirection.LEFT) {
 				direction = CollisionDirection.RIGHT;
 			}
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up")) || isButtonDown(input, "up")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up")) || InputSettings.isButtonDown(input, "up")) {
 			if (lastDir != CollisionDirection.DOWN) {
 				direction = CollisionDirection.UP;
 			}
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down")) || isButtonDown(input, "down")) {
+		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down")) || InputSettings.isButtonDown(input, "down")) {
 			if (lastDir != CollisionDirection.UP) {
 				direction = CollisionDirection.DOWN;
 			}
 		}
-	}
-	
-	private boolean isButtonDown(Input input, String action) {
-		int button = InputSettings.getControllerBinds().get(action);
-		for (int i = 0; i < input.getControllerCount(); i++) {
-			if (button >= 4 && input.isButtonPressed(button - 4, i)) {
-				return true;
-			} else if (button < 4 && i == 2) {
-				if (action.equals("left")) {
-					if (input.isControllerLeft(i)) {
-						return true;
-					}
-				} else if (action.equals("right")) {
-					if (input.isControllerRight(i)) {
-						return true;
-					}
-				} else if (action.equals("up")) {
-					if (input.isControllerUp(i)) {
-						return true;
-					}
-				} else if (action.equals("down")) {
-					if (input.isControllerDown(i)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 	}
 	
 	private void activate() {

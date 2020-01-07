@@ -39,4 +39,32 @@ public class InputSettings {
 	public static HashMap<String, Integer> getKeyboardBinds() {
 		return keyboardBinds;
 	}
+	
+	public static boolean isButtonDown(Input input, String action) {
+		int button = InputSettings.getControllerBinds().get(action);
+		for (int i = 0; i < input.getControllerCount(); i++) {
+			if (button >= 4 && input.isButtonPressed(button - 4, i)) {
+				return true;
+			} else if (button < 4 && i == 2) {
+				if (action.equals("left")) {
+					if (input.isControllerLeft(i)) {
+						return true;
+					}
+				} else if (action.equals("right")) {
+					if (input.isControllerRight(i)) {
+						return true;
+					}
+				} else if (action.equals("up")) {
+					if (input.isControllerUp(i)) {
+						return true;
+					}
+				} else if (action.equals("down")) {
+					if (input.isControllerDown(i)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

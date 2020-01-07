@@ -22,6 +22,7 @@ import neon.entity.area.CameraChangeTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
+import neon.entity.area.minigame.PongArea;
 import neon.entity.area.minigame.SnakeArea;
 import neon.entity.collectable.ActivateItem;
 import neon.entity.collectable.GunCollector;
@@ -165,8 +166,19 @@ public class LevelLoader {
 			return createShootableButton(parts);
 		} else if (id == 22) {
 			return createSnakeArea(parts);
+		} else if (id == 23) {
+			return createPongArea(parts);
 		}
 		return null;
+	}
+	
+	private static PongArea createPongArea(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		float width = Float.parseFloat(parts[3]);
+		float height = Float.parseFloat(parts[4]);
+		PongArea sa = new PongArea(x, y, width, height, parts[5]);
+		return sa;
 	}
 	
 	private static SnakeArea createSnakeArea(String[] parts) {
