@@ -40,6 +40,16 @@ public class InputSettings {
 		return keyboardBinds;
 	}
 	
+	public static boolean isButtonPressed(Input input, String action) {
+		int button = InputSettings.getControllerBinds().get(action);
+		for (int i = 0; i < input.getControllerCount(); i++) {
+			if (input.isControlPressed(button, i)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isButtonDown(Input input, String action) {
 		int button = InputSettings.getControllerBinds().get(action);
 		for (int i = 0; i < input.getControllerCount(); i++) {

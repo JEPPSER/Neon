@@ -22,6 +22,7 @@ import neon.entity.area.CameraChangeTrigger;
 import neon.entity.area.CheckpointTrigger;
 import neon.entity.area.RandomActivateTrigger;
 import neon.entity.area.TextTrigger;
+import neon.entity.area.minigame.FlappyArea;
 import neon.entity.area.minigame.PongArea;
 import neon.entity.area.minigame.SnakeArea;
 import neon.entity.collectable.ActivateItem;
@@ -168,8 +169,20 @@ public class LevelLoader {
 			return createSnakeArea(parts);
 		} else if (id == 23) {
 			return createPongArea(parts);
+		} else if (id == 24) {
+			return createFlappyArea(parts);
 		}
 		return null;
+	}
+	
+	private static FlappyArea createFlappyArea(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		float width = Float.parseFloat(parts[3]);
+		float height = Float.parseFloat(parts[4]);
+		int score = Integer.parseInt(parts[6]);
+		FlappyArea sa = new FlappyArea(x, y, width, height, parts[5], score);
+		return sa;
 	}
 	
 	private static PongArea createPongArea(String[] parts) {
