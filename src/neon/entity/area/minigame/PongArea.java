@@ -22,7 +22,7 @@ public class PongArea extends MinigameArea {
 	private float yVel;
 	private float xVel;
 	private final float PLAYER_SPEED = 0.4f;
-	private final float OPPONENT_SPEED = 0.35f;
+	private final float OPPONENT_SPEED = 0.3f;
 	private Rectangle player;
 	private Rectangle opponent;
 	private Rectangle ball;
@@ -69,7 +69,7 @@ public class PongArea extends MinigameArea {
 		player = new Rectangle(25f, height / 2f - 50f, 25f, 100f);
 		opponent = new Rectangle(width - 25f - 25f, height / 2f - 50f, 25f, 100f);
 		ball = new Rectangle(50f, height / 2f - 12.5f, 25f, 25f);
-		yVel = BALL_SPEED;
+		yVel = 0;
 		xVel = BALL_SPEED;
 	}
 
@@ -77,7 +77,7 @@ public class PongArea extends MinigameArea {
 	public void end() {
 		Player p = LevelManager.getLevel().getPlayer();
 		p.setX(x + width + 50);
-		p.setY(y + height / 2 - p.getHeight() / 2);
+		p.setY(y + height - p.getHeight());
 		isDone = true;
 	}
 
