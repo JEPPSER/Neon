@@ -125,11 +125,15 @@ public class PongArea extends MinigameArea {
 
 		// Player movement
 		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("up")) || InputSettings.isButtonDown(input, "up")) {
-			this.player.setY(this.player.getY() - PLAYER_SPEED * TimeInfo.getDelta());
+			if (this.player.getY() > 0) {
+				this.player.setY(this.player.getY() - PLAYER_SPEED * TimeInfo.getDelta());
+			}
 		}
 		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("down"))
 				|| InputSettings.isButtonDown(input, "down")) {
-			this.player.setY(this.player.getY() + PLAYER_SPEED * TimeInfo.getDelta());
+			if (this.player.getY() + this.player.getHeight() < height) {
+				this.player.setY(this.player.getY() + PLAYER_SPEED * TimeInfo.getDelta());
+			}
 		}
 
 		// Opponent movement
