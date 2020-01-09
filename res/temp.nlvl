@@ -3,3 +3,4 @@
 100,100
 ground_down,ground_side,ground_up,ground_side
 24,300,500,500,500,test,5
+8,50,200,test,false,false,true,0.5,900,800,900,1000
