@@ -22,7 +22,7 @@ public class FlappyArea extends MinigameArea {
 	private String activateName;
 	private float xVel = 0.4f;
 	private float yVel = 0;
-	private float yAcc = 0.01f;
+	private float yAcc = 0.0045f;
 	private final float MAX_Y_VEL = 1f;
 	private float jumpVel = -1.1f;
 	private LinkedList<Rectangle> pipes;
@@ -146,7 +146,7 @@ public class FlappyArea extends MinigameArea {
 			pipes.removeFirst();
 		}
 		bird.setY(bird.getY() + yVel * TimeInfo.getDelta());
-		yVel += yAcc;
+		yVel += yAcc * TimeInfo.getDelta();
 		if (yVel > MAX_Y_VEL) {
 			yVel = MAX_Y_VEL;
 		}
@@ -160,7 +160,7 @@ public class FlappyArea extends MinigameArea {
 		if (timer > PIPE_TIME) {
 			timer = 0;
 			score++;
-			if (score > scoreReq) {
+			if (score >= scoreReq) {
 				end();
 			}
 			float pass = (float) (Math.random() * (height - PIPE_GAP) + PIPE_GAP / 2f);
