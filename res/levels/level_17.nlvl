@@ -36,5 +36,5 @@ ground_down,ground_side,ground_up,ground_side
 7,1050.0,670.0,150.0,30.0,UP
 7,850.0,400.0,150.0,30.0,DOWN
 19,1650.0,250.0,gate2
-8,50.0,150.0,gate2,false,false,true,1.0,1450.0,0.0,1450.0,200.0
+8,50.0,150.0,gate2,false,false,false,1.0,1450.0,0.0,1450.0,200.0
 6,1875.0,1900.0

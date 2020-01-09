@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 import neon.entity.Entity;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.movable.MovableTerrain;
+import neon.graphics.gui.GUI;
 import neon.level.LevelManager;
 import neon.physics.Physics;
 import neon.settings.InputSettings;
@@ -28,6 +29,7 @@ public class FlappyArea extends MinigameArea {
 	private Rectangle bird;
 	private int score;
 	private Color teal;
+	private boolean started = false;
 	
 	private int timer = 0;
 	private final int PIPE_TIME = 1000;
@@ -69,6 +71,10 @@ public class FlappyArea extends MinigameArea {
 			
 			g.setColor(Color.white);
 			g.drawString("score: " + score, offsetX + x + 20, offsetY + y + 20);
+			if (!started) {
+				g.setFont(GUI.getFont());
+				g.drawString("Press space", x + offsetX + width / 2f - GUI.getFont().getWidth("Press space") / 2f, y + offsetY + 100);
+			}
 		}
 	}
 
@@ -89,6 +95,7 @@ public class FlappyArea extends MinigameArea {
 		bird = new Rectangle(height / 4f, width / 2f - 25, 50, 50);
 		timer = 0;
 		yVel = 0;
+		started = false;
 	}
 
 	@Override
@@ -106,6 +113,14 @@ public class FlappyArea extends MinigameArea {
 
 	@Override
 	public void update(Input input, Player player) {
+		
+		if (!started) {
+			if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("jump")) || InputSettings.isButtonPressed(input, "jump")) {
+				started = true;
+			} else {
+				return;
+			}
+		}
 		
 		// Collision
 		for (Rectangle r : pipes) {
