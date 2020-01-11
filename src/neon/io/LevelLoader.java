@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import neon.entity.Entity;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
+import neon.entity.ai.enemy.RageStick;
 import neon.entity.ai.enemy.Serpent;
 import neon.entity.ai.enemy.ShootableButton;
 import neon.entity.ai.enemy.Skeleton;
@@ -171,8 +172,15 @@ public class LevelLoader {
 			return createPongArea(parts);
 		} else if (id == 24) {
 			return createFlappyArea(parts);
+		} else if (id == 25) {
+			return createRageStick(parts);
 		}
 		return null;
+	}
+	
+	private static RageStick createRageStick(String[] parts) {
+		RageStick rs = new RageStick(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+		return rs;
 	}
 	
 	private static FlappyArea createFlappyArea(String[] parts) {

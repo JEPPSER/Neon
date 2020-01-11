@@ -23,6 +23,8 @@ public class PhysicsEngine {
 					float tempGravity = gravity;
 					if (e instanceof ProjectileEntity) {
 						tempGravity *= ((ProjectileEntity) e).getWeight();
+					} else {
+						tempGravity *= e.getCollision().getWeight() * 0.1f;
 					}
 					float vel = e.getPhysics().getYVelocity() + tempGravity * TimeInfo.getDelta();
 					if (vel > maxYVelocity) {
