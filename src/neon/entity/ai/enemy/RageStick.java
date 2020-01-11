@@ -28,7 +28,7 @@ public class RageStick extends Enemy  {
 		maxHealth = 30f;
 		this.color = new Color(0, 255, 0);
 		this.physics = new Physics(0f, 0f);
-		this.collision = new Collision(new Rectangle(0, 0, 300, 600), 1f, 2f, true);
+		this.collision = new Collision(new Rectangle(0, 0, 300, 600), 1f, 10f, true);
 		this.width = collision.getHitbox().getWidth();
 		this.height = collision.getHitbox().getHeight();
 		initGraphics();
@@ -66,10 +66,15 @@ public class RageStick extends Enemy  {
 	private void initCombat() {
 		this.combat = new Combat();
 		
-		AttackAnimation anim = new AttackAnimation(new Rectangle(0, 0, 300, 100), 200);
-		anim.getPath().add(new Point(0, 500));
-		Attack stomp = new Attack("stomp", 1f, anim);
+		AttackAnimation sAnim = new AttackAnimation(new Rectangle(0, 0, 300, 100), 200);
+		sAnim.getPath().add(new Point(0, 500));
+		Attack stomp = new Attack("stomp", 5f, sAnim);
 		combat.addAttack(stomp);
+		
+		AttackAnimation hAnim = new AttackAnimation(new Rectangle(0, 0, 500, 100), 200);
+		hAnim.getPath().add(new Point(200, 500));
+		Attack headSlam = new Attack("head_slam", 5f, hAnim);
+		combat.addAttack(headSlam);
 	}
 
 	@Override
@@ -100,6 +105,16 @@ public class RageStick extends Enemy  {
 		g.drawRect(x + offsetX, y + offsetY, width, height);
 		
 		drawAttackHitBox(g, offsetX, offsetY);
+		if (!isDead) {
+			drawHealthBar(g, x + offsetX + (width - 100) / 2, y + offsetY - 40);
+		}
+	}
+	
+	private void drawHealthBar(Graphics g, float x, float y) {
+		g.setColor(Color.white);
+		g.drawRect(x, y, 100, 20);
+		g.setColor(Color.red);
+		g.fillRect(x + 2, y + 2, (health / maxHealth) * 100 - 4, 20 - 4);
 	}
 	
 	private void drawAttackHitBox(Graphics g, float offsetX, float offsetY) {
@@ -125,6 +140,6 @@ public class RageStick extends Enemy  {
 
 	@Override
 	public void takeDamage(float damage, CollisionDirection cd) {
-
+		ai.takeDamage(damage, cd);
 	}
 }

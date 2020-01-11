@@ -10,7 +10,10 @@ public class RageStickController implements AIController {
 	private RageStick rageStick;
 	
 	private int timer = 0;
-	private final int COOLDOWN = 3000;
+	private final int COOLDOWN = 2000;
+	private int dmgTimer = 0;
+	private boolean isInvulnerable;
+	private final int INVULNERABLE_TIME = 1000;
 	
 	private boolean jumping = false;
 	
@@ -21,26 +24,54 @@ public class RageStickController implements AIController {
 	@Override
 	public void control(Player player) {
 		timer += TimeInfo.getDelta();
-		if (timer > 3000) {
+		if (timer > COOLDOWN) {
 			timer = 0;
-			jump(player);
+			int attack = (int) (Math.round(Math.random()));
+			if (attack == 1) {
+				slam(player);
+			} else {
+				jump(player);
+			}
 		}
 		
 		if (jumping && rageStick.getPhysics().getYVelocity() == 0 && rageStick.getCollisionDirections().contains(CollisionDirection.DOWN)) {
 			jumping = false;
+			rageStick.getPhysics().setXVelocity(0);
 			rageStick.getCombat().startAttack("stomp");
 		}
 		
 		rageStick.getCombat().updateAttacks();
+		updateInvulnerability();
+	}
+	
+	private void slam(Player player) {
+		rageStick.getCombat().startAttack("head_slam");
 	}
 	
 	private void jump(Player player) {
-		rageStick.getPhysics().setYVelocity(-1.3f);
+		float distance = (player.getX() + player.getWidth() / 2f) - (rageStick.getX() + rageStick.getWidth() / 2f);
+		rageStick.getPhysics().setYVelocity(-2.5f);
+		rageStick.getPhysics().setXVelocity(distance * 0.002f);
 		jumping = true;
+	}
+	
+	private void updateInvulnerability() {
+		if (isInvulnerable) {
+			dmgTimer += TimeInfo.getDelta();
+			if (dmgTimer > INVULNERABLE_TIME) {
+				isInvulnerable = false;
+				dmgTimer = 0;
+			}
+		}
 	}
 
 	@Override
 	public void takeDamage(float damage, CollisionDirection cd) {
+		if (!isInvulnerable) {
+			rageStick.setHealth(rageStick.getHealth() - damage);
+			dmgTimer = 0;
+			isInvulnerable = true;
+		}
 	}
 
 	@Override
@@ -49,6 +80,6 @@ public class RageStickController implements AIController {
 
 	@Override
 	public boolean isInvulnerable() {
-		return false;
+		return isInvulnerable;
 	}
 }
