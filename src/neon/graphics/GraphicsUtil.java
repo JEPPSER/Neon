@@ -6,6 +6,29 @@ import org.newdawn.slick.Image;
 public class GraphicsUtil {
 	
 	public final static Color darkGray = new Color(0.2f, 0.2f, 0.2f);
+	
+	public static boolean isSameImage(Image one, Image two) {
+		if (one.getWidth() != two.getWidth() || one.getHeight() != two.getHeight()) {
+			return false;
+		}
+		
+		for (int x = 0; x < one.getWidth(); x++) {
+			for (int y = 0; y < one.getHeight(); y++) {
+				if (!isSameColor(one.getColor(x, y), two.getColor(x, y))) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean isSameColor(Color one, Color two) {
+		if (one.r == two.r && one.g == two.g && one.b == two.b && one.a == two.a) {
+			return true;
+		}
+		return false;
+	}
 
 	public static void drawImageMatrix(Image[][] matrix, float x, float y, float scale) {
 		for (int i = 0; i < matrix.length; i++) {

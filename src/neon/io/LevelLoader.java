@@ -74,6 +74,17 @@ public class LevelLoader {
 				objects.add(e);
 			}
 			
+			// Combine grounds
+			ArrayList<Ground> grounds = new ArrayList<Ground>();
+			for (Entity e : objects) {
+				if (e.getID() == 0 && !e.getName().equals("Ground")) {
+					grounds.add((Ground) e);
+				}
+			}
+			for (Ground e : grounds) {
+				e.adjustImageMatrix(grounds);
+			}
+			
 			String[] paths = lines[3].split(",");
 			setBounds(level, objects, paths);
 			level.setObjects(objects);
@@ -376,6 +387,9 @@ public class LevelLoader {
 		g.setX(Float.parseFloat(parts[1]));
 		g.setY(Float.parseFloat(parts[2]));
 		g.setSize(Float.parseFloat(parts[3]), Float.parseFloat(parts[4]));
+		if (parts.length == 6) {
+			g.setName(parts[5]);
+		}
 		return g;
 	}
 	

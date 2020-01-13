@@ -1,5 +1,7 @@
 package neon.entity.terrain;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -28,6 +30,8 @@ public class Ground extends TerrainEntity {
 	private Sprite groundSmallSide;
 	private Sprite groundSmallUp;
 	
+	private Image[][] matrix;
+	
 	public Ground() {
 		this.name = "Ground";
 		this.physics = new Physics(0f, 0f);
@@ -47,45 +51,8 @@ public class Ground extends TerrainEntity {
 		groundSmallSideCorner = SpriteLoader.getSprite("ground_small_side_corner");
 		groundSmallSide = SpriteLoader.getSprite("ground_small_side");
 		groundSmallUp = SpriteLoader.getSprite("ground_small_up");
-	}
-
-	public float getWidth() {
-		return width;
-	}
-
-	public void setWidth(float width) {
-		this.width = width;
-	}
-
-	@Override
-	public float getHeight() {
-		return height;
-	}
-
-	@Override
-	public void setHeight(float height) {
-		this.height = height;
-	}
-
-	@Override
-	public void render(Graphics g, float offsetX, float offsetY) {
-		if (this.graphics == null) {
-			g.setColor(Color.green);
-			g.drawRect(x + offsetX, y + offsetY, width, height);
-			return;
-		}
-		g.setColor(Color.white);
 		
-		float scale = 1f;
-		if (LevelManager.getLevel() != null) {
-			scale = LevelManager.getLevel().getCamera().getScale();
-		}
-
-		int x = (int) ((this.x + offsetX) * scale);
-		int y = (int) ((this.y + offsetY) * scale);
-		
-		Image[][] matrix = new Image[(int) (width / 50)][(int) (height / 50)];
-		
+		matrix = new Image[(int) (width / 50)][(int) (height / 50)];
 		if (width == 50 && height == 50) {
 			matrix[0][0] = groundSmall.getImage();
 		} else if (width == 50) {
@@ -126,6 +93,165 @@ public class Ground extends TerrainEntity {
 				}
 			}
 		}
+	}
+	
+	public void adjustImageMatrix(ArrayList<Ground> grounds) {
+		for (int x = 0; x < matrix.length; x++) {
+			for (int y = 0; y < matrix[x].length; y++) {
+				if (hasRightNeighbor(x, y, grounds)) {
+					if (matrix[x][y] == groundUpCorner.getImage()) {
+						matrix[x][y] = groundUp.getImage();
+					} else if (matrix[x][y] == groundSide.getImage()) {
+						matrix[x][y] = groundCenter.getImage();
+					} else if (matrix[x][y] == groundDownCorner.getImage()) {
+						matrix[x][y] = groundDown.getImage();
+					} else if (matrix[x][y] == groundSmallSide.getImage()) {
+						matrix[x][y] = groundSide.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallUpCorner.getImage()) {
+						matrix[x][y] = groundUpCorner.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallDownCorner.getImage()) {
+						matrix[x][y] = groundDownCorner.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallSideCorner.getImage()) {
+						matrix[x][y] = groundSmallUp.getImage();
+					} else if (matrix[x][y] == groundSmall.getImage()) {
+						matrix[x][y] = groundSmallSideCorner.getImage().getFlippedCopy(true, false);
+					}
+				}
+				
+				if (hasLeftNeighbor(x, y, grounds)) {
+					if (GraphicsUtil.isSameImage(matrix[x][y], groundUpCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundUp.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundSide.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundCenter.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundDownCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundDown.getImage();
+					} else if (matrix[x][y] == groundSmallSide.getImage()) {
+						matrix[x][y] = groundSide.getImage();
+					} else if (matrix[x][y] == groundSmallUpCorner.getImage()) {
+						matrix[x][y] = groundUpCorner.getImage();
+					} else if (matrix[x][y] == groundSmallDownCorner.getImage()) {
+						matrix[x][y] = groundDownCorner.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundSmallSideCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundSmallUp.getImage();
+					} else if (matrix[x][y] == groundSmall.getImage()) {
+						matrix[x][y] = groundSmallSideCorner.getImage();
+					}
+				}
+				
+				if (hasBottomNeighbor(x, y, grounds)) {
+					if (matrix[x][y] == groundDown.getImage()) {
+						matrix[x][y] = groundCenter.getImage();
+					} else if (matrix[x][y] == groundDownCorner.getImage()) {
+						matrix[x][y] = groundSide.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundDownCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundSide.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallDownCorner.getImage()) {
+						matrix[x][y] = groundSmallSide.getImage();
+					} else if (matrix[x][y] == groundSmallSideCorner.getImage()) {
+						matrix[x][y] = groundUpCorner.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundSmallSideCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundUpCorner.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallUp.getImage()) {
+						matrix[x][y] = groundUp.getImage();
+					} else if (matrix[x][y] == groundSmall.getImage()) {
+						matrix[x][y] = groundSmallUpCorner.getImage();
+					}
+				}
+				
+				if (hasTopNeighbor(x, y, grounds)) {
+					if (matrix[x][y] == groundUp.getImage()) {
+						matrix[x][y] = groundCenter.getImage();
+					} else if (matrix[x][y] == groundUpCorner.getImage()) {
+						matrix[x][y] = groundSide.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundUpCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundSide.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallUpCorner.getImage()) {
+						matrix[x][y] = groundSmallSide.getImage();
+					} else if (matrix[x][y] == groundSmallSideCorner.getImage()) {
+						matrix[x][y] = groundDownCorner.getImage();
+					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundSmallSideCorner.getImage().getFlippedCopy(true, false))) {
+						matrix[x][y] = groundDownCorner.getImage().getFlippedCopy(true, false);
+					} else if (matrix[x][y] == groundSmallUp.getImage()) {
+						matrix[x][y] = groundDown.getImage();
+					} else if (matrix[x][y] == groundSmall.getImage()) {
+						matrix[x][y] = groundSmallDownCorner.getImage();
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean hasNeighbor(int x, int y, int targetX, int targetY, ArrayList<Ground> grounds) {
+		float realX = this.x + 50 * x;
+		float realY = this.y + 50 * y;
+		for (Ground e : grounds) {
+			if (e != this && e.getName().equals(this.name)) {
+				for (int i = 0; i < e.getMatrix().length; i++) {
+					for (int j = 0; j < e.getMatrix()[i].length; j++) {
+						if (e.getX() + 50 * i == realX + targetX && e.getY() + 50 * j == realY + targetY) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasTopNeighbor(int x, int y, ArrayList<Ground> grounds) {
+		return hasNeighbor(x, y, 0, -50, grounds);
+	}
+	
+	private boolean hasBottomNeighbor(int x, int y, ArrayList<Ground> grounds) {
+		return hasNeighbor(x, y, 0, 50, grounds);
+	}
+	
+	private boolean hasRightNeighbor(int x, int y, ArrayList<Ground> grounds) {
+		return hasNeighbor(x, y, 50, 0, grounds);
+	}
+	
+	private boolean hasLeftNeighbor(int x, int y, ArrayList<Ground> grounds) {
+		return hasNeighbor(x, y, -50, 0, grounds);
+	}
+	
+	public Image[][] getMatrix() {
+		return matrix;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	@Override
+	public float getHeight() {
+		return height;
+	}
+
+	@Override
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	@Override
+	public void render(Graphics g, float offsetX, float offsetY) {
+		if (this.graphics == null) {
+			g.setColor(Color.green);
+			g.drawRect(x + offsetX, y + offsetY, width, height);
+			return;
+		}
+		g.setColor(Color.white);
+		
+		float scale = 1f;
+		if (LevelManager.getLevel() != null) {
+			scale = LevelManager.getLevel().getCamera().getScale();
+		}
+
+		int x = (int) ((this.x + offsetX) * scale);
+		int y = (int) ((this.y + offsetY) * scale);
 		
 		g.scale(1f / scale, 1f / scale);
 		GraphicsUtil.drawImageMatrix(matrix, x, y, scale);
@@ -139,7 +265,7 @@ public class Ground extends TerrainEntity {
 	
 	@Override
 	public String toString() {
-		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight();
+		String str = getID() + "," + x + "," + y + "," + getWidth() + "," + getHeight() + "," + name;
 		return str;
 	}
 
