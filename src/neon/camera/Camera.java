@@ -1,11 +1,11 @@
 package neon.camera;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import neon.entity.Entity;
 import neon.entity.PhysicalEntity;
@@ -29,12 +29,19 @@ public class Camera {
 	private float yScrollValue = 0.3f;
 	private float overworldScrollValue = 0.2f;
 	private float scale = 1.0f;
+	
+	private Image gradient;
 
 	public Camera(PhysicalEntity focusedEntity, GameContainer gc) {
 		this.focusedEntity = focusedEntity;
 		offsetX = focusedEntity.getX() * -1 + gc.getWidth() / 2;
 		offsetY = focusedEntity.getY() * -1 + gc.getHeight() / 2;
 		this.gc = gc;
+		try {
+			gradient = new Image("res/images/gradient.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void pan(float x, float y) {
@@ -105,6 +112,10 @@ public class Camera {
 		if (focusedEntity == null) {
 			focusedEntity = LevelManager.getLevel().getPlayer();
 		}
+		
+		// Background
+		g.setColor(new Color(10, 20, 0));
+		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 
 		g.scale(scale, scale);
 
@@ -133,20 +144,49 @@ public class Camera {
 			offsetY = focalY * -1 + gc.getHeight() / (2f * scale);
 		}
 
+		float eX = (float) (Math.round(scale * (cameraOffsetX + offsetX)) / scale);
+		float eY = (float) (Math.round(scale * (cameraOffsetY + offsetY)) / scale);
+		
 		for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < level.getObjects().size(); i++) {
 				Entity e = level.getObjects().get(i);
 				if (isInView(e) && e instanceof PhysicalEntity) {
 					PhysicalEntity pe = (PhysicalEntity) e;
-					if (pe.getLayer() == j) {
-						if (pe instanceof Trigger) {
-							((Trigger) pe).setScale(scale);
-						}
-						float eX = (float) (Math.round(scale * (cameraOffsetX + offsetX)) / scale);
-						float eY = (float) (Math.round(scale * (cameraOffsetY + offsetY)) / scale);
+					if (pe.getLayer() == j && !(pe instanceof Trigger)) {
 						pe.render(g, eX, eY);
 					}
 				}
+			}
+		}
+		
+		// Cover outside of borders
+		g.setColor(Color.black);
+		g.fillRect(0, 0, eX - 50, gc.getHeight() / scale);
+		g.fillRect(0, 0, gc.getWidth() / scale, eY - 50);
+		g.fillRect(0, eY + level.getHeight() + 50, gc.getWidth() / scale, gc.getHeight() / scale - (eY + level.getHeight()));
+		g.fillRect(eX + level.getWidth() + 50, 0, gc.getWidth() / scale - (eX + level.getWidth()), gc.getHeight() / scale);
+		
+		float yScale = (gc.getHeight() / scale) / 50f;
+		float xScale = (gc.getWidth() / scale) / 50f;
+		
+		g.scale(1, yScale);
+		g.drawImage(gradient, eX - 50, 0);
+		gradient.rotate(180);
+		g.drawImage(gradient, level.getWidth() + eX, 0);
+		g.scale(1, 1 / yScale);
+		
+		gradient.rotate(90);
+		g.scale(xScale, 1);
+		g.drawImage(gradient, 0, level.getHeight() + eY);
+		gradient.rotate(-180);
+		g.drawImage(gradient, 0, eY - 50);
+		g.scale(1 / xScale, 1);
+		gradient.rotate(-90);
+		
+		for (Entity e : level.getObjects()) {
+			if (e instanceof Trigger) {
+				((Trigger) e).setScale(scale);
+				e.render(g, eX, eY);
 			}
 		}
 	}

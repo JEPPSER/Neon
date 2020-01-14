@@ -16,36 +16,16 @@ public class Bounds extends TerrainEntity {
 	
 	private CollisionDirection cd;
 	private Image image;
-	private Image gradient;
 
 	public Bounds(CollisionDirection cd) {
 		this.layer = 1;
 		this.cd = cd;
-		try {
-			gradient = new Image("res/images/gradient.png");
-			if (cd == CollisionDirection.UP) {
-				gradient.rotate(-90);
-			} else if (cd == CollisionDirection.LEFT) {
-				gradient.rotate(180);
-			} else if (cd == CollisionDirection.DOWN) {
-				gradient.rotate(90);
-			}
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 		this.name = "Bounds";
 		this.physics = new Physics(0f, 0f);
 	}
 	
 	public void setImage(Image image) {
 		this.image = image;
-		try {
-			Graphics g = image.getGraphics();
-			g.drawImage(gradient, 0, 0);
-			g.flush();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public Image getImage() {
@@ -78,18 +58,10 @@ public class Bounds extends TerrainEntity {
 			for (int i = -50; i < width + 50; i+=50) {
 				g.drawImage(image, x + offsetX + i, y + height + offsetY - 50);
 			}
-			gradient.setRotation(0);
-			g.drawImage(gradient, x + offsetX - 50, y + height + offsetY - 50);
-			gradient.setRotation(180);
-			g.drawImage(gradient, x + offsetX + width, y + height + offsetY - 50);
 		} else if (cd == CollisionDirection.UP) {
 			for (int i = -50; i < width + 50; i+=50) {
 				g.drawImage(image, x + offsetX + i, y + offsetY);
 			}
-			gradient.setRotation(0);
-			g.drawImage(gradient, x + offsetX - 50, y + offsetY);
-			gradient.setRotation(180);
-			g.drawImage(gradient, x + offsetX + width, y + offsetY);
 		} else if (cd == CollisionDirection.LEFT) {
 			for (int i = 0; i < height; i+=50) {
 				g.drawImage(image, x + offsetX, y + offsetY + i);
