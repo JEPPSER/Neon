@@ -38,19 +38,20 @@ public class Ground extends TerrainEntity {
 	}
 	
 	private void initGraphics() {
+		String theme = LevelManager.getTheme();
 		this.graphics = new EntityGraphics(this.width);
-		groundUp = SpriteLoader.getSprite("ground_up");
-		groundUpCorner = SpriteLoader.getSprite("ground_up_corner");
-		groundSide = SpriteLoader.getSprite("ground_side");
-		groundDown = SpriteLoader.getSprite("ground_down");
-		groundDownCorner = SpriteLoader.getSprite("ground_down_corner");
-		groundCenter = SpriteLoader.getSprite("ground_center");
-		groundSmall = SpriteLoader.getSprite("ground_small");
-		groundSmallUpCorner = SpriteLoader.getSprite("ground_small_up_corner");
-		groundSmallDownCorner = SpriteLoader.getSprite("ground_small_down_corner");
-		groundSmallSideCorner = SpriteLoader.getSprite("ground_small_side_corner");
-		groundSmallSide = SpriteLoader.getSprite("ground_small_side");
-		groundSmallUp = SpriteLoader.getSprite("ground_small_up");
+		groundUp = SpriteLoader.getSprite("ground_up" + "_" + theme);
+		groundUpCorner = SpriteLoader.getSprite("ground_up_corner" + "_" + theme);
+		groundSide = SpriteLoader.getSprite("ground_side" + "_" + theme);
+		groundDown = SpriteLoader.getSprite("ground_down" + "_" + theme);
+		groundDownCorner = SpriteLoader.getSprite("ground_down_corner" + "_" + theme);
+		groundCenter = SpriteLoader.getSprite("ground_center" + "_" + theme);
+		groundSmall = SpriteLoader.getSprite("ground_small" + "_" + theme);
+		groundSmallUpCorner = SpriteLoader.getSprite("ground_small_up_corner" + "_" + theme);
+		groundSmallDownCorner = SpriteLoader.getSprite("ground_small_down_corner" + "_" + theme);
+		groundSmallSideCorner = SpriteLoader.getSprite("ground_small_side_corner" + "_" + theme);
+		groundSmallSide = SpriteLoader.getSprite("ground_small_side" + "_" + theme);
+		groundSmallUp = SpriteLoader.getSprite("ground_small_up" + "_" + theme);
 		
 		matrix = new Image[(int) (width / 50)][(int) (height / 50)];
 		if (width == 50 && height == 50) {

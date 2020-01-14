@@ -12,12 +12,14 @@ public class LevelManager {
 	private static Checkpoint checkpoint;
 	private static String[] levels;
 	private static int currentLevel = 0;
+	private static String theme;
 	
 	public static void setWorld(World world) {
 		String[] levels = new String[world.getLevels().size()];
 		for (int i = 0; i < levels.length; i++) {
 			levels[i] = world.getLevels().get(i);
 		}
+		theme = world.getTheme();
 		LevelManager.levels = levels;
 		currentLevel = 0;
 		checkpoint = null;
@@ -65,5 +67,9 @@ public class LevelManager {
 	
 	public static Checkpoint getCheckpoint() {
 		return checkpoint;
+	}
+	
+	public static String getTheme() {
+		return theme;
 	}
 }

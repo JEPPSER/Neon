@@ -27,12 +27,14 @@ public class WorldLoader {
 			Image img = new Image(lines[0]);
 			world.setImage(img);
 			
-			String[] parts = lines[1].split(",");
+			world.setTheme(lines[1]);
+			
+			String[] parts = lines[2].split(",");
 			world.setX(Float.parseFloat(parts[0]));
 			world.setY(Float.parseFloat(parts[1]));
 			
 			ArrayList<String> levels = new ArrayList<String>();
-			for (int i = 2; i < lines.length; i++) {
+			for (int i = 3; i < lines.length; i++) {
 				levels.add(lines[i]);
 			}
 			world.setLevels(levels);

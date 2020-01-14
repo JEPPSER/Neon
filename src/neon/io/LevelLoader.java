@@ -42,6 +42,7 @@ import neon.entity.terrain.movable.MovableSpikes;
 import neon.entity.weapon.Gun;
 import neon.graphics.Point;
 import neon.level.Level;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 
 public class LevelLoader {
@@ -122,10 +123,11 @@ public class LevelLoader {
 		
 		try {
 			String res = "res/images/";
-			ceil.setImage(new Image(res + imgPaths[0] + ".png"));
-			right.setImage(new Image(res + imgPaths[1] + ".png").getFlippedCopy(true, false));
-			floor.setImage(new Image(res + imgPaths[2] + ".png"));
-			left.setImage(new Image(res + imgPaths[3] + ".png"));
+			String theme = LevelManager.getTheme();
+			ceil.setImage(new Image(res + imgPaths[0] + "_" + theme + ".png"));
+			right.setImage(new Image(res + imgPaths[1] + "_" + theme + ".png").getFlippedCopy(true, false));
+			floor.setImage(new Image(res + imgPaths[2] + "_" + theme + ".png"));
+			left.setImage(new Image(res + imgPaths[3] + "_" + theme + ".png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

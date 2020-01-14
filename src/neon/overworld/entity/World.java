@@ -13,6 +13,7 @@ public class World extends InputPromptTrigger {
 	private ArrayList<String> levels;
 	private String name;
 	private Image image;
+	private String theme;
 	private float x;
 	private float y;
 	
@@ -37,6 +38,14 @@ public class World extends InputPromptTrigger {
 			g.setColor(Color.white);
 			g.drawString(this.text, offsetX + x, offsetY + y - 50);
 		}
+	}
+	
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
+	
+	public String getTheme() {
+		return this.theme;
 	}
 
 	public Image getImage() {
