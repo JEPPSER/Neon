@@ -150,9 +150,9 @@ public class Camera {
 		for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < level.getObjects().size(); i++) {
 				Entity e = level.getObjects().get(i);
-				if (isInView(e) && e instanceof PhysicalEntity) {
+				if (isInView(e) && e instanceof PhysicalEntity && !(e instanceof Trigger)) {
 					PhysicalEntity pe = (PhysicalEntity) e;
-					if (pe.getLayer() == j && !(pe instanceof Trigger)) {
+					if (pe.getLayer() == j) {
 						pe.render(g, eX, eY);
 					}
 				}

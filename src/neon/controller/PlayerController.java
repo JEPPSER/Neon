@@ -45,6 +45,10 @@ public class PlayerController implements Controller {
 	private final int DASH_DURATION = 150;
 	private boolean canDash = true;
 	private boolean airJump = false;
+	
+	private boolean canMove = true;
+	private final int CAN_MOVE_DURATION = 100;
+	private int canMoveTimer = 0;
 
 	public PlayerController(Player player) {
 		this.player = player;
@@ -80,17 +84,20 @@ public class PlayerController implements Controller {
 			return;
 		}
 
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || isButtonDown(input, "left")) {
-			left();
+		if (canMove) {
+			if (input.isKeyDown(InputSettings.getKeyboardBinds().get("left")) || isButtonDown(input, "left")) {
+				left();
+			}
+			if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || isButtonDown(input, "right")) {
+				right();
+			}
+			if (!input.isKeyDown(InputSettings.getKeyboardBinds().get("left"))
+					&& !input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) && !isButtonDown(input, "left")
+					&& !isButtonDown(input, "right")) {
+				stop();
+			}
 		}
-		if (input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) || isButtonDown(input, "right")) {
-			right();
-		}
-		if (!input.isKeyDown(InputSettings.getKeyboardBinds().get("left"))
-				&& !input.isKeyDown(InputSettings.getKeyboardBinds().get("right")) && !isButtonDown(input, "left")
-				&& !isButtonDown(input, "right")) {
-			stop();
-		}
+		
 		if (input.isKeyPressed(InputSettings.getKeyboardBinds().get("jump")) || isButtonPressed(input, "jump")) {
 			jump();
 		}
@@ -271,6 +278,14 @@ public class PlayerController implements Controller {
 	}
 
 	private void updateActions() {
+		if (!canMove) {
+			canMoveTimer += TimeInfo.getDelta();
+			if (canMoveTimer > CAN_MOVE_DURATION) {
+				canMoveTimer = 0;
+				canMove = true;
+			}
+		}
+		
 		if (sm.getCurrentState().equals("punching")) {
 			if (!animator.getCurrentAnimation().isDone()) {
 				return;
@@ -365,10 +380,12 @@ public class PlayerController implements Controller {
 			sm.activateState("jumping");
 			ph.setYVelocity(-2f);
 			if (glideDirection == CollisionDirection.RIGHT) {
-				ph.setXVelocity(-1.5f);
+				ph.setXVelocity(-1f);
 			} else if (glideDirection == CollisionDirection.LEFT) {
-				ph.setXVelocity(1.5f);
+				ph.setXVelocity(1f);
 			}
+			canMove = false;
+			canMoveTimer = 0;
 		}
 	}
 
