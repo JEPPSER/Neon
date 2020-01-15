@@ -8,14 +8,18 @@ import neon.entity.Entity;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.movable.MovableTerrain;
 import neon.graphics.EntityGraphics;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
 import neon.level.LevelManager;
 import neon.physics.Collision;
 import neon.physics.Physics;
 
 public class ActivateItem extends CollectableEntity {
-	
+
 	private String activateName;
-	
+
 	public ActivateItem(float x, float y, String activateName) {
 		name = "ActivateItem";
 		canCollect = true;
@@ -27,9 +31,35 @@ public class ActivateItem extends CollectableEntity {
 		height = 50;
 		this.physics = new Physics(0, 0);
 		this.collision = new Collision(new Rectangle(0, 0, 50, 50), 1f, 10f, false);
-		this.graphics = new EntityGraphics(width);
+		initGraphics();
 	}
-	
+
+	private void initGraphics() {
+		this.graphics = new EntityGraphics(width);
+
+		// Idle animation
+		Sprite idle1 = SpriteLoader.getSprite("activate_item_1");
+		Sprite idle2 = SpriteLoader.getSprite("activate_item_2");
+		Sprite idle3 = SpriteLoader.getSprite("activate_item_3");
+		Sprite idle4 = SpriteLoader.getSprite("activate_item_4");
+		Sprite idle5 = SpriteLoader.getSprite("activate_item_5");
+		Animation idle = new Animation(100, true);
+		idle.getSprites().add(idle1);
+		idle.getSprites().add(idle2);
+		idle.getSprites().add(idle3);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle5);
+		idle.getSprites().add(idle4);
+		idle.getSprites().add(idle3);
+		idle.getSprites().add(idle2);
+		
+		Animator anim = new Animator();
+		anim.addAnimation(idle, "idle");
+		anim.setState("idle");
+		graphics.setAnimator(anim);
+		graphics.setColor(Color.white);
+	}
+
 	public String getActivateName() {
 		return activateName;
 	}
@@ -58,10 +88,9 @@ public class ActivateItem extends CollectableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(this.color);
-		g.drawOval(x + offsetX, y + offsetY, width, height);
+		graphics.render(g, x + offsetX, y + offsetY, 0, false);
 	}
-	
+
 	@Override
 	public String toString() {
 		String str = getID() + "," + x + "," + y + "," + activateName;
