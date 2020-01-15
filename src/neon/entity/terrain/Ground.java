@@ -39,6 +39,9 @@ public class Ground extends TerrainEntity {
 	
 	private void initGraphics() {
 		String theme = LevelManager.getTheme();
+		if (theme == null || theme.equals("")) {
+			theme = "forest";
+		}
 		this.graphics = new EntityGraphics(this.width);
 		groundUp = SpriteLoader.getSprite("ground_up" + "_" + theme);
 		groundUpCorner = SpriteLoader.getSprite("ground_up_corner" + "_" + theme);

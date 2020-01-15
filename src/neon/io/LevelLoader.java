@@ -124,6 +124,9 @@ public class LevelLoader {
 		try {
 			String res = "res/images/";
 			String theme = LevelManager.getTheme();
+			if (theme == null || theme.equals("")) {
+				theme = "forest";
+			}
 			ceil.setImage(new Image(res + imgPaths[0] + "_" + theme + ".png"));
 			right.setImage(new Image(res + imgPaths[1] + "_" + theme + ".png").getFlippedCopy(true, false));
 			floor.setImage(new Image(res + imgPaths[2] + "_" + theme + ".png"));
