@@ -2,31 +2,61 @@ package neon.entity.terrain;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.area.Trigger;
+import neon.entity.controllable.Player;
+import neon.io.SpriteLoader;
+import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
+import neon.time.TimeInfo;
 
 public class BouncingGround extends Ground {
 	
 	private float bounceFactor = 3f;
+	private Image img1;
+	private Image img2;
+	private Image img3;
+	private Image img4;
+	
+	private Image currentImg;
+	
+	private int animTimer = 0;
+	private boolean isBouncing = false;
+	private final int ANIM_TIME = 200;
+	private CollisionDirection currentDir;
 	
 	public BouncingGround() {
 		this.name = "BouncingGround";
 		this.physics = new Physics(0f, 0f);
+		initGraphics();
+	}
+	
+	private void initGraphics() {
+		img1 = SpriteLoader.getSprite("bounce_pad_1").getImage();
+		img2 = SpriteLoader.getSprite("bounce_pad_2").getImage();
+		img3 = SpriteLoader.getSprite("bounce_pad_3").getImage();
+		img4 = SpriteLoader.getSprite("bounce_pad_4").getImage();
 	}
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.magenta);
-		g.drawRect(x + offsetX, y + offsetY, width, height);
+		g.setColor(Color.gray);
+		g.fillRect(x + offsetX, y + offsetY, width, height);
+		
+		g.setColor(Color.darkGray);
+		g.fillRect(x + offsetX + 3, y + offsetY + 3, width - 6, height - 6);
+		
+		drawSprings(g, offsetX, offsetY);
 	}
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
+		
 		if (other == pe && !(pe instanceof TerrainEntity) && !(pe instanceof Trigger)) {
 			if (cd == CollisionDirection.UP) {
 				pe.setY(pe.getY() - bounceFactor);
@@ -41,6 +71,69 @@ public class BouncingGround extends Ground {
 				pe.setY(pe.getY() + bounceFactor);
 				pe.getPhysics().setYVelocity(bounceFactor);
 			}
+			isBouncing = true;
+			animTimer = 0;
+			currentDir = cd;
+		}
+		
+		if (other instanceof Player && isBouncing) {
+			animTimer += TimeInfo.getDelta();
+			if (animTimer < 1 * ANIM_TIME / 5) {
+				currentImg = img2;
+			} else if (animTimer < 2 * ANIM_TIME / 5) {
+				currentImg = img3;
+			} else if (animTimer < 3 * ANIM_TIME / 5) {
+				currentImg = img4;
+			} else if (animTimer < 4 * ANIM_TIME / 5) {
+				currentImg = img3;
+			} else if (animTimer < ANIM_TIME) {
+				currentImg = img2;
+			} else if (animTimer > ANIM_TIME) {
+				animTimer = 0;
+				isBouncing = false;
+				currentImg = img1;
+				currentDir = CollisionDirection.NONE;
+			}
+		}
+	}
+	
+	private void drawSprings(Graphics g, float offsetX, float offsetY) {
+		Image tempImg = img1;
+		int realX = Math.round(x + offsetX);
+		int realY = Math.round(y + offsetY);
+		
+		for (int i = 0; i < width; i+=50) {
+			if (currentDir == CollisionDirection.UP) {
+				tempImg = currentImg;
+			}
+			tempImg.setRotation(0);
+			g.drawImage(tempImg, realX + i, realY - tempImg.getHeight());
+			tempImg = img1;
+			
+			if (currentDir == CollisionDirection.DOWN) {
+				tempImg = currentImg;
+			}
+			tempImg.setRotation(180);
+			g.drawImage(tempImg, realX + i, realY + height);
+			tempImg = img1;
+		}
+		
+		for (int i = 0; i < height; i+=50) {
+			if (currentDir == CollisionDirection.RIGHT) {
+				tempImg = currentImg;
+			}
+			tempImg.setRotation(90);
+			float dif = (tempImg.getWidth() - tempImg.getHeight()) / 2;
+			g.drawImage(tempImg, realX + width - dif, realY + i + dif);
+			tempImg = img1;
+			
+			if (currentDir == CollisionDirection.LEFT) {
+				tempImg = currentImg;
+			}
+			tempImg.setRotation(-90);
+			dif = (tempImg.getWidth() - tempImg.getHeight()) / 2;
+			g.drawImage(tempImg, realX - dif - tempImg.getHeight(), realY + i + dif);
+			tempImg = img1;
 		}
 	}
 	
