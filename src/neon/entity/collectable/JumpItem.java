@@ -2,11 +2,13 @@ package neon.entity.collectable;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
+import neon.io.SpriteLoader;
 import neon.level.LevelManager;
 import neon.physics.Physics;
 import neon.time.TimeInfo;
@@ -14,8 +16,11 @@ import neon.physics.Collision;
 
 public class JumpItem extends CollectableEntity {
 	
+	private Image img;
 	private final int SPAWN_TIME = 3000;
 	private int timer = 0;
+	private int bopTimer = 0;
+	private final int BOP_TIME = 1000;
 	
 	public JumpItem(float x, float y) {
 		name = "JumpItem";
@@ -28,6 +33,7 @@ public class JumpItem extends CollectableEntity {
 		this.x = x;
 		this.y = y;
 		this.graphics = new EntityGraphics(width);
+		img = SpriteLoader.getSprite("jump_item").getImage();
 	}
 	
 	@Override
@@ -47,6 +53,11 @@ public class JumpItem extends CollectableEntity {
 				} else {
 					timer = 0;
 					canCollect = true;
+				}
+			} else {
+				bopTimer += TimeInfo.getDelta();
+				if (bopTimer > BOP_TIME) {
+					bopTimer = -BOP_TIME;
 				}
 			}
 		}
@@ -79,9 +90,10 @@ public class JumpItem extends CollectableEntity {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(color);
+		float difY = Math.abs(bopTimer) / 50f;
+		g.setColor(Color.white);
 		if (canCollect) {
-			g.drawRect(x + offsetX, y + offsetY, width, height);
+			g.drawImage(img, x + offsetX - 30, y + offsetY - 30 + difY);
 		}
 	}
 	

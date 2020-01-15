@@ -7,6 +7,7 @@ import neon.entity.area.Trigger;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.event.Event;
+import neon.entity.projectile.ProjectileEntity;
 import neon.entity.terrain.TerrainEntity;
 import neon.graphics.Point;
 import neon.io.LevelLoader;
@@ -35,7 +36,7 @@ public class Checkpoint {
 		
 		ArrayList<Entity> objects = level.getObjects();
 		for (int i = 0; i < objects.size(); i++) {
-			if (!(objects.get(i) instanceof Player) && objects.get(i) != null) {
+			if (!(objects.get(i) instanceof Player) && objects.get(i) != null && !(objects.get(i) instanceof ProjectileEntity)) {
 				if (!(objects.get(i) instanceof TerrainEntity) && !(objects.get(i) instanceof Trigger) && !(objects.get(i) instanceof Event)) {
 					Entity e = LevelLoader.copyEntity(objects.get(i));
 					result.getObjects().add(e);
