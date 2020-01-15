@@ -115,6 +115,10 @@ public class PlayerController implements Controller {
 		updateAimDirection(input);
 	}
 	
+	public CollisionDirection getAimDirection() {
+		return aimDirection;
+	}
+	
 	private void updateAimDirection(Input input) {
 		if (direction == 0) {
 			aimDirection = CollisionDirection.RIGHT;
@@ -227,6 +231,8 @@ public class PlayerController implements Controller {
 			player.setHealth(player.getMaxHealth());
 			player.setX(LevelManager.getSpawnPoint().getX());
 			player.setY(LevelManager.getSpawnPoint().getY());
+			ph.setXVelocity(0);
+			ph.setYVelocity(0);
 		}
 		ArrayList<Entity> objects = LevelManager.getLevel().getObjects();
 		for (int i = 0; i < objects.size(); i++) {

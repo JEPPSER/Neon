@@ -43,6 +43,7 @@ public class Player extends ControllableEntity {
 	private float maxHealth;
 	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
+	private Image weaponImg;
 	
 	private ArrayList<Point> trail;
 	private int shiftTimer = 0;
@@ -69,6 +70,7 @@ public class Player extends ControllableEntity {
 		this.weapon = weapon;
 		if (weapon != null) {
 			this.graphics.setAnimator(weapon.getAnimator());
+			weaponImg = weapon.getImage();
 		}
 		initCombat();
 		this.controller = new PlayerController(this);
@@ -98,6 +100,7 @@ public class Player extends ControllableEntity {
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 		this.graphics.setAnimator(weapon.getAnimator());
+		this.weaponImg = weapon.getImage();
 	}
 
 	public void activateAirJump() {
@@ -167,6 +170,36 @@ public class Player extends ControllableEntity {
 			}
 			drawTrail(g, offsetX, offsetY);
 			graphics.render(g, this.x + offsetX, this.y + offsetY, 0, mirrored);
+			drawWeapon(g, offsetX, offsetY);
+		}
+	}
+	
+	private void drawWeapon(Graphics g, float offsetX, float offsetY) {
+		if (weapon != null && weaponImg != null) {
+			Image img = weaponImg;
+			float wX = 25;
+			float wY = 35;
+			int rotation = 1;
+			if (mirrored) {
+				img = weaponImg.getFlippedCopy(true, false);
+				wX = -15;
+				rotation = -1;
+			}
+			
+			CollisionDirection cd = ((PlayerController) controller).getAimDirection();
+			if (cd == CollisionDirection.UP) {
+				img.setRotation(-90 * rotation);
+				wX = 5;
+				wY = 5;
+			} else if (cd == CollisionDirection.DOWN) {
+				img.setRotation(90 * rotation);
+				wY = 45;
+				wX = 5;
+			} else {
+				img.setRotation(0);
+			}
+			
+			g.drawImage(img, this.x + offsetX + wX, this.y + offsetY + wY, graphics.getColor());
 		}
 	}
 	

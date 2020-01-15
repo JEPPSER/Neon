@@ -13,6 +13,7 @@ public class Gun extends Weapon {
 
 	public Gun() {
 		initAnimator();
+		img = SpriteLoader.getSprite("gun").getImage();
 	}
 
 	@Override
@@ -25,15 +26,20 @@ public class Gun extends Weapon {
 		} else if (aimDirection == CollisionDirection.DOWN) {
 			ang = (float) (Math.PI / 2f);
 		}
-		Bullet b = new Bullet(player.getX(), player.getY(), ang, player.getName());
+		float bX = player.getX() + 15;
+		float bY = player.getY() + 40;
+		if (player.isMirrored()) {
+			bX = player.getX() + 25;
+		}
+		Bullet b = new Bullet(bX, bY, ang, player.getName());
 		LevelManager.addEntity(b);
 	}
 
 	private void initAnimator() {
 		// Glide animation
-		Sprite glide = SpriteLoader.getSprite("player_idle_1");
-		Animation gliding = new Animation(100, true);
-		gliding.getSprites().add(glide);
+		Sprite glide1 = SpriteLoader.getSprite("player_glide");
+		Animation gliding = new Animation(80, false);
+		gliding.getSprites().add(glide1);
 
 		// Dash animation
 		Sprite dash1 = SpriteLoader.getSprite("player_dash_1");
@@ -43,13 +49,14 @@ public class Gun extends Weapon {
 		dashing.getSprites().add(dash2);
 
 		// Jump animation
-		Sprite jump1 = SpriteLoader.getSprite("player_idle_1");
-		// Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
-		// Sprite jump3 = SpriteLoader.getSprite("player_jump_3");
-		Animation jumping = new Animation(80, false);
-		jumping.getSprites().add(jump1);
-		// jumping.getSprites().add(jump2);
-		// jumping.getSprites().add(jump3);
+		Sprite jump1 = SpriteLoader.getSprite("player_jump_1");
+		Sprite jump2 = SpriteLoader.getSprite("player_jump_2");
+		Animation jumping = new Animation(100, false);
+		jumping.getSprites().add(jump2);
+
+		// Falling animation
+		Animation falling = new Animation(100, true);
+		falling.getSprites().add(jump1);
 
 		// Running animation
 		Sprite run1 = SpriteLoader.getSprite("player_run_11");
@@ -81,11 +88,8 @@ public class Gun extends Weapon {
 		idle.getSprites().add(idle2);
 
 		// Punch animation
-		Sprite punch1 = SpriteLoader.getSprite("player_punch_1");
-		Sprite punch2 = SpriteLoader.getSprite("player_punch_2");
-		Animation punch = new Animation(100, false);
-		punch.getSprites().add(punch1);
-		punch.getSprites().add(punch2);
+		Animation punch = new Animation(60, false);
+		punch.getSprites().add(idle1);
 
 		// Death animation
 		Sprite d1 = SpriteLoader.getSprite("player_death_1");
@@ -136,6 +140,7 @@ public class Gun extends Weapon {
 		anim.setState("idle");
 		anim.addAnimation(running, "running");
 		anim.addAnimation(jumping, "jumping");
+		anim.addAnimation(falling, "falling");
 		anim.addAnimation(dashing, "dashing");
 		anim.addAnimation(gliding, "gliding");
 		anim.addAnimation(punch, "punching");
