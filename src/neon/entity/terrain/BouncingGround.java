@@ -8,7 +8,6 @@ import neon.entity.PhysicalEntity;
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.io.SpriteLoader;
-import neon.level.LevelManager;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 import neon.time.TimeInfo;
@@ -39,6 +38,7 @@ public class BouncingGround extends Ground {
 		img2 = SpriteLoader.getSprite("bounce_pad_2").getImage();
 		img3 = SpriteLoader.getSprite("bounce_pad_3").getImage();
 		img4 = SpriteLoader.getSprite("bounce_pad_4").getImage();
+		currentImg = img1;
 	}
 	
 	@Override

@@ -43,8 +43,10 @@ public class Player extends ControllableEntity {
 	private float maxHealth;
 	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
+	private int[] colTiming;
+	private final int COLLISION_TIME = 10;
 	private Image weaponImg;
-	
+
 	private ArrayList<Point> trail;
 	private int shiftTimer = 0;
 	private final int SHIFT_TIME = 3000;
@@ -75,7 +77,8 @@ public class Player extends ControllableEntity {
 		initCombat();
 		this.controller = new PlayerController(this);
 		colDirections = new ArrayList<CollisionDirection>();
-		
+		colTiming = new int[] { 0, 0, 0, 0 };
+
 		trail = new ArrayList<Point>();
 		trailImage = SpriteLoader.getSprite("trail").getImage();
 		trailColor = new Color(1f, 0f, 1f, 1f);
@@ -84,11 +87,11 @@ public class Player extends ControllableEntity {
 		trailActions.add("running");
 		trailActions.add("dashing");
 	}
-	
+
 	public void setMinigame(MinigameArea minigame) {
 		this.minigame = minigame;
 	}
-	
+
 	public ArrayList<CollisionDirection> getCollisionDirections() {
 		return colDirections;
 	}
@@ -173,7 +176,7 @@ public class Player extends ControllableEntity {
 			drawWeapon(g, offsetX, offsetY);
 		}
 	}
-	
+
 	private void drawWeapon(Graphics g, float offsetX, float offsetY) {
 		if (weapon != null && weaponImg != null) {
 			Image img = weaponImg;
@@ -185,7 +188,7 @@ public class Player extends ControllableEntity {
 				wX = -15;
 				rotation = -1;
 			}
-			
+
 			CollisionDirection cd = ((PlayerController) controller).getAimDirection();
 			if (cd == CollisionDirection.UP) {
 				img.setRotation(-90 * rotation);
@@ -198,11 +201,11 @@ public class Player extends ControllableEntity {
 			} else {
 				img.setRotation(0);
 			}
-			
+
 			g.drawImage(img, this.x + offsetX + wX, this.y + offsetY + wY, graphics.getColor());
 		}
 	}
-	
+
 	private void drawTrail(Graphics g, float offsetX, float offsetY) {
 		for (int i = 0; i < trail.size(); i++) {
 			Point p = trail.get(i);
@@ -214,7 +217,7 @@ public class Player extends ControllableEntity {
 			}
 		}
 	}
-	
+
 	private void updateTrail() {
 		trailTimer += TimeInfo.getDelta();
 		if (shiftTimer < SHIFT_TIME) {
@@ -225,7 +228,7 @@ public class Player extends ControllableEntity {
 		GraphicsUtil.setColorHue(trailColor, ((float) Math.abs(shiftTimer) / (float) SHIFT_TIME) * 360f);
 		if (trailTimer >= TRAIL_TIME) {
 			trailTimer = 0;
-			if (trailActions.contains(graphics.getAnimator().getState())){
+			if (trailActions.contains(graphics.getAnimator().getState())) {
 				Point p = new Point(x, y);
 				trail.add(p);
 				if (trail.size() >= 15) {
@@ -234,6 +237,40 @@ public class Player extends ControllableEntity {
 			} else if (trail.size() > 0) {
 				trail.remove(0);
 			}
+		}
+	}
+	
+	private void updateCollisionTiming() {
+		if (colDirections.contains(CollisionDirection.DOWN)) {
+			if (colTiming[0] < 500) {
+				colTiming[0] += TimeInfo.getDelta();
+			}
+		} else {
+			colTiming[0] = 0;
+		}
+		
+		if (colDirections.contains(CollisionDirection.UP)) {
+			if (colTiming[1] < 500) {
+				colTiming[1] += TimeInfo.getDelta();
+			}
+		} else {
+			colTiming[1] = 0;
+		}
+		
+		if (colDirections.contains(CollisionDirection.RIGHT)) {
+			if (colTiming[2] < 500) {
+				colTiming[2] += TimeInfo.getDelta();
+			}
+		} else {
+			colTiming[2] = 0;
+		}
+		
+		if (colDirections.contains(CollisionDirection.LEFT)) {
+			if (colTiming[3] < 500) {
+				colTiming[3] += TimeInfo.getDelta();
+			}
+		} else {
+			colTiming[3] = 0;
 		}
 	}
 
@@ -252,12 +289,15 @@ public class Player extends ControllableEntity {
 	public void control(Input input) {
 		if (minigame == null) {
 			controller.control(input);
+			updateCollisionTiming();
 			colDirections.clear();
 			if (showTrail) {
 				updateTrail();
 			}
 		} else {
 			minigame.update(input, this);
+			physics.setXVelocity(0);
+			physics.setYVelocity(0);
 		}
 	}
 
@@ -281,23 +321,24 @@ public class Player extends ControllableEntity {
 		} else if (pe == other && other instanceof Spikes) {
 			health = 0;
 		} else if (pe == other && other instanceof TerrainEntity) {
-			if (cd == CollisionDirection.DOWN) {
+			if (cd == CollisionDirection.DOWN && colTiming[0] > COLLISION_TIME) {
 				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
 				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.UP) {
+			} else if (cd == CollisionDirection.UP && colTiming[1] > COLLISION_TIME) {
 				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
 				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.RIGHT) {
+			} else if (cd == CollisionDirection.RIGHT && colTiming[2] > COLLISION_TIME) {
 				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
 				physics.setXVelocity(0f);
 				((PlayerController) controller).glide(cd);
-			} else if (cd == CollisionDirection.LEFT) {
+			} else if (cd == CollisionDirection.LEFT && colTiming[3] > COLLISION_TIME) {
 				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
 				physics.setXVelocity(0f);
 				((PlayerController) controller).glide(cd);
 			}
 			colDirections.add(cd);
-			if (colDirections.contains(CollisionDirection.UP) && colDirections.contains(CollisionDirection.DOWN)) {
+			if (colTiming[0] > COLLISION_TIME && colTiming[1] > COLLISION_TIME
+					|| colTiming[2] > COLLISION_TIME && colTiming[3] > COLLISION_TIME) {
 				this.health = 0;
 			}
 		}

@@ -4,6 +4,7 @@ import org.newdawn.slick.Input;
 
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
+import neon.graphics.Point;
 import neon.level.LevelManager;
 
 public abstract class MinigameArea extends Trigger {
@@ -21,6 +22,7 @@ public abstract class MinigameArea extends Trigger {
 			player.setY(y + 20);
 			start();
 			isTriggered = true;
+			LevelManager.getLevel().getCamera().setFocalPoint(new Point(x + width / 2, y + height / 2));
 		}
 	}
 
@@ -32,9 +34,11 @@ public abstract class MinigameArea extends Trigger {
 	@Override
 	public void unTriggered() {
 		if (isTriggered) {
-			LevelManager.getLevel().getPlayer().setMinigame(null);
+			Player player = LevelManager.getLevel().getPlayer();
+			player.setMinigame(null);
 			end();
 			isTriggered = false;
+			LevelManager.getLevel().getCamera().setFocalPoint(null);
 		}
 	}
 	
