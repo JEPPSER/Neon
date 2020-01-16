@@ -127,6 +127,7 @@ public class FlappyArea extends MinigameArea {
 			if (r.intersects(bird)) {
 				player.takeDamage(player.getMaxHealth());
 				player.setMinigame(null);
+				LevelManager.getLevel().getCamera().setFocalPoint(null);
 			}
 		}
 		
@@ -153,6 +154,7 @@ public class FlappyArea extends MinigameArea {
 		if (bird.getY() + bird.getHeight() > height || bird.getY() < 0) {
 			player.takeDamage(player.getMaxHealth());
 			player.setMinigame(null);
+			LevelManager.getLevel().getCamera().setFocalPoint(null);
 		}
 		
 		// Pipes

@@ -94,12 +94,14 @@ public class SnakeArea extends MinigameArea {
 			if (snake.get(0).getX() == snake.get(i).getX() && snake.get(0).getY() == snake.get(i).getY()) {
 				player.takeDamage(player.getMaxHealth());
 				player.setMinigame(null);
+				LevelManager.getLevel().getCamera().setFocalPoint(null);
 			}
 		}
 		if (snake.get(0).getX() >= gridWidth || snake.get(0).getX() < 0
 				|| snake.get(0).getY() >= gridHeight || snake.get(0).getY() < 0) {
 			player.takeDamage(player.getMaxHealth());
 			player.setMinigame(null);
+			LevelManager.getLevel().getCamera().setFocalPoint(null);
 		}
 		
 		// Check fruit

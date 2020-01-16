@@ -104,6 +104,7 @@ public class PongArea extends MinigameArea {
 		if (ball.getX() < 0) {
 			player.takeDamage(player.getMaxHealth());
 			player.setMinigame(null);
+			LevelManager.getLevel().getCamera().setFocalPoint(null);
 		} else if (ball.getX() + ball.getWidth() > width) {
 			activate();
 			paused = true;
