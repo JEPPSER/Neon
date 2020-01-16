@@ -241,36 +241,15 @@ public class Player extends ControllableEntity {
 	}
 	
 	private void updateCollisionTiming() {
-		if (colDirections.contains(CollisionDirection.DOWN)) {
-			if (colTiming[0] < 500) {
-				colTiming[0] += TimeInfo.getDelta();
+		CollisionDirection temp[] = { CollisionDirection.DOWN, CollisionDirection.UP, CollisionDirection.RIGHT, CollisionDirection.LEFT };
+		for (int i = 0; i < temp.length; i++) {
+			if (colDirections.contains(temp[i])) {
+				if (colTiming[i] < 500) {
+					colTiming[i] += TimeInfo.getDelta();
+				}
+			} else {
+				colTiming[i] = 0;
 			}
-		} else {
-			colTiming[0] = 0;
-		}
-		
-		if (colDirections.contains(CollisionDirection.UP)) {
-			if (colTiming[1] < 500) {
-				colTiming[1] += TimeInfo.getDelta();
-			}
-		} else {
-			colTiming[1] = 0;
-		}
-		
-		if (colDirections.contains(CollisionDirection.RIGHT)) {
-			if (colTiming[2] < 500) {
-				colTiming[2] += TimeInfo.getDelta();
-			}
-		} else {
-			colTiming[2] = 0;
-		}
-		
-		if (colDirections.contains(CollisionDirection.LEFT)) {
-			if (colTiming[3] < 500) {
-				colTiming[3] += TimeInfo.getDelta();
-			}
-		} else {
-			colTiming[3] = 0;
 		}
 	}
 
@@ -295,9 +274,9 @@ public class Player extends ControllableEntity {
 				updateTrail();
 			}
 		} else {
+			x = minigame.getX() + 50;
+			y = minigame.getY() + 50;
 			minigame.update(input, this);
-			physics.setXVelocity(0);
-			physics.setYVelocity(0);
 		}
 	}
 
