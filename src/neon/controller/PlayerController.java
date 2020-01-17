@@ -39,7 +39,7 @@ public class PlayerController implements Controller {
 	private CollisionDirection aimDirection;
 
 	private int deathTimer = 0;
-	private final int DEATH_TIME = 500;
+	private final int DEATH_TIME = 350;
 
 	private int dashTime = 0;
 	private final int DASH_DURATION = 150;

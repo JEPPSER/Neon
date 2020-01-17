@@ -91,28 +91,6 @@ public class Gun extends Weapon {
 		Animation punch = new Animation(60, false);
 		punch.getSprites().add(idle1);
 
-		// Death animation
-		Sprite d1 = SpriteLoader.getSprite("player_death_1");
-		Sprite d2 = SpriteLoader.getSprite("player_death_2");
-		Sprite d3 = SpriteLoader.getSprite("player_death_3");
-		Sprite d4 = SpriteLoader.getSprite("player_death_4");
-		Sprite d5 = SpriteLoader.getSprite("player_death_5");
-		Animation death = new Animation(100, false);
-		death.getSprites().add(d1);
-		death.getSprites().add(d2);
-		death.getSprites().add(d3);
-		death.getSprites().add(d4);
-		death.getSprites().add(d5);
-
-		// Spawn animation
-		Animation spawn = new Animation(100, false);
-		spawn.getSprites().add(d5);
-		spawn.getSprites().add(d4);
-		spawn.getSprites().add(d3);
-		spawn.getSprites().add(d2);
-		spawn.getSprites().add(d1);
-		spawn.getSprites().add(idle1);
-
 		// Portal animation
 		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
 		Sprite p2 = SpriteLoader.getSprite("player_portal_2");
@@ -120,20 +98,44 @@ public class Gun extends Weapon {
 		Sprite p4 = SpriteLoader.getSprite("player_portal_4");
 		Sprite p5 = SpriteLoader.getSprite("player_portal_5");
 		Sprite p6 = SpriteLoader.getSprite("player_portal_6");
-		p1.setOffsetY(-50);
-		p2.setOffsetY(-50);
-		p3.setOffsetY(-50);
-		p4.setOffsetY(-50);
-		p5.setOffsetY(-50);
-		p6.setOffsetY(-50);
-		Animation portal = new Animation(70, false);
+		Sprite p7 = SpriteLoader.getSprite("player_portal_7");
+		Sprite p8 = SpriteLoader.getSprite("player_portal_8");
+		Sprite p9 = SpriteLoader.getSprite("player_portal_9");
+		Animation portal = new Animation(40, false);
 		portal.getSprites().add(p1);
 		portal.getSprites().add(p2);
 		portal.getSprites().add(p3);
 		portal.getSprites().add(p4);
 		portal.getSprites().add(p5);
 		portal.getSprites().add(p6);
-		portal.getSprites().add(d5);
+		portal.getSprites().add(p7);
+		portal.getSprites().add(p8);
+		portal.getSprites().add(p9);
+
+		// Spawn animation
+		Animation spawn = new Animation(40, false);
+		spawn.getSprites().add(p9);
+		spawn.getSprites().add(p8);
+		spawn.getSprites().add(p7);
+		spawn.getSprites().add(p6);
+		spawn.getSprites().add(p5);
+		spawn.getSprites().add(p4);
+		spawn.getSprites().add(p3);
+		spawn.getSprites().add(p2);
+		spawn.getSprites().add(p1);
+
+		// Death animation
+		Sprite d1 = SpriteLoader.getSprite("player_death_1");
+		Sprite d2 = SpriteLoader.getSprite("player_death_2");
+		Sprite d3 = SpriteLoader.getSprite("player_death_3");
+		Sprite d4 = SpriteLoader.getSprite("player_death_4");
+		Sprite d5 = SpriteLoader.getSprite("player_death_5");
+		Animation death = new Animation(80, false);
+		death.getSprites().add(d1);
+		death.getSprites().add(d2);
+		death.getSprites().add(d3);
+		death.getSprites().add(d4);
+		death.getSprites().add(d5);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");

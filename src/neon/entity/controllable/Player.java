@@ -44,6 +44,8 @@ public class Player extends ControllableEntity {
 	private boolean exitWorld = false;
 	private ArrayList<CollisionDirection> colDirections;
 	private int[] colTiming;
+	private final CollisionDirection[] DIRECTIONS = { CollisionDirection.DOWN, CollisionDirection.UP,
+			CollisionDirection.RIGHT, CollisionDirection.LEFT };
 	private final int COLLISION_TIME = 10;
 	private Image weaponImg;
 
@@ -239,11 +241,10 @@ public class Player extends ControllableEntity {
 			}
 		}
 	}
-	
+
 	private void updateCollisionTiming() {
-		CollisionDirection temp[] = { CollisionDirection.DOWN, CollisionDirection.UP, CollisionDirection.RIGHT, CollisionDirection.LEFT };
-		for (int i = 0; i < temp.length; i++) {
-			if (colDirections.contains(temp[i])) {
+		for (int i = 0; i < DIRECTIONS.length; i++) {
+			if (colDirections.contains(DIRECTIONS[i])) {
 				if (colTiming[i] < 500) {
 					colTiming[i] += TimeInfo.getDelta();
 				}
@@ -418,28 +419,6 @@ public class Player extends ControllableEntity {
 		punch.getSprites().add(punch3);
 		punch.getSprites().add(punch1);
 
-		// Death animation
-		Sprite d1 = SpriteLoader.getSprite("player_death_1");
-		Sprite d2 = SpriteLoader.getSprite("player_death_2");
-		Sprite d3 = SpriteLoader.getSprite("player_death_3");
-		Sprite d4 = SpriteLoader.getSprite("player_death_4");
-		Sprite d5 = SpriteLoader.getSprite("player_death_5");
-		Animation death = new Animation(100, false);
-		death.getSprites().add(d1);
-		death.getSprites().add(d2);
-		death.getSprites().add(d3);
-		death.getSprites().add(d4);
-		death.getSprites().add(d5);
-
-		// Spawn animation
-		Animation spawn = new Animation(100, false);
-		spawn.getSprites().add(d5);
-		spawn.getSprites().add(d4);
-		spawn.getSprites().add(d3);
-		spawn.getSprites().add(d2);
-		spawn.getSprites().add(d1);
-		spawn.getSprites().add(idle1);
-
 		// Portal animation
 		Sprite p1 = SpriteLoader.getSprite("player_portal_1");
 		Sprite p2 = SpriteLoader.getSprite("player_portal_2");
@@ -447,20 +426,54 @@ public class Player extends ControllableEntity {
 		Sprite p4 = SpriteLoader.getSprite("player_portal_4");
 		Sprite p5 = SpriteLoader.getSprite("player_portal_5");
 		Sprite p6 = SpriteLoader.getSprite("player_portal_6");
-		p1.setOffsetY(-50);
-		p2.setOffsetY(-50);
-		p3.setOffsetY(-50);
-		p4.setOffsetY(-50);
-		p5.setOffsetY(-50);
-		p6.setOffsetY(-50);
-		Animation portal = new Animation(70, false);
+		Sprite p7 = SpriteLoader.getSprite("player_portal_7");
+		Sprite p8 = SpriteLoader.getSprite("player_portal_8");
+		Sprite p9 = SpriteLoader.getSprite("player_portal_9");
+		Animation portal = new Animation(40, false);
 		portal.getSprites().add(p1);
 		portal.getSprites().add(p2);
 		portal.getSprites().add(p3);
 		portal.getSprites().add(p4);
 		portal.getSprites().add(p5);
 		portal.getSprites().add(p6);
-		portal.getSprites().add(d5);
+		portal.getSprites().add(p7);
+		portal.getSprites().add(p8);
+		portal.getSprites().add(p9);
+
+		// Spawn animation
+		Animation spawn = new Animation(40, false);
+		spawn.getSprites().add(p9);
+		spawn.getSprites().add(p8);
+		spawn.getSprites().add(p7);
+		spawn.getSprites().add(p6);
+		spawn.getSprites().add(p5);
+		spawn.getSprites().add(p4);
+		spawn.getSprites().add(p3);
+		spawn.getSprites().add(p2);
+		spawn.getSprites().add(p1);
+
+		// Death animation
+		Sprite d1 = SpriteLoader.getSprite("player_death_1");
+		Sprite d2 = SpriteLoader.getSprite("player_death_2");
+		Sprite d3 = SpriteLoader.getSprite("player_death_3");
+		Sprite d4 = SpriteLoader.getSprite("player_death_4");
+		Sprite d5 = SpriteLoader.getSprite("player_death_5");
+		d1.setOffsetX(-7);
+		d1.setOffsetY(-15);
+		d2.setOffsetX(-7);
+		d2.setOffsetY(-15);
+		d3.setOffsetX(-7);
+		d3.setOffsetY(-15);
+		d4.setOffsetX(-7);
+		d4.setOffsetY(-15);
+		d5.setOffsetX(-7);
+		d5.setOffsetY(-15);
+		Animation death = new Animation(80, false);
+		death.getSprites().add(d1);
+		death.getSprites().add(d2);
+		death.getSprites().add(d3);
+		death.getSprites().add(d4);
+		death.getSprites().add(d5);
 
 		Animator anim = new Animator();
 		anim.addAnimation(idle, "idle");
