@@ -20,6 +20,8 @@ public class BouncingGround extends Ground {
 	private Image img3;
 	private Image img4;
 	
+	private Image center;
+	
 	private Image currentImg;
 	
 	private int animTimer = 0;
@@ -38,16 +40,23 @@ public class BouncingGround extends Ground {
 		img2 = SpriteLoader.getSprite("bounce_pad_2").getImage();
 		img3 = SpriteLoader.getSprite("bounce_pad_3").getImage();
 		img4 = SpriteLoader.getSprite("bounce_pad_4").getImage();
+		center = SpriteLoader.getSprite("bounce_center").getImage();
 		currentImg = img1;
 	}
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.gray);
-		g.fillRect(x + offsetX, y + offsetY, width, height);
+//		g.setColor(Color.gray);
+//		g.fillRect(x + offsetX, y + offsetY, width, height);
+//		
+//		g.setColor(Color.darkGray);
+//		g.fillRect(x + offsetX + 3, y + offsetY + 3, width - 6, height - 6);
 		
-		g.setColor(Color.darkGray);
-		g.fillRect(x + offsetX + 3, y + offsetY + 3, width - 6, height - 6);
+		for (int i = 0; i < width; i+=50) {
+			for (int j = 0; j < height; j+=50) {
+				g.drawImage(center, x + offsetX + i, y + offsetY + j);
+			}
+		}
 		
 		drawSprings(g, offsetX, offsetY);
 	}
