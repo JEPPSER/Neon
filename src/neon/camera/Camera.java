@@ -147,13 +147,20 @@ public class Camera {
 		float eX = (float) (Math.round(scale * (cameraOffsetX + offsetX)) / scale);
 		float eY = (float) (Math.round(scale * (cameraOffsetY + offsetY)) / scale);
 		
-		for (int j = 0; j < 4; j++) {
+		// layer 0
+		for (int i = 0; i < level.getObjects().size(); i++) {
+			Entity e = level.getObjects().get(i);
+			if (e.getLayer() == 0) {
+				e.render(g, eX * 0.3f, eY * 0.3f);
+			}
+		}
+		
+		for (int j = 1; j < 4; j++) {
 			for (int i = 0; i < level.getObjects().size(); i++) {
 				Entity e = level.getObjects().get(i);
-				if (isInView(e) && e instanceof PhysicalEntity && !(e instanceof Trigger)) {
-					PhysicalEntity pe = (PhysicalEntity) e;
-					if (pe.getLayer() == j) {
-						pe.render(g, eX, eY);
+				if (isInView(e) && !(e instanceof Trigger)) {
+					if (e.getLayer() == j) {
+						e.render(g, eX, eY);
 					}
 				}
 			}

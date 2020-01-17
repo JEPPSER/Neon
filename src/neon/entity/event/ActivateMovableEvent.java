@@ -119,4 +119,13 @@ public class ActivateMovableEvent implements Event {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 	}
+
+	@Override
+	public void setLayer(int layer) {
+	}
+
+	@Override
+	public int getLayer() {
+		return 2;
+	}
 }

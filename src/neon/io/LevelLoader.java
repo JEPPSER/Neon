@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import neon.entity.Entity;
+import neon.entity.GraphicsEntity;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
 import neon.entity.ai.enemy.RageStick;
@@ -190,8 +191,25 @@ public class LevelLoader {
 			return createFlappyArea(parts);
 		} else if (id == 25) {
 			return createRageStick(parts);
+		} else if (id == 26) {
+			return createGraphicsEntity(parts);
 		}
 		return null;
+	}
+	
+	private static GraphicsEntity createGraphicsEntity(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		int layer = Integer.parseInt(parts[3]);
+		float scale = Float.parseFloat(parts[4]);
+		int frameRate = Integer.parseInt(parts[5]);
+		
+		ArrayList<String> frames = new ArrayList<String>();
+		for (int i = 6; i < parts.length; i++) {
+			frames.add(parts[i]);
+		}
+		
+		return new GraphicsEntity(x, y, layer, scale, frameRate, frames);
 	}
 	
 	private static RageStick createRageStick(String[] parts) {

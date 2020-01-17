@@ -538,6 +538,10 @@ public class PlayerController implements Controller {
 		sm.addState(portal);
 		sm.activateState("spawn");
 	}
+	
+	public StateManager getStateManager() {
+		return sm;
+	}
 
 	public boolean isInvulnerable() {
 		return isInvulnerable;

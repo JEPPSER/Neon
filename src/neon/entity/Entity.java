@@ -16,6 +16,8 @@ public interface Entity {
 	public float getHeight();
 	public void setHeight(float height);
 	public void setSize(float width, float height);
+	public void setLayer(int layer);
+	public int getLayer();
 	public EntityGraphics getGraphics();
 	public void render(Graphics g, float offsetX, float offsetY);
 	public int getID();

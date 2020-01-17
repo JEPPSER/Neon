@@ -180,7 +180,8 @@ public class Player extends ControllableEntity {
 	}
 
 	private void drawWeapon(Graphics g, float offsetX, float offsetY) {
-		if (weapon != null && weaponImg != null) {
+		if (weapon != null && weaponImg != null && health > 0
+				&& !((PlayerController) controller).getStateManager().getCurrentState().equals("portal")) {
 			Image img = weaponImg;
 			float wX = 25;
 			float wY = 35;

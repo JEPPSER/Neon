@@ -32,6 +32,7 @@ public class BouncingGround extends Ground {
 	public BouncingGround() {
 		this.name = "BouncingGround";
 		this.physics = new Physics(0f, 0f);
+		layer = 1;
 		initGraphics();
 	}
 	
@@ -46,12 +47,6 @@ public class BouncingGround extends Ground {
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-//		g.setColor(Color.gray);
-//		g.fillRect(x + offsetX, y + offsetY, width, height);
-//		
-//		g.setColor(Color.darkGray);
-//		g.fillRect(x + offsetX + 3, y + offsetY + 3, width - 6, height - 6);
-		
 		for (int i = 0; i < width; i+=50) {
 			for (int j = 0; j < height; j+=50) {
 				g.drawImage(center, x + offsetX + i, y + offsetY + j);
