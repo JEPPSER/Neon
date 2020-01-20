@@ -36,6 +36,7 @@ import neon.entity.controllable.Player;
 import neon.entity.event.ActivateMovableEvent;
 import neon.entity.terrain.BouncingGround;
 import neon.entity.terrain.Bounds;
+import neon.entity.terrain.BreakableGround;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.movable.MovableGround;
@@ -59,7 +60,7 @@ public class LevelLoader {
 			level.setName(file.getName().replace(".nlvl", ""));
 			
 			String[] c = lines[0].split(",");
-			level.setBackground(new Color(Float.parseFloat(c[0]), Float.parseFloat(c[1]), Float.parseFloat(c[2])));
+			level.setBackground(new Color(Integer.parseInt(c[0]), Integer.parseInt(c[1]), Integer.parseInt(c[2])));
 			
 			String[] size = lines[1].split(",");
 			level.setWidth(Float.parseFloat(size[0]));
@@ -193,8 +194,18 @@ public class LevelLoader {
 			return createRageStick(parts);
 		} else if (id == 26) {
 			return createGraphicsEntity(parts);
+		} else if (id == 27) {
+			return createBreakableGround(parts);
 		}
 		return null;
+	}
+	
+	private static BreakableGround createBreakableGround(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		float width = Float.parseFloat(parts[3]);
+		float height = Float.parseFloat(parts[4]);
+		return new BreakableGround(x, y, width, height);
 	}
 	
 	private static GraphicsEntity createGraphicsEntity(String[] parts) {

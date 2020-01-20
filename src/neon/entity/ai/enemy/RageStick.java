@@ -153,10 +153,8 @@ public class RageStick extends Enemy  {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.drawRect(x + offsetX, y + offsetY, width, height);
 		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
-		
-		drawAttackHitBox(g, offsetX, offsetY);
+
 		if (!isDead) {
 			drawHealthBar(g, x + offsetX + (width - 100) / 2, y + offsetY - 40);
 		}

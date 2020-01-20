@@ -114,7 +114,7 @@ public class Camera {
 		}
 		
 		// Background
-		g.setColor(new Color(10, 10, 10));
+		g.setColor(level.getBackground());
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 
 		g.scale(scale, scale);
