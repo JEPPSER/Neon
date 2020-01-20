@@ -14,8 +14,9 @@ import neon.time.TimeInfo;
 public class BreakableGround extends TerrainEntity {
 	
 	private boolean isBroken = false;
+	private boolean isBreaking = false;
 	private final int BREAK_TIME = 300;
-	private final int RECOVER_TIME = 3000;
+	private final int RECOVER_TIME = 2000;
 	private int timer = 0;
 	
 	public BreakableGround(float x, float y, float width, float height) {
@@ -28,7 +29,9 @@ public class BreakableGround extends TerrainEntity {
 	
 	@Override
 	public void handleCollision(PhysicalEntity pe) {
-		if (pe == this.collidingEntity && pe instanceof Player) {
+		if (pe == this.collidingEntity && pe instanceof Player && !isBroken && !isBreaking) {
+			isBreaking = true;
+		} else if (isBreaking && pe instanceof Player) {
 			timer += TimeInfo.getDelta();
 			for (int i = 1; i < 4; i++) {
 				if (timer > BREAK_TIME / i) {
@@ -37,6 +40,7 @@ public class BreakableGround extends TerrainEntity {
 			}
 			if (timer > BREAK_TIME) {
 				isBroken = true;
+				isBreaking = false;
 				// Set image
 				this.collision.getHitbox().setX(-100000);
 				this.collision.getHitbox().setY(-100000);
@@ -51,6 +55,11 @@ public class BreakableGround extends TerrainEntity {
 				timer = 0;
 			}
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getID() + "," + x + "," + y + "," + width + "," + height;
 	}
 
 	@Override
