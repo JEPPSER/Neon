@@ -2,6 +2,7 @@ package neon.controller.ai;
 
 import neon.entity.ai.enemy.RageStick;
 import neon.entity.controllable.Player;
+import neon.graphics.animation.Animator;
 import neon.physics.CollisionDirection;
 import neon.time.TimeInfo;
 
@@ -24,6 +25,13 @@ public class RageStickController implements AIController {
 	@Override
 	public void control(Player player) {
 		timer += TimeInfo.getDelta();
+		
+		if (player.getX() + player.getWidth() / 2 > rageStick.getX() + rageStick.getWidth() / 2) {
+			rageStick.setMirrored(false);
+		} else {
+			rageStick.setMirrored(true);
+		}
+		
 		if (timer > COOLDOWN) {
 			timer = 0;
 			int attack = (int) (Math.round(Math.random()));
@@ -42,10 +50,19 @@ public class RageStickController implements AIController {
 		
 		rageStick.getCombat().updateAttacks();
 		updateInvulnerability();
+		updateAnimationState();
+	}
+	
+	private void updateAnimationState() {
+		Animator anim = rageStick.getGraphics().getAnimator();
+		if (!rageStick.getCombat().isAttacking() && !anim.getState().equals("idle")) {
+			anim.setState("idle");
+		}
 	}
 	
 	private void slam(Player player) {
 		rageStick.getCombat().startAttack("head_slam");
+		rageStick.getGraphics().getAnimator().setState("head_slam");
 	}
 	
 	private void jump(Player player) {

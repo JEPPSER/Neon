@@ -13,7 +13,12 @@ import neon.controller.ai.RageStickController;
 import neon.entity.PhysicalEntity;
 import neon.entity.controllable.Player;
 import neon.entity.terrain.TerrainEntity;
+import neon.graphics.EntityGraphics;
 import neon.graphics.Point;
+import neon.graphics.Sprite;
+import neon.graphics.animation.Animation;
+import neon.graphics.animation.Animator;
+import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -60,7 +65,53 @@ public class RageStick extends Enemy  {
 	}
 	
 	private void initGraphics() {
+		graphics = new EntityGraphics(width);
+		Animator anim = new Animator();
+		graphics.setAnimator(anim);
 		
+		Animation idle = new Animation(100, true);
+		Sprite i1 = SpriteLoader.getSprite("ragestick_idle_1");
+		Sprite i2 = SpriteLoader.getSprite("ragestick_idle_2");
+		Sprite i3 = SpriteLoader.getSprite("ragestick_idle_3");
+		Sprite i4 = SpriteLoader.getSprite("ragestick_idle_4");
+		Sprite i5 = SpriteLoader.getSprite("ragestick_idle_5");
+		Sprite i6 = SpriteLoader.getSprite("ragestick_idle_6");
+		Sprite i7 = SpriteLoader.getSprite("ragestick_idle_7");
+		idle.getSprites().add(i1);
+		idle.getSprites().add(i2);
+		idle.getSprites().add(i3);
+		idle.getSprites().add(i4);
+		idle.getSprites().add(i3);
+		idle.getSprites().add(i2);
+		idle.getSprites().add(i1);
+		idle.getSprites().add(i5);
+		idle.getSprites().add(i6);
+		idle.getSprites().add(i7);
+		idle.getSprites().add(i6);
+		idle.getSprites().add(i5);
+		
+		Animation slam = new Animation(30, false);
+		Sprite s1 = SpriteLoader.getSprite("ragestick_slam_1");
+		Sprite s2 = SpriteLoader.getSprite("ragestick_slam_2");
+		Sprite s3 = SpriteLoader.getSprite("ragestick_slam_3");
+		Sprite s4 = SpriteLoader.getSprite("ragestick_slam_4");
+		slam.getSprites().add(i2);
+		slam.getSprites().add(i3);
+		slam.getSprites().add(i4);
+		slam.getSprites().add(s1);
+		slam.getSprites().add(s2);
+		slam.getSprites().add(s3);
+		slam.getSprites().add(s4);
+		slam.getSprites().add(s3);
+		slam.getSprites().add(s2);
+		slam.getSprites().add(s1);
+		slam.getSprites().add(i4);
+		slam.getSprites().add(i3);
+		slam.getSprites().add(i2);
+		
+		anim.addAnimation(slam, "head_slam");
+		anim.addAnimation(idle, "idle");
+		anim.setState("idle");
 	}
 	
 	private void initCombat() {
@@ -71,7 +122,8 @@ public class RageStick extends Enemy  {
 		Attack stomp = new Attack("stomp", 5f, sAnim);
 		combat.addAttack(stomp);
 		
-		AttackAnimation hAnim = new AttackAnimation(new Rectangle(0, 0, 500, 100), 200);
+		AttackAnimation hAnim = new AttackAnimation(new Rectangle(0, 0, 500, 100), 400);
+		hAnim.getPath().add(new Point(200, 5000));
 		hAnim.getPath().add(new Point(200, 500));
 		Attack headSlam = new Attack("head_slam", 5f, hAnim);
 		combat.addAttack(headSlam);
@@ -101,8 +153,8 @@ public class RageStick extends Enemy  {
 
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(Color.gray);
 		g.drawRect(x + offsetX, y + offsetY, width, height);
+		graphics.render(g, x + offsetX, y + offsetY, 0, mirrored);
 		
 		drawAttackHitBox(g, offsetX, offsetY);
 		if (!isDead) {
