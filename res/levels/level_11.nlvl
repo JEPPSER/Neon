@@ -2,6 +2,7 @@
 4150.0,2100.0
 100,800
 ground_down,ground_side,ground_up,ground_side
+26,0,0,0,1.1,100,texture3
 17,700,700
 17,1300,550
 17,2400,400

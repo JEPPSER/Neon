@@ -36,6 +36,7 @@ public class BreakableGround extends TerrainEntity {
 	public void handleCollision(PhysicalEntity pe) {
 		if (pe == this.collidingEntity && pe instanceof Player && !isBroken && !isBreaking) {
 			isBreaking = true;
+			timer = 0;
 		} else if (isBreaking && pe instanceof Player) {
 			timer += TimeInfo.getDelta();
 			for (int i = 0; i < 4; i++) {
@@ -58,6 +59,15 @@ public class BreakableGround extends TerrainEntity {
 				this.collision.getHitbox().setY(0);
 				isBroken = false;
 				timer = 0;
+			}
+		} else if (pe instanceof Player) {
+			if (timer < BREAK_TIME) {
+				timer += TimeInfo.getDelta();
+			}
+			for (int i = 0; i < 4; i++) {
+				if (timer > (BREAK_TIME / 4) * i) {
+					currentImg = frames[3 - i];
+				}
 			}
 		}
 	}

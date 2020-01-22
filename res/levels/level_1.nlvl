@@ -2,6 +2,7 @@
 8500,900
 100,500
 ground_down,ground_side,ground_up,ground_side
+26,0,0,0,1.1,100,texture3
 1,200,800,100,100,Press space to jump
 0,300,750,100,150
 1,500,450,100,100,Press shift to dash
