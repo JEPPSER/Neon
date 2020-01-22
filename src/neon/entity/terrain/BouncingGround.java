@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import neon.entity.PhysicalEntity;
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
+import neon.entity.projectile.Bullet;
 import neon.io.SpriteLoader;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
@@ -60,7 +61,7 @@ public class BouncingGround extends Ground {
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
-		
+
 		if (other == pe && !(pe instanceof TerrainEntity) && !(pe instanceof Trigger)) {
 			if (cd == CollisionDirection.UP) {
 				pe.setY(pe.getY() - bounceFactor);
