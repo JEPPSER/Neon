@@ -29,6 +29,7 @@ public class Ground extends TerrainEntity {
 	private Sprite groundSmallSideCorner;
 	private Sprite groundSmallSide;
 	private Sprite groundSmallUp;
+	private Sprite groundInnerCorner;
 	
 	private Image[][] matrix;
 	
@@ -55,6 +56,7 @@ public class Ground extends TerrainEntity {
 		groundSmallSideCorner = SpriteLoader.getSprite("ground_small_side_corner" + "_" + theme);
 		groundSmallSide = SpriteLoader.getSprite("ground_small_side" + "_" + theme);
 		groundSmallUp = SpriteLoader.getSprite("ground_small_up" + "_" + theme);
+		groundInnerCorner = SpriteLoader.getSprite("ground_inner_corner_" + theme);
 		
 		matrix = new Image[(int) (width / 50)][(int) (height / 50)];
 		if (width == 50 && height == 50) {
@@ -106,7 +108,15 @@ public class Ground extends TerrainEntity {
 					if (matrix[x][y] == groundUpCorner.getImage()) {
 						matrix[x][y] = groundUp.getImage();
 					} else if (matrix[x][y] == groundSide.getImage()) {
-						matrix[x][y] = groundCenter.getImage();
+						if (!hasNeighbor(x, y, 50, -50, grounds) && !hasNeighbor(x, y, 50, 50, grounds)) {
+							matrix[x][y] = groundSide.getImage();
+						} else if (!hasNeighbor(x, y, 50, -50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage();
+						} else if (!hasNeighbor(x, y, 50, 50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(false, true);
+						} else {
+							matrix[x][y] = groundCenter.getImage();
+						}
 					} else if (matrix[x][y] == groundDownCorner.getImage()) {
 						matrix[x][y] = groundDown.getImage();
 					} else if (matrix[x][y] == groundSmallSide.getImage()) {
@@ -126,7 +136,15 @@ public class Ground extends TerrainEntity {
 					if (GraphicsUtil.isSameImage(matrix[x][y], groundUpCorner.getImage().getFlippedCopy(true, false))) {
 						matrix[x][y] = groundUp.getImage();
 					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundSide.getImage().getFlippedCopy(true, false))) {
-						matrix[x][y] = groundCenter.getImage();
+						if (!hasNeighbor(x, y, -50, 50, grounds) && !hasNeighbor(x, y, -50, -50, grounds)) {
+							matrix[x][y] = groundSide.getImage().getFlippedCopy(true, false);
+						} else if (!hasNeighbor(x, y, -50, 50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(true, true);
+						} else if (!hasNeighbor(x, y, -50, -50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(true, false);
+						} else {
+							matrix[x][y] = groundCenter.getImage();
+						}
 					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundDownCorner.getImage().getFlippedCopy(true, false))) {
 						matrix[x][y] = groundDown.getImage();
 					} else if (matrix[x][y] == groundSmallSide.getImage()) {
@@ -144,7 +162,15 @@ public class Ground extends TerrainEntity {
 				
 				if (hasBottomNeighbor(x, y, grounds)) {
 					if (matrix[x][y] == groundDown.getImage()) {
-						matrix[x][y] = groundCenter.getImage();
+						if (!hasNeighbor(x, y, 50, 50, grounds) && !hasNeighbor(x, y, -50, 50, grounds)) {
+							matrix[x][y] = groundDown.getImage();
+						} else if (!hasNeighbor(x, y, 50, 50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(false, true);
+						} else if (!hasNeighbor(x, y, -50, 50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(true, true);
+						} else {
+							matrix[x][y] = groundCenter.getImage();
+						}
 					} else if (matrix[x][y] == groundDownCorner.getImage()) {
 						matrix[x][y] = groundSide.getImage();
 					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundDownCorner.getImage().getFlippedCopy(true, false))) {
@@ -164,7 +190,15 @@ public class Ground extends TerrainEntity {
 				
 				if (hasTopNeighbor(x, y, grounds)) {
 					if (matrix[x][y] == groundUp.getImage()) {
-						matrix[x][y] = groundCenter.getImage();
+						if (!hasNeighbor(x, y, 50, -50, grounds) && !hasNeighbor(x, y, -50, -50, grounds)) {
+							matrix[x][y] = groundUp.getImage();
+						} else if (!hasNeighbor(x, y, 50, -50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage();
+						} else if (!hasNeighbor(x, y, -50, -50, grounds)) {
+							matrix[x][y] = groundInnerCorner.getImage().getFlippedCopy(true, false);
+						} else {
+							matrix[x][y] = groundCenter.getImage();
+						}
 					} else if (matrix[x][y] == groundUpCorner.getImage()) {
 						matrix[x][y] = groundSide.getImage();
 					} else if (GraphicsUtil.isSameImage(matrix[x][y], groundUpCorner.getImage().getFlippedCopy(true, false))) {

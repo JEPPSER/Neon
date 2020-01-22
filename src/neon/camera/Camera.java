@@ -151,7 +151,7 @@ public class Camera {
 		for (int i = 0; i < level.getObjects().size(); i++) {
 			Entity e = level.getObjects().get(i);
 			if (e.getLayer() == 0) {
-				e.render(g, eX * 0.3f, eY * 0.3f);
+				e.render(g, 0, 0);
 			}
 		}
 		
