@@ -1,10 +1,11 @@
-package neon.entity;
+package neon.entity.graphics;
 
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import neon.entity.Entity;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
 import neon.graphics.animation.Animation;

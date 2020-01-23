@@ -1,26 +1,36 @@
 package neon.entity.terrain;
 
 import neon.entity.PhysicalEntity;
+import neon.entity.controllable.Player;
 import neon.physics.CollisionDirection;
 
 public abstract class OneWay extends TerrainEntity {
 	
 	protected CollisionDirection enterDir;
 	protected CollisionDirection orientation;
+	private boolean isColliding = false;
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
 		
+		if (other instanceof Player) {
+			isColliding = false;
+		}
+		
+		if (pe != null) {
+			isColliding = true;
+		}
+		
 		// Check if entered and set direction
 		if (enterDir == null && other == pe) {
 			enterDir = cd;
-		} else if (enterDir != null && pe == null) {
+		} else if (enterDir != null && !isColliding) {
 			enterDir = null;
 		}
 		
-		if (enterDir == orientation) {
+		if (enterDir == orientation && other == pe) {
 			if (enterDir == CollisionDirection.UP && pe.getPhysics().getYVelocity() > 0) {
 				pe.setY(y - pe.getCollision().getHitbox().getHeight());
 				pe.getPhysics().setYVelocity(0f);

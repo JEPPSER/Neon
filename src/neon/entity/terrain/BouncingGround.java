@@ -1,13 +1,11 @@
 package neon.entity.terrain;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import neon.entity.PhysicalEntity;
 import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
-import neon.entity.projectile.Bullet;
 import neon.io.SpriteLoader;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;

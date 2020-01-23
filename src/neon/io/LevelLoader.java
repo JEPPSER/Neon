@@ -11,7 +11,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import neon.entity.Entity;
-import neon.entity.GraphicsEntity;
 import neon.entity.ai.enemy.Gorilla;
 import neon.entity.ai.enemy.Gunman;
 import neon.entity.ai.enemy.RageStick;
@@ -34,6 +33,8 @@ import neon.entity.collectable.JumpItem;
 import neon.entity.collectable.Portal;
 import neon.entity.controllable.Player;
 import neon.entity.event.ActivateMovableEvent;
+import neon.entity.graphics.GraphicsEntity;
+import neon.entity.graphics.TreeTrunk;
 import neon.entity.terrain.BouncingGround;
 import neon.entity.terrain.Bounds;
 import neon.entity.terrain.BreakableGround;
@@ -199,8 +200,17 @@ public class LevelLoader {
 			return createBreakableGround(parts);
 		} else if (id == 28) {
 			return createTreeBranch(parts);
+		} else if (id == 29) {
+			return createTreeTrunk(parts);
 		}
 		return null;
+	}
+	
+	private static TreeTrunk createTreeTrunk(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		float height = Float.parseFloat(parts[3]);
+		return new TreeTrunk(x, y, height);
 	}
 	
 	private static TreeBranch createTreeBranch(String[] parts) {
