@@ -1,14 +1,20 @@
 package neon.entity.terrain;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import neon.graphics.EntityGraphics;
+import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
 
 public class TreeBranch extends OneWay {
+	
+	private Image one;
+	private Image two;
+	private Image three;
 	
 	public TreeBranch(float x, float y, float width, boolean mirrored) {
 		this.name = "TreeBranch";
@@ -22,8 +28,36 @@ public class TreeBranch extends OneWay {
 	
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
-		g.setColor(temp);
-		g.drawRect(offsetX + x, offsetY + y, width, height);
+		float realX = offsetX + x;
+		float realY = offsetY + y;
+		
+		if (!mirrored) {
+			if (width == 50) {
+				g.drawImage(three, realX, realY);
+			} else if (width == 100) {
+				g.drawImage(two, realX, realY);
+				g.drawImage(three, realX + 50, realY);
+			} else if (width > 100) {
+				g.drawImage(one, realX, realY);
+				for (int i = 50; i < width - 50; i+=50) {
+					g.drawImage(two, realX + i, realY);
+				}
+				g.drawImage(three, realX + width - 50, realY);
+			}
+		} else {
+			if (width == 50) {
+				g.drawImage(three.getFlippedCopy(true, false), realX, realY);
+			} else if (width == 100) {
+				g.drawImage(two.getFlippedCopy(true, false), realX + 50, realY);
+				g.drawImage(three.getFlippedCopy(true, false), realX, realY);
+			} else if (width > 100) {
+				g.drawImage(one.getFlippedCopy(true, false), realX + width - 50, realY);
+				for (int i = 50; i < width - 50; i+=50) {
+					g.drawImage(two.getFlippedCopy(true, false), realX + width - 50 - i, realY);
+				}
+				g.drawImage(three.getFlippedCopy(true, false), realX, realY);
+			}
+		}
 	}
 	
 	@Override
@@ -38,6 +72,9 @@ public class TreeBranch extends OneWay {
 	
 	private void initGraphics() {
 		this.graphics = new EntityGraphics(width);
+		this.one = SpriteLoader.getSprite("branch_1").getImage();
+		this.two = SpriteLoader.getSprite("branch_2").getImage();
+		this.three = SpriteLoader.getSprite("branch_3").getImage();
 	}
 	
 	@Override

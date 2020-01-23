@@ -1,7 +1,5 @@
 package neon.entity.terrain;
 
-import org.newdawn.slick.Color;
-
 import neon.entity.PhysicalEntity;
 import neon.physics.CollisionDirection;
 
@@ -9,7 +7,6 @@ public abstract class OneWay extends TerrainEntity {
 	
 	protected CollisionDirection enterDir;
 	protected CollisionDirection orientation;
-	protected Color temp;
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
