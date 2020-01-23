@@ -19,6 +19,7 @@ import neon.entity.ai.AIEntity;
 import neon.entity.area.Trigger;
 import neon.entity.area.minigame.MinigameArea;
 import neon.entity.collectable.CollectableEntity;
+import neon.entity.terrain.OneWay;
 import neon.entity.terrain.Spikes;
 import neon.entity.terrain.TerrainEntity;
 import neon.entity.weapon.Weapon;
@@ -302,22 +303,26 @@ public class Player extends ControllableEntity {
 		} else if (pe == other && other instanceof Spikes) {
 			health = 0;
 		} else if (pe == other && other instanceof TerrainEntity) {
-			if (cd == CollisionDirection.DOWN && colTiming[0] > COLLISION_TIME) {
-				this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
-				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.UP && colTiming[1] > COLLISION_TIME) {
-				this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
-				physics.setYVelocity(0f);
-			} else if (cd == CollisionDirection.RIGHT && colTiming[2] > COLLISION_TIME) {
-				this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
-				physics.setXVelocity(0f);
-				((PlayerController) controller).glide(cd);
-			} else if (cd == CollisionDirection.LEFT && colTiming[3] > COLLISION_TIME) {
-				this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
-				physics.setXVelocity(0f);
-				((PlayerController) controller).glide(cd);
+			if (!(other instanceof OneWay)) {
+				if (cd == CollisionDirection.DOWN && colTiming[0] > COLLISION_TIME) {
+					this.setY(pe.getY() - this.getCollision().getHitbox().getHeight());
+					physics.setYVelocity(0f);
+				} else if (cd == CollisionDirection.UP && colTiming[1] > COLLISION_TIME) {
+					this.setY(pe.getY() + pe.getCollision().getHitbox().getHeight());
+					physics.setYVelocity(0f);
+				} else if (cd == CollisionDirection.RIGHT && colTiming[2] > COLLISION_TIME) {
+					this.setX(pe.getX() - this.getCollision().getHitbox().getWidth());
+					physics.setXVelocity(0f);
+					((PlayerController) controller).glide(cd);
+				} else if (cd == CollisionDirection.LEFT && colTiming[3] > COLLISION_TIME) {
+					this.setX(pe.getX() + pe.getCollision().getHitbox().getWidth());
+					physics.setXVelocity(0f);
+					((PlayerController) controller).glide(cd);
+				}
 			}
+			
 			colDirections.add(cd);
+			
 			if (colTiming[0] > COLLISION_TIME && colTiming[1] > COLLISION_TIME
 					|| colTiming[2] > COLLISION_TIME && colTiming[3] > COLLISION_TIME) {
 				this.health = 0;

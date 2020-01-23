@@ -39,6 +39,7 @@ import neon.entity.terrain.Bounds;
 import neon.entity.terrain.BreakableGround;
 import neon.entity.terrain.Ground;
 import neon.entity.terrain.Spikes;
+import neon.entity.terrain.TreeBranch;
 import neon.entity.terrain.movable.MovableGround;
 import neon.entity.terrain.movable.MovableSpikes;
 import neon.entity.weapon.Gun;
@@ -196,8 +197,18 @@ public class LevelLoader {
 			return createGraphicsEntity(parts);
 		} else if (id == 27) {
 			return createBreakableGround(parts);
+		} else if (id == 28) {
+			return createTreeBranch(parts);
 		}
 		return null;
+	}
+	
+	private static TreeBranch createTreeBranch(String[] parts) {
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		float width = Float.parseFloat(parts[3]);
+		boolean mirrored = Boolean.valueOf(parts[4]);
+		return new TreeBranch(x, y, width, mirrored);
 	}
 	
 	private static BreakableGround createBreakableGround(String[] parts) {
@@ -437,61 +448,6 @@ public class LevelLoader {
 	}
 	
 	public static Entity copyEntity(Entity e) {
-//		StringBuilder sb = new StringBuilder();
-//		if (e instanceof MovableGround) {
-//			MovableGround g = (MovableGround) e;
-//			sb.append(e.getID());
-//			sb.append(",");
-//			sb.append(e.getWidth());
-//			sb.append(",");
-//			sb.append(e.getHeight());
-//			sb.append(",");
-//			sb.append(e.getName());
-//			sb.append(",");
-//			sb.append(g.isActive());
-//			sb.append(",");
-//			sb.append(g.isLooping());
-//			sb.append(",");
-//			sb.append(g.getSpeed());
-//			for (int i = 0; i < g.getPath().size(); i++) {
-//				sb.append(",");
-//				sb.append(g.getPath().get(i).getX());
-//				sb.append(",");
-//				sb.append(g.getPath().get(i).getY());
-//			}
-//		} else if (e instanceof Portal) {
-//			sb.append(e.getID());
-//			sb.append(",");
-//			sb.append(e.getX());
-//			sb.append(",");
-//			sb.append(e.getY());
-//			sb.append(",");
-//			sb.append(((Portal) e).canCollect());
-//		} else if (e instanceof ActivateItem) {
-//			sb.append(e.getID());
-//			sb.append(",");
-//			sb.append(e.getX());
-//			sb.append(",");
-//			sb.append(e.getY());
-//			sb.append(",");
-//			sb.append(((ActivateItem) e).getActivateName());
-//		} else {
-//			sb.append(e.getID());
-//			sb.append(",");
-//			sb.append(e.getX());
-//			sb.append(",");
-//			sb.append(e.getY());
-//			sb.append(",");
-//			sb.append(e.getWidth());
-//			sb.append(",");
-//			sb.append(e.getHeight());
-//			if (e.getID() == 1) {
-//				sb.append(",");
-//				sb.append(((TextTrigger) e).getText());
-//			}
-//		}
-//		
-//		String line = sb.toString();
 		return getEntity(e.toString().split(","));
 	}
 }
