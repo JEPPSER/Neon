@@ -1,6 +1,7 @@
 package neon.entity.terrain;
 
 import neon.entity.PhysicalEntity;
+import neon.entity.area.Trigger;
 import neon.entity.controllable.Player;
 import neon.physics.CollisionDirection;
 
@@ -12,6 +13,10 @@ public abstract class OneWay extends TerrainEntity {
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
+		if (other instanceof Trigger) {
+			return;
+		}
+		
 		CollisionDirection cd = this.collisionDirection;
 		PhysicalEntity pe = this.collidingEntity;
 		

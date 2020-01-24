@@ -83,7 +83,7 @@ public class GunCollector extends CollectableEntity {
 		float difY = Math.abs(bopTimer) / 50f;
 		g.setColor(Color.white);
 		if (canCollect) {
-			g.drawImage(img, x + offsetX - 50, y + offsetY - 50 + difY);
+			g.drawImage(img, x + offsetX - 25, y + offsetY - 25 + difY);
 		}
 	}
 	
