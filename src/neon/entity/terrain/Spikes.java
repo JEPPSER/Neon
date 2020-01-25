@@ -60,33 +60,45 @@ public class Spikes extends TerrainEntity {
 	@Override
 	public void render(Graphics g, float offsetX, float offsetY) {
 		g.setColor(Color.white);
+		drawSpikeRow(g, x + offsetX, y + offsetY, direction);
+		
+		if (direction == CollisionDirection.UP && height == 60) {
+			drawSpikeRow(g, x + offsetX, y + offsetY + 30, CollisionDirection.DOWN);
+		} else if (direction == CollisionDirection.DOWN && height == 60) {
+			drawSpikeRow(g, x + offsetX, y + offsetY - 30, CollisionDirection.UP);
+		} else if (direction == CollisionDirection.LEFT && width == 60) {
+			drawSpikeRow(g, x + offsetX + 30, y + offsetY, CollisionDirection.RIGHT);
+		} else if (direction == CollisionDirection.RIGHT && width == 60) {
+			drawSpikeRow(g, x + offsetX - 30, y + offsetY, CollisionDirection.LEFT);
+		}
+	}
+	
+	private void drawSpikeRow(Graphics g, float x, float y, CollisionDirection direction) {
 		if (direction == CollisionDirection.UP) {
 			for (int i = 0; i < width / sprite.getWidth(); i++) {
-				float x = this.x + offsetX + i * sprite.getWidth();
-				g.drawImage(sprite.getImage(), x, y + offsetY);
+				float tempX = x + i * sprite.getWidth();
+				g.drawImage(sprite.getImage(), tempX, y);
 			}
 		} else if (direction == CollisionDirection.DOWN) {
 			for (int i = 0; i < width / sprite.getWidth(); i++) {
-				float x = this.x + offsetX + i * sprite.getWidth();
-				g.drawImage(sprite.getImage().getFlippedCopy(false, true), x, y + offsetY);
+				float tempX = x + i * sprite.getWidth();
+				g.drawImage(sprite.getImage().getFlippedCopy(false, true), tempX, y);
 			}
 		} else if (direction == CollisionDirection.RIGHT) {
 			sprite.getImage().setRotation(90);
 			for (int i = 0; i < height / sprite.getWidth(); i++) {
-				float y = this.y + offsetY + i * sprite.getWidth();
-				
-				g.drawImage(sprite.getImage(), x + offsetX, y);
+				float tempY = y + i * sprite.getWidth();
+				g.drawImage(sprite.getImage(), x, tempY);
 			}
 			sprite.getImage().setRotation(0);
 		} else if (direction == CollisionDirection.LEFT) {
 			sprite.getImage().setRotation(-90);
 			for (int i = 0; i < height / sprite.getWidth(); i++) {
-				float y = this.y + offsetY + i * sprite.getWidth();
-				g.drawImage(sprite.getImage(), x + offsetX, y);
+				float tempY = y + i * sprite.getWidth();
+				g.drawImage(sprite.getImage(), x, tempY);
 			}
 			sprite.getImage().setRotation(0);
 		}
-		
 	}
 	
 	@Override

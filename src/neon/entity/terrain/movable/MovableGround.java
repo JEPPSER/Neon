@@ -26,6 +26,7 @@ public class MovableGround extends Ground implements MovableTerrain {
 	private boolean resetWhenDone = false;
 	
 	public MovableGround(String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
+		this.layer = 1;
 		this.name = name;
 		this.active = active;
 		this.path = path;

@@ -22,6 +22,7 @@ public class MovableSpikes extends Spikes implements MovableTerrain {
 
 	public MovableSpikes(CollisionDirection cd, String name, boolean active, boolean looping, boolean canReset, float speed, ArrayList<Point> path) {
 		super(cd);
+		this.layer = 1;
 		this.name = name;
 		this.active = active;
 		this.path = path;
