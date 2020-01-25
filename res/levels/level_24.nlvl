@@ -2,6 +2,8 @@
 2050.0,5950.0
 100.0,5850
 ground_down,ground_side,ground_up,ground_side
+26,0,0,0,2,100,texture_5_white
+26,0,0,0,2,100,texture_tall_gradient_white
 28,1050.0,5800.0,100.0,false
 28,900.0,5400.0,100.0,true
 28,700.0,5550.0,300.0,true
