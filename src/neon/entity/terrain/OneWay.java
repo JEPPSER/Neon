@@ -13,7 +13,7 @@ public abstract class OneWay extends TerrainEntity {
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
-		if (other instanceof Trigger) {
+		if (other instanceof Trigger || other instanceof TerrainEntity) {
 			return;
 		}
 		
