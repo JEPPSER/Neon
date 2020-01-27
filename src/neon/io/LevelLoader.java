@@ -293,7 +293,13 @@ public class LevelLoader {
 	}
 	
 	private static ActivateItem createActivateItem(String[] parts) {
-		ActivateItem ai = new ActivateItem(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), parts[3]);
+		float x = Float.parseFloat(parts[1]);
+		float y = Float.parseFloat(parts[2]);
+		boolean r = false;
+		if (parts.length >= 5) {
+			r = Boolean.valueOf(parts[4]);
+		}
+		ActivateItem ai = new ActivateItem(x, y, parts[3], r);
 		return ai;
 	}
 	
