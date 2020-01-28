@@ -47,7 +47,7 @@ public class Player extends ControllableEntity {
 	private int[] colTiming;
 	private final CollisionDirection[] DIRECTIONS = { CollisionDirection.DOWN, CollisionDirection.UP,
 			CollisionDirection.RIGHT, CollisionDirection.LEFT };
-	private final int COLLISION_TIME = 5;
+	private final int COLLISION_TIME = 10;
 	private Image weaponImg;
 
 	private ArrayList<Point> trail;
@@ -300,8 +300,6 @@ public class Player extends ControllableEntity {
 			if (cd != CollisionDirection.NONE) {
 				((CollectableEntity) other).collect(this);
 			}
-		} else if (pe == other && other instanceof Spikes) {
-			health = 0;
 		} else if (pe == other && other instanceof TerrainEntity) {
 			if (!(other instanceof OneWay)) {
 				if (cd == CollisionDirection.DOWN && colTiming[0] > COLLISION_TIME) {

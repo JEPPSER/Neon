@@ -4,6 +4,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import neon.entity.PhysicalEntity;
+import neon.entity.controllable.Player;
 import neon.graphics.EntityGraphics;
 import neon.graphics.Sprite;
 import neon.io.SpriteLoader;
@@ -21,6 +23,13 @@ public class Spikes extends TerrainEntity {
 		sprite = SpriteLoader.getSprite("spike");
 		name = "Spikes";
 		this.physics = new Physics(0f, 0f);
+	}
+	
+	@Override
+	public void handleCollision(PhysicalEntity other) {
+		if (other == this.collidingEntity && other instanceof Player) {
+			((Player) other).setHealth(0);
+		}
 	}
 
 	@Override
