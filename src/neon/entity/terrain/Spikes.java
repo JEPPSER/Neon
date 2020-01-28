@@ -12,11 +12,14 @@ import neon.io.SpriteLoader;
 import neon.physics.Collision;
 import neon.physics.CollisionDirection;
 import neon.physics.Physics;
+import neon.time.TimeInfo;
 
 public class Spikes extends TerrainEntity {
 	
 	protected CollisionDirection direction;
 	private Sprite sprite;
+	private int timer;
+	private final int COLLISION_TIME = 10;
 	
 	public Spikes(CollisionDirection direction) {
 		this.direction = direction;
@@ -27,8 +30,15 @@ public class Spikes extends TerrainEntity {
 	
 	@Override
 	public void handleCollision(PhysicalEntity other) {
-		if (other == this.collidingEntity && other instanceof Player) {
-			((Player) other).setHealth(0);
+		if (other instanceof Player) {
+			if (other == this.collidingEntity) {
+				timer += TimeInfo.getDelta();
+				if (timer > COLLISION_TIME) {
+					((Player) other).setHealth(0);
+				}
+			} else {
+				timer = 0;
+			}
 		}
 	}
 

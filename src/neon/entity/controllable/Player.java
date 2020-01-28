@@ -47,7 +47,7 @@ public class Player extends ControllableEntity {
 	private int[] colTiming;
 	private final CollisionDirection[] DIRECTIONS = { CollisionDirection.DOWN, CollisionDirection.UP,
 			CollisionDirection.RIGHT, CollisionDirection.LEFT };
-	private final int COLLISION_TIME = 10;
+	private final int COLLISION_TIME = 5;
 	private Image weaponImg;
 
 	private ArrayList<Point> trail;
