@@ -2,6 +2,8 @@
 4600.0,1250.0
 50,1100
 ground_down,ground_side,ground_up,ground_side
+26,0,0,0,1.5,100,texture_5_white
+26,0,-1100,0,1.5,100,sunset_gradient
 28,850.0,1100.0,150.0,true
 28,900.0,950.0,100.0,true
 28,1050.0,800.0,200.0,false

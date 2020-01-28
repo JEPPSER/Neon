@@ -19,7 +19,7 @@ public class Spikes extends TerrainEntity {
 	protected CollisionDirection direction;
 	private Sprite sprite;
 	private int timer;
-	private final int COLLISION_TIME = 10;
+	private final int COLLISION_TIME = 6;
 	
 	public Spikes(CollisionDirection direction) {
 		this.direction = direction;
