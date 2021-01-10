@@ -1,6 +1,9 @@
 package neon.editor;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -158,6 +161,10 @@ public class Editor extends BasicGameState {
 			exportLevel();
 		}
 		
+		if (input.isKeyPressed(Input.KEY_E)) {
+			exportLevelBinary();
+		}
+		
 		if (input.isKeyPressed(Input.KEY_I)) {
 			importLevel("res/temp.nlvl");
 		}
@@ -278,6 +285,49 @@ public class Editor extends BasicGameState {
 			}
 			isPlacing = true;
 		}
+	}
+	
+	private void exportLevelBinary() {
+		try {
+			String str = new String(Files.readAllBytes(Paths.get("res/temp.nlvl")));
+			str = str.replaceAll("\r", "");
+			String[] lines = str.split("\n");
+			
+			FileOutputStream fos = new FileOutputStream("res/test_level.rz");
+			BufferedOutputStream out = new BufferedOutputStream(fos);
+			
+			float width = Float.parseFloat(lines[1].split(",")[0]);
+			float height = Float.parseFloat(lines[1].split(",")[1]);
+			float spawnX = Float.parseFloat(lines[2].split(",")[0]);
+			float spawnY = Float.parseFloat(lines[2].split(",")[1]);
+			
+			out.write(floatToBytes(width));
+			out.write(floatToBytes(height));
+			out.write(floatToBytes(spawnX));
+			out.write(floatToBytes(spawnY));	
+			
+			for (int i = 4; i < lines.length; i++) {
+				String[] parts = lines[i].split(",");
+				float x = Float.parseFloat(parts[1]);
+				float y = Float.parseFloat(parts[2]);
+				float w = Float.parseFloat(parts[3]);
+				float h = Float.parseFloat(parts[4]);
+				out.write(floatToBytes(x));
+				out.write(floatToBytes(y));
+				out.write(floatToBytes(w));
+				out.write(floatToBytes(h));
+			}
+			
+			out.flush();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private byte[] floatToBytes(float val) {
+	    int intBits = Float.floatToIntBits(val);
+	    return new byte[] { (byte) (intBits), (byte) (intBits >> 8), (byte) (intBits >> 16), (byte) (intBits >> 24) };
 	}
 	
 	private void exportLevel() {

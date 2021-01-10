@@ -415,7 +415,7 @@ public class PlayerController implements Controller {
 
 	private void right() {
 		if (combat.isAttacking()) {
-			ph.setXVelocity(0);
+			//ph.setXVelocity(0);
 			return;
 		}
 		if (sm.canActivateState("running")) {
@@ -440,7 +440,7 @@ public class PlayerController implements Controller {
 
 	private void left() {
 		if (combat.isAttacking()) {
-			ph.setXVelocity(0);
+			//ph.setXVelocity(0);
 			return;
 		}
 		if (sm.canActivateState("running")) {
@@ -510,7 +510,7 @@ public class PlayerController implements Controller {
 		gliding.getToStates().add("portal");
 
 		// Punching
-		State punching = new State("punching", false);
+		State punching = new State("punching", true);
 		punching.getToStates().add("idle");
 		punching.getToStates().add("jumping");
 		punching.getToStates().add("running");
